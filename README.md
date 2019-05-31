@@ -4,17 +4,29 @@
 
 🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
 
-# 1️⃣ Title of project goes here
+# 1️⃣ Code Clone
 
-1️⃣ You can find the deployed project at [🚫URL NAME GOES HERE](🚫copy and paste URL here).
+1️⃣ You can find the deployed project at 
+
+#Front end: https://clone-coding-client.herokuapp.com/
+#Back end: https://clone-coding-server.herokuapp.com/
 
 ## 4️⃣ Contributors
 
 🚫Add contributor info below, make sure add images and edit the social links for each member. Add to or delete these place-holders as needed
 
-|                                       [Student 1](https://github.com/)                                        |                                       [Student 2](https://github.com/)                                        |                                       [Student 3](https://github.com/)                                        |                                       [Student 4](https://github.com/)                                        |                                       [Student 5](https://github.com/)                                        |
+[Chase Fulks](https://github.com/chasefulks)                            |      
+[<img src="https://avatars3.githubusercontent.com/u/43450021?s=400&v=4" width = "200" />]
+(https://www.linkedin.com/in/chase-fulks-b0958a186/)
+
+[Student 2](https://github.com/)                                        |                                       
+[Student 3](https://github.com/)                                        |                                       
+[Student 4](https://github.com/)                                        |                                       
+[Student 5](https://github.com/)                                        |
+
 | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
-|                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |
+[<img src="https://avatars3.githubusercontent.com/u/43450021?s=400&v=4" width = "200" />]
+|[<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/)                       |                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |
 |                 [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/)                 |            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/honda0306)             |           [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/Mister-Corn)            |          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/NandoTheessen)           |            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/wvandolah)             |
 | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) |
 
@@ -33,17 +45,14 @@
 
 ## Project Overview
 
-1️⃣ [Trello Board](🚫add link to trello board here)
+1️⃣ [Trello Board](https://trello.com/b/mS8o68sX/labs13-clone)
 
-1️⃣ [Product Canvas](🚫add link to product canvas here)
+1️⃣ [Product Canvas](https://docs.google.com/document/d/1a1hz8MjvYVNe1HGXz4M4E63-9sX2loYAHXT2BET1mO8/edit#heading=h.1jaf6eug9n0k)
 
-1️⃣ [UX Design files](🚫add link to design files here) - 🚫 delete if not applicable
+1️⃣ [UX Design files](https://projects.invisionapp.com/share/M5S7CBCB8PG#/screens/366238390) 
 
-🚫 Replace lorem ipsum with a description of your project
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Our app helps learn and master JavaScript in an entertaining manner. It is suitable for users of any level of knowledge. If you are master or totally beginner you will be able to find a lot of code challenges of different difficulty levels and also create your own challenges for users.  
 
 
 ### 4️⃣ Key Features
@@ -56,30 +65,30 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 
 ## 1️⃣ Tech Stack
 
-### Front end built using:
+### Front end (https://github.com/labs13-clone/front-end):
 
-#### _Front end framework goes here_
+#### React
 
-🚫 Why did you choose this framework?
-
--    point one
--    point two
--    point three
--    point four
+-    Fast render with Virtual DOM 
+-    Allows to use reusable UI components.
+-    A good option for single page application.
+-    Has great developer tools.
 
 🚫List the rest of the front end features and libraries in the same format as the framework above.
 
-#### Front end deployed to `🚫insert service here`
+#### Front end deployed to `heroku`
 
-#### [Back end](🚫link to back end repo here) built using:
+#### Back end (https://github.com/labs13-clone/back-end):
 
-#### 🚫 back end framework goes here
+#### Node
 
--    point one
--    point two
--    point three
+-    Allows to write server-side applications in JavaScript.
+-    We using the same language on both the front end and the back end.
+-    Has a great package manager, npm, and a large amount of available open-source tools in npm’s registry.
 
 🚫 List the rest of the back end end features and libraries in the same format as the framework above
+
+#### Back end deployed to `heroku`
 
 # APIs
 
