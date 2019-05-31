@@ -1,0 +1,38 @@
+.card-wrapper {
+   width: 350px;
+   height: 600px;
+   border: 1px solid #f0f0f0;
+   -webkit-box-shadow: -1px 1px 16px -4px rgba(0,0,0,0.82);
+    -moz-box-shadow: -1px 1px 16px -4px rgba(0,0,0,0.82);
+    box-shadow: -1px 1px 16px -4px rgba(0,0,0,0.82);
+    margin: 20px;
+}
+
+.user-avatar {
+    width: 100%;
+}
+
+.joined-date {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.xp {
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.4);
+    border-top: 1px solid rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-edit {
+    padding: 7px 50px;
+    background: #673ab7;
+    border: none;
+    color: white;
+    border-radius: 3px;
+}
