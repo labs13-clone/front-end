@@ -36,3 +36,23 @@
     color: white;
     border-radius: 3px;
 }
+
+.challenge-wrapper {
+    width: 70%;
+    margin: 30px;
+    border-top: 1px solid rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.category {
+    background: rgba(103,58,183, .5);
+    border: none;
+    color: white;
+    border-radius: 2px;
+    margin-right: 3px;
+}
