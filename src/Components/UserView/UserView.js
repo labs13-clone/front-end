@@ -1,5 +1,7 @@
 import React from 'react';
+
 import UserInfoCard from '../UserView/UserInfoCard';
+
 
 const UserView = () => {
   return (
