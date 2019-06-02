@@ -1,9 +1,11 @@
 import React from 'react';
 
+import Editor from './components/editor.js';
+
 function App() {
   return (
     <div className="App">
-      Hi
+      <Editor/>
     </div>
   );
 }
