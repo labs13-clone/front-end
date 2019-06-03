@@ -20,7 +20,7 @@ const LandingPageContent = props => {
       </p>
       <button>Continue with Google</button>
       <button>Continue with Github</button>
-      <div>
+      <div className="body">
         <h2>Attempt Code Challenges</h2>
         <p>
           Lorem Ipsum is simply dummy text of the printing and typesetting
