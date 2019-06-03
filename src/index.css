@@ -53,3 +53,8 @@ body {
   height: 100%;
   border: none;
 }
+
+.tests {
+  margin: 0 5px;
+  background-color: red;
+}

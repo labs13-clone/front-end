@@ -10,11 +10,12 @@ class Editor extends Component {
   constructor() {
     super();
     this.state = {
-      js: ""
+      js: "",
+      editor: ""
     };
   }
 
-  runCode1 = () => {
+  runCode = () => {
     const { js } = this.state;
 
     const iframe = this.refs.iframe;
@@ -27,10 +28,11 @@ class Editor extends Component {
     document.open();
     document.write(documentContents);
     document.close();
+    console.log(this.state)
   };
 
   render() {
-    
+
     return (
       <div className="editor">
         <section className="playground">
@@ -46,7 +48,12 @@ class Editor extends Component {
                 lineWrapping: true,
               }}
               onBeforeChange={(editor, data, js) => {
-                this.setState({ js: js });
+                this.setState({ 
+                  js: js, 
+                  editor: editor.getRange(
+                    {line: 1, ch: 0}, 
+                    {line: 2, ch: 0})
+                });
               }}
               setValue={'abcd'}
             />
@@ -55,7 +62,17 @@ class Editor extends Component {
         <section className="result">
           <iframe title="result" className="iframe" ref="iframe" />
         </section>
-        <button onClick={this.runCode1}>Run1</button>
+        <button onClick={this.runCode}>Run</button>
+        <div className="tests">
+          <h1>Tests</h1>
+          <p>test no. 1</p>
+          <p>test no. 2</p>
+          <p>test no. 3</p>
+          <p>test no. 4</p>
+        </div>
+        <div className="console">
+          <h1>Result</h1>
+        </div>
       </div>
     );
   }
