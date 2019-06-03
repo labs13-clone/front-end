@@ -1,10 +1,13 @@
-import React from "react";
-// import HeaderContainer from "./Components/HeaderComponents/HeaderContainer.js";
+
+import React from 'react';
+
+import Editor from './components/editor.js';
 import LandingPage from "./components/LandingPage/LandingPageContainer.js";
 function App() {
   return (
     <div className="App">
       <LandingPage />
+      <Editor/>
     </div>
   );
 }
