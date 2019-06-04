@@ -1,12 +1,12 @@
 
 import React from 'react';
 
-import Editor from './components/editor.js';
-import LandingPage from "./components/LandingPage/LandingPageContainer.js";
+import Editor from './Components/editor';
+import LandingPageContent from './Components/LandingPage/LandingPageContent';
 function App() {
   return (
     <div className="App">
-      <LandingPage />
+      <LandingPageContent />
       <Editor/>
     </div>
   );
