@@ -1,8 +1,8 @@
 
 import React from 'react';
 
-import Editor from './components/editor.js';
-import LandingPage from "./components/LandingPage/LandingPageContainer.js";
+import Editor from './Components/editor';
+import LandingPage from './Components/LandingPage/LandingPageContent';
 function App() {
   return (
     <div className="App">

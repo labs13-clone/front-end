@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
+import UserView from './Components/UserView/UserView';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<UserView />, document.getElementById('root'));
 
