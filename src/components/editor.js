@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
-
-import 'codemirror/mode/javascript/javascript';
+require('codemirror/lib/codemirror.css');
+require('codemirror/theme/material.css');
+require('codemirror/mode/javascript/javascript');
 
 class Editor extends Component {
   constructor() {
