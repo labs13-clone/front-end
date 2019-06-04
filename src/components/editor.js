@@ -49,11 +49,7 @@ class Editor extends Component {
               }}
               onBeforeChange={(editor, data, js) => {
                 this.setState({ 
-                  js: js, 
-                  editor: editor.getRange(
-                    {line: 1, ch: 0}, 
-                    {line: 2, ch: 0})
-                });
+                  js: js
               }}
               setValue={'abcd'}
             />
