@@ -12,8 +12,8 @@ body {
 }
 
 .editor {
-  display: flex;
-  width: 60%;
+  /* display: flex; */
+  width: 45%;
   margin: 150px auto;
 }
 
@@ -25,7 +25,7 @@ body {
   height: 300px;
   overflow: hidden;
   position: relative;
-  width: 500px;
+  width: 100%;
 }
 
 .editor-header {
