@@ -1,7 +1,17 @@
 .landingContainer {
-  width: 100%;
-  border: 1px solid lightgrey;
+  width: 800px;
+  margin: 0 auto;
+  background-color:#000033;
+  color:white;
+}
+h1{
+  color:#0000FF;
 }
 header{
     display:flex;
+  justify-content: space-between;
 }
+.topText{
+  display:flex;
+}
+
