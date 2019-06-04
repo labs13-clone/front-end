@@ -1,6 +1,11 @@
 .landingContainer {
   width: 800px;
   margin: 0 auto;
+  background-color:#000033;
+  color:white;
+}
+h1{
+  color:#0000FF;
 }
 header{
     display:flex;
@@ -9,3 +14,4 @@ header{
 .topText{
   display:flex;
 }
+
