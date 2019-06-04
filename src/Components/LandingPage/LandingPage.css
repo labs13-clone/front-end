@@ -6,3 +6,6 @@ header{
     display:flex;
   justify-content: space-between;
 }
+.topText{
+  display:flex;
+}
