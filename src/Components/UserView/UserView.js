@@ -7,10 +7,14 @@ import Header from '../Header/Header';
 
 const UserView = () => {
   return (
-    <div className="userview-wrapper">
+    <div>
+      <div>
         <Header />
-        <UserInfoCard />
-        <TabsView />
+      </div>
+      <div className="userview-wrapper">
+          <UserInfoCard />
+          <TabsView />
+      </div>
     </div>
   );
 }

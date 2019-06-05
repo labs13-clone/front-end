@@ -13,16 +13,23 @@ const Header = () => {
         setOpenDropdown(true);
     }
 
+    function toggleClose(e) {
+        e.preventDefault();
+        setOpenDropdown(false);
+    }
+
   return (
-    <nav>  
-        <div>
-            <Link to="/"></Link>
-            <Link to="/challenges">Challenges</Link>
-        </div>
-        <div>
-            <Link to="/new/challenge">+ Add Challenge</Link>
-            <DropdownMenu openDropdown={openDropdown} toggleOpen={toggleOpen}/>
-        </div>
+    <nav className="header"> 
+       <div className="header__wrapper">
+            <div>
+                <Link to="/">Home</Link>
+                <Link to="/challenges">Challenges</Link>
+            </div>
+            <div>
+                <Link to="/new/challenge">+ Add Challenge</Link>
+                <DropdownMenu openDropdown={openDropdown} toggleOpen={toggleOpen} toggleClose={toggleClose}/>
+            </div>  
+        </div> 
     </nav>
   );
 }

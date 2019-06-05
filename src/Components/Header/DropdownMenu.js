@@ -6,12 +6,6 @@ import {Link} from 'react-router-dom';
 
 const DropdownMenu = (props) => {
 
-        // const [openDropdown, setOpenDropdown] = useState(false);
-
-        // function toggleOpen(e) {
-        //     e.preventDefault();
-        //     setOpenDropdown(true);
-        // }
 
     useEffect(() => console.log('value changed!'), [props.openDropdown]);
 
@@ -25,6 +19,7 @@ const DropdownMenu = (props) => {
                 <ul>
                     <Link className="option" to="/userprofile">Profile</Link>
                     <Link className="option" to="/">Logout</Link>
+                    <p onClick={(e) => props.toggleClose(e)}>Close</p>
                 </ul>
             </div>
         }
