@@ -1,3 +1,9 @@
+.userview-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
 .card-wrapper {
    width: 350px;
    height: 600px;
@@ -38,7 +44,7 @@
 }
 
 .challenge-wrapper {
-    width: 70%;
+
     margin: 30px;
     border-top: 1px solid rgba(0, 0, 0, 0.4);
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
@@ -55,4 +61,18 @@
     color: white;
     border-radius: 2px;
     margin-right: 3px;
+}
+
+.tabs-wrapper {
+    display: inline-block;
+}
+
+.tab-btn {
+
+    color: rgba(103,58,183);
+    font-weight: 700;
+    font-size: 1em;
+    cursor: pointer;
+    margin-right: 25px;
+    border-bottom: rgba(103,58,183);
 }
