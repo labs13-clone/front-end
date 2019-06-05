@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Tabs, Tab} from 'react-bootstrap';
 import CodingChallenge from './CodingChallenge';
 
 
@@ -49,5 +48,7 @@ const TabsView = () => {
 }
 
 export default TabsView;
+
+
 
 
