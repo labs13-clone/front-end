@@ -5,27 +5,49 @@ import CodingChallenge from './CodingChallenge';
 
 const TabsView = () => {
 
-  const [tabKey, setTabKey] = useState('Completed');
+  const [completed, setCompleted] = useState(true);
+  const [published, setPublished] = useState(false);
+  const [pending, setPending] = useState(false);
+
+  function showPublished() {
+     setPublished(true);
+     setCompleted(false);
+     setPending(false);
+  }
+
+  function showCompleted() {
+    setCompleted(true);
+    setPublished(false);
+    setPending(false);
+ }
+
+ function showPending() {
+    setPending(true);
+    setCompleted(false);
+    setPublished(false);
+ }
 
   return (
     <div >
-      <Tabs
-        id="challenges-tab"
-        activeKey={tabKey}
-        onSelect={key => setTabKey(key)}
-      >
-        <Tab eventKey="Completed" title="Completed">
-          <CodingChallenge />
-        </Tab>
-        <Tab eventKey="Published" title="Published">
-          <CodingChallenge />
-        </Tab>
-        <Tab eventKey="Pending" title="Pending" disabled>
-          
-        </Tab>
-      </Tabs>
+        <div className="tabs-wrapper">
+            <p className="tab-btn" onClick={showCompleted}>Completed</p>
+        </div>
+
+        <div className="tabs-wrapper">
+            <p className="tab-btn" onClick={showPublished}>Published</p>
+        </div>
+ 
+        <div className="tabs-wrapper">
+            <p className="tab-btn" onClick={showPending}>Pending</p>
+        </div>
+            {completed ? <p>Completed challenges go here</p> : null}
+            {published ? <p>Published challenges go here</p> : null}
+            {pending ? <p>Pending challenges go here</p> : null}
+
     </div>
   );
 }
 
 export default TabsView;
+
+
