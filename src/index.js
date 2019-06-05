@@ -13,6 +13,7 @@ const Root = () => (
             <Route path="/" exact component={App} />
             <Route path="/userprofile" render={(props) => <UserView {...props}/>} />
             <Route path="/challenges" exact render={(props) => <div {...props}>Challenges Route</div>} />
+            <Route path="/new/challenge" exact render={(props) => <div {...props}>Route for adding challenge</div>} />
             <Route path="/challenges/:id" render={(props) => <div {...props}>Single Challenge View</div>} />
             <Redirect to="/" />
         </Switch>
