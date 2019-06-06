@@ -1,8 +1,8 @@
 
 import React from 'react';
 
-import Editor from './Components/editor';
-import LandingPage from './Components/LandingPage/LandingPageContent';
+import Editor from './Components/Editor/editor';
+import LandingPage from './Components/LandingPage/LandingPageContainer';
 
 function App() {
   return (
