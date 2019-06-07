@@ -4,8 +4,8 @@ import DropdownMenu from './DropdownMenu';
 import '../../Styles/Header.css';
 
 
-const Header = () => {
-
+const Header = (props) => {
+    
     const [openDropdown, setOpenDropdown] = useState(false);
 
     function toggleOpen(e) {
@@ -27,7 +27,7 @@ const Header = () => {
             </div>
             <div>
                 <Link to="/new/challenge">+ Add Challenge</Link>
-                <DropdownMenu openDropdown={openDropdown} toggleOpen={toggleOpen} toggleClose={toggleClose}/>
+                <DropdownMenu {...props} openDropdown={openDropdown} toggleOpen={toggleOpen} toggleClose={toggleClose}/>
             </div>  
         </div> 
     </nav>

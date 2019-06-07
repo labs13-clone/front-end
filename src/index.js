@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom';
-import {withRouter, BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import {withRouter, Router, Route, Switch, Redirect} from 'react-router-dom';
 import Auth from './Auth/Auth';
 import history from './history';
 
@@ -29,18 +29,17 @@ const ProtectedRoute = withRouter(ProtectedRouteWithoutRouter);
 
 const Root = () => {
 
-    //Renew session when the component is mounted
+    //Renew auth0 session when the component is mounted
     useEffect(() => {
-        const { renewSession } = this.props.auth;
 
         if (localStorage.getItem('isLoggedIn') === 'true') {
-            renewSession();
+            auth.renewSession();
         }
     }, []);
     
-    return (<Router>
+    return (<Router history={history}>
         <Switch>
-            <Route path="/" exact component={App} auth={auth} />
+            <Route path="/" exact render={props => <App {...props} auth={auth} />} />
             <ProtectedRoute path="/userprofile" component={UserView} />} />
             <ProtectedRoute path="/challenges" exact component={Challenges} />
             <ProtectedRoute path="/new/challenge" component={AddChallenge} />

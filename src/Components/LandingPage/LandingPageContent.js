@@ -2,13 +2,15 @@ import React from "react";
 require ('./LandingPage.css')
 
 const LandingPageContent = props => {
+
+  const login = () => props.auth.login();
+  
   return (
     <div className="landingContent">
       <header>
         <h1>Clone Coding</h1>
         <div>
-        <button>Sign In</button>
-        <button>Register</button>
+        <button onClick={login}>Sign In / Register</button>
         </div>
       </header>
       <div className="topContent">
