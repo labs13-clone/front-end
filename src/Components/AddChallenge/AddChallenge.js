@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Challenges() {
+export default function AddChallenge() {
     return (
         <div>
-            Challenges Route
+            Add Challenge Route
         </div>
     )
 }

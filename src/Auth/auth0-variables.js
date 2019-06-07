@@ -1,7 +1,7 @@
 export const AUTH_CONFIG = {
-    domain: process.env.DOMAIN,
-    clientId: process.env.CLIENTID,
-    callbackUrl: process.env.DEV_CALLBACKURL,
-    audience: process.env.AUDIENCE,
-    returnTo: process.env.DEV_RETURNTO
+    domain: process.env.REACT_APP_DOMAIN,
+    clientId: process.env.REACT_APP_CLIENTID,
+    callbackUrl: process.env.REACT_APP_DEV_CALLBACKURL,
+    audience: process.env.REACT_APP_AUDIENCE,
+    returnTo: process.env.REACT_APP_DEV_RETURNTO
 }
