@@ -15,7 +15,7 @@ function App(props) {
   return (
     <div className="App">
       {!isAuthenticated() && <LandingPage {...props} />}
-      {isAuthenticated() && <React.Fragment><Header {...props}/><Editor/></React.Fragment>}
+      {isAuthenticated() && <React.Fragment><Header {...props}/><Editor {...props}/></React.Fragment>}
     </div>
   );
 }

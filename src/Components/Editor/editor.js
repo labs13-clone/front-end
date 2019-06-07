@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import Console from './console.js'
 import worker_script from "./worker";
+import axios from "axios";
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/material.css');
@@ -12,11 +13,23 @@ class Editor extends Component {
     super();
     this.state = {
       js: "",
-      output: []
+      output: [],
+      challenges:[]
     };
   }
 
   componentDidMount(){
+
+    axios
+    .get("https://clone-coding-server.herokuapp.com/api/challenges",{headers:{Authorization: `Bearer ${this.props.auth.accessToken}`}})
+    .then(data => {
+      this.setState({
+        challenges:data.data,
+        js:data.data[1].solution
+      })
+    })
+    .catch((err) => console.log(err))
+
     if (window.Worker) {
         this.worker = new Worker(worker_script);
           this.worker.onmessage = (e) => {
@@ -77,6 +90,14 @@ class Editor extends Component {
         <button onClick={this.clearConsole}>Clear Console</button>
         <button onClick={this.killWorker}>Kill Worker</button>
         <Console output={this.state.output}/>
+        {
+          this.state.challenges.map((challenge)=> {
+            return <div key={challenge.title} style={{border: '1px solid black'}}>
+                    <p>{challenge.title}</p>
+                    <p>{challenge.description}</p>
+                  </div>
+          })
+        }
       </div>
     );
   }
