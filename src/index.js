@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import {withRouter, BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import Auth from './Auth/Auth';
@@ -17,16 +17,28 @@ import AttemptChallenge from './Components/AttemptChallenge/AttemptChallenge';
 
 const auth = new Auth();
 
+//Handle callback after login/register
 const handleAuthentication = ({location}) => {
   if (/access_token|id_token|error/.test(location.hash)) {
     auth.handleAuthentication();
   }
 }
 
+//Give ProtectedRoute component access to history
 const ProtectedRoute = withRouter(ProtectedRouteWithoutRouter);
 
-const Root = () => (
-    <Router>
+const Root = () => {
+
+    //Renew session when the component is mounted
+    useEffect(() => {
+        const { renewSession } = this.props.auth;
+
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            renewSession();
+        }
+    }, []);
+    
+    return (<Router>
         <Switch>
             <Route path="/" exact component={App} auth={auth} />
             <ProtectedRoute path="/userprofile" component={UserView} />} />
@@ -39,8 +51,8 @@ const Root = () => (
             }}/>
             <Redirect to="/" />
         </Switch>
-    </Router>
-);
+    </Router>);
+};
 
 
 ReactDOM.render(<Root />, document.getElementById('root'));
