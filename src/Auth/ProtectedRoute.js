@@ -1,11 +1,14 @@
 import React from 'react';
+import {Route, Redirect} from 'react-router-dom';
 import Auth from './Auth';
-const auth = new Auth();
 
-export default props => Component => {
+export default auth => ({component: Component, ...props}) => {
+    console.log(auth.isAuthenticated());
     if(auth.isAuthenticated()) {
-        return <Component {...props}/>;
+        console.log(Component);
+        return <Route {...props} render={(props) => <Component {...props} />} />
+
     } else {
-        props.history.push('/');
+         return <Redirect to='/' />
     }
 }
