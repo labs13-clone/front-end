@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react';
+import CategoriesFilter from './CategoriesFilter';
+import DifficultyLevels from './DifficultyLevels';
 
-export default function Challenges() {
-    return (
-        <div>
-            Challenges Route
-        </div>
-    )
+
+const Challenges = () => {
+
+  
+
+  return (
+    <div >
+        <CategoriesFilter />
+        <DifficultyLevels />
+    </div>
+  );
 }
+
+export default Challenges;

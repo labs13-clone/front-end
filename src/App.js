@@ -10,6 +10,8 @@ function App(props) {
   //Is the user authenticated?
   const { isAuthenticated } = props.auth;
 
+  
+
   return (
     <div className="App">
       {!isAuthenticated() && <LandingPage {...props} />}

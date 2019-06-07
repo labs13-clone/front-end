@@ -25,7 +25,8 @@ const handleAuthentication = ({location}) => {
 }
 
 //Give ProtectedRoute component access to history
-const ProtectedRoute = withRouter(ProtectedRouteWithoutRouter);
+const ProtectedRouteWithAuthWithoutRouter = ProtectedRouteWithoutRouter(auth);
+const ProtectedRoute = withRouter(ProtectedRouteWithAuthWithoutRouter);
 
 const Root = () => {
 
