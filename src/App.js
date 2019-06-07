@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import Editor from './Components/editor';
+import Editor from './Components/Editor/editor';
 import LandingPage from './Components/LandingPage/LandingPageContent';
 
 function App() {
