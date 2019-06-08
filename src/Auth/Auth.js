@@ -84,13 +84,11 @@ export default class Auth {
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
 
-    // Todo: Not sure if following auth0 best practices
-    // Even though we set the returnTo property when creating the new auth0.WebAuth
-    // It doesn't seem to be working, so I'm adding the returnTo option directly to the logout function
-    // Tested with a string and it returns as expected to our heroku deployed app
-    // If it doesn't work when deployed next time...
-    // Then the issue is with the environment variables not being set and/or being overridden by Heroku
-    this.auth0.logout({returnTo: AUTH_CONFIG.returnTo});
+    this.auth0.logout({
+      returnTo: window.location.origin
+    });
+
+    history.replace('/');
   }
 
   isAuthenticated() {
