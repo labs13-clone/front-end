@@ -16,21 +16,11 @@ export default class Auth {
     scope: 'openid profile'
   });
 
-  constructor() {
-    this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
-    this.handleAuthentication = this.handleAuthentication.bind(this);
-    this.isAuthenticated = this.isAuthenticated.bind(this);
-    this.getAccessToken = this.getAccessToken.bind(this);
-    this.getIdToken = this.getIdToken.bind(this);
-    this.renewSession = this.renewSession.bind(this);
-  }
-
-  login() {
+  login = () => {
     this.auth0.authorize();
   }
 
-  handleAuthentication() {
+  handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
@@ -41,15 +31,15 @@ export default class Auth {
     });
   }
 
-  getAccessToken() {
+  getAccessToken = () => {
     return this.accessToken;
   }
 
-  getIdToken() {
+  getIdToken = () => {
     return this.idToken;
   }
 
-  setSession(authResult) {
+  setSession = (authResult) => {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
 
@@ -63,18 +53,24 @@ export default class Auth {
     history.replace('/');
   }
 
-  renewSession() {
+  renewSession = () => {
     this.auth0.checkSession({}, (err, authResult) => {
        if (authResult && authResult.accessToken && authResult.idToken) {
          this.setSession(authResult);
        } else if (err) {
-         this.logout();
+        if(process.env.NODE_ENV === 'production') {
+          this.auth0.logout({
+            returnTo: 'https://clone-coding-client.herokuapp.com'
+          });
+        } else {
+          this.auth0.logout();
+        }
          alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
        }
     });
   }
 
-  logout() {
+  logout = () => {
     // Remove tokens and expiry time
     this.accessToken = null;
     this.idToken = null;
@@ -83,12 +79,17 @@ export default class Auth {
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
 
-    this.auth0.logout({
-      returnTo: AUTH_CONFIG.returnTo
-    });
+    if(process.env.NODE_ENV === 'production') {
+      this.auth0.logout({
+        returnTo: 'https://clone-coding-client.herokuapp.com'
+      });
+    } else {
+      this.auth0.logout();
+    }
+    
   }
 
-  isAuthenticated() {
+  isAuthenticated = () => {
     // Check whether the current time is past the
     // access token's expiry time
     let expiresAt = this.expiresAt;
