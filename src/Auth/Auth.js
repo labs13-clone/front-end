@@ -18,6 +18,11 @@ export default class Auth {
   });
 
   constructor() {
+    console.log(AUTH_CONFIG.domain,
+      AUTH_CONFIG.clientId,
+      AUTH_CONFIG.callbackUrl,
+      AUTH_CONFIG.audience,
+      AUTH_CONFIG.returnTo);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
