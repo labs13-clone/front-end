@@ -18,11 +18,6 @@ export default class Auth {
   });
 
   constructor() {
-    console.log(AUTH_CONFIG.domain,
-      AUTH_CONFIG.clientId,
-      AUTH_CONFIG.callbackUrl,
-      AUTH_CONFIG.audience,
-      AUTH_CONFIG.returnTo);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
@@ -95,7 +90,7 @@ export default class Auth {
     // Tested with a string and it returns as expected to our heroku deployed app
     // If it doesn't work when deployed next time...
     // Then the issue is with the environment variables not being set and/or being overridden by Heroku
-    this.auth0.logout({returnTo: process.env.REACT_APP_RETURNTO});
+    this.auth0.logout({returnTo: AUTH_CONFIG.returnTo});
   }
 
   isAuthenticated() {
