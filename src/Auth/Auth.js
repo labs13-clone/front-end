@@ -86,8 +86,6 @@ export default class Auth {
     this.auth0.logout({
       returnTo: AUTH_CONFIG.returnTo
     });
-
-    history.replace('/');
   }
 
   isAuthenticated() {
