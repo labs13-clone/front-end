@@ -82,11 +82,9 @@ export default class Auth {
 
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
-    
-    console.log(window.location.origin);
 
     this.auth0.logout({
-      returnTo: window.location.origin
+      returnTo: AUTH_CONFIG.returnTo
     });
 
     history.replace('/');
