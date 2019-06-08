@@ -13,8 +13,7 @@ export default class Auth {
     redirectUri: AUTH_CONFIG.callbackUrl,
     audience: AUTH_CONFIG.audience,
     responseType: 'id_token token',
-    scope: 'openid profile',
-    returnTo: AUTH_CONFIG.returnTo
+    scope: 'openid profile'
   });
 
   constructor() {
