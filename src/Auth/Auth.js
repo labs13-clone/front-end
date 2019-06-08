@@ -37,7 +37,6 @@ export default class Auth {
         this.setSession(authResult);
       } else if (err) {
         history.replace('/');
-        console.log(err);
         alert(`Error: ${err.error}. Check the console for further details.`);
       }
     });
@@ -62,7 +61,7 @@ export default class Auth {
     this.expiresAt = expiresAt;
 
     // navigate to the home route
-    history.replace('/home');
+    history.replace('/');
   }
 
   renewSession() {
@@ -71,7 +70,6 @@ export default class Auth {
          this.setSession(authResult);
        } else if (err) {
          this.logout();
-         console.log(err);
          alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
        }
     });
@@ -86,7 +84,13 @@ export default class Auth {
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
 
-    this.auth0.logout();
+    // Todo: Not sure if following auth0 best practices
+    // Even though we set the returnTo property when creating the new auth0.WebAuth
+    // It doesn't seem to be working, so I'm adding the returnTo option directly to the logout function
+    // Tested with a string and it returns as expected to our heroku deployed app
+    // If it doesn't work when deployed next time...
+    // Then the issue is with the environment variables not being set and/or being overridden by Heroku
+    this.auth0.logout({returnTo: process.env.REACT_APP_RETURNTO});
   }
 
   isAuthenticated() {
