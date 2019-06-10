@@ -59,7 +59,7 @@ export default class Auth {
          this.setSession(authResult);
        } else if (err) {
          
-        logoutForReal();
+        this.logoutForReal();
         
          alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
        }
@@ -75,7 +75,7 @@ export default class Auth {
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
 
-    logoutForReal();
+    this.logoutForReal();
     
   }
 
@@ -85,14 +85,14 @@ export default class Auth {
     let expiresAt = this.expiresAt;
     return new Date().getTime() < expiresAt;
   }
-}
 
-function logoutForReal() {
-  if(process.env.NODE_ENV === 'production') {
-    this.auth0.logout({
-      returnTo: 'https://clone-coding-client.herokuapp.com'
-    });
-  } else {
-    this.auth0.logout();
+  logoutForReal = () => {
+    if(process.env.NODE_ENV === 'production') {
+      this.auth0.logout({
+        returnTo: 'https://clone-coding-client.herokuapp.com'
+      });
+    } else {
+      this.auth0.logout();
+    }
   }
 }

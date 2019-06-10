@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import CodingChallenge from './CodingChallenge';
-
+import ChallengeCard from '../../Shared/ChallengeCard/ChallengeCard';
 
 const TabsView = () => {
 

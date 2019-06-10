@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../Styles/UserView.css';
+import './UserProfile.css';
 
 const UserInfoCard = () => {
   return (

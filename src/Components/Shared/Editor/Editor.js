@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
-import Console from './console.js'
-import worker_script from "./worker";
+import Console from '../Console/Console'
+import worker_script from "../../../Utility/worker";
 import axios from "axios";
 
 require('codemirror/lib/codemirror.css');
@@ -18,8 +18,7 @@ class Editor extends Component {
     };
   }
 
-  componentDidMount(){
-
+  componentDidMount() {
     axios
     .get("https://clone-coding-server.herokuapp.com/api/challenges",{headers:{Authorization: `Bearer ${this.props.auth.accessToken}`}})
     .then(data => {

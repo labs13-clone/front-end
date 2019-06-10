@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import '../../Styles/Header.css';
+import './Header.css';
 import {Link} from 'react-router-dom';
-
-
 
 const DropdownMenu = (props) => {
 

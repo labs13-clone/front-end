@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 const CategoriesFilter = () => {
 
-  
+  //Todo: Get category names from API
 
   return (
     <div >

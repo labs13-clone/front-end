@@ -1,21 +1,19 @@
 
 import React from 'react';
 
-import Editor from './Components/Editor/editor';
-import LandingPage from './Components/LandingPage/LandingPageContent';
-import Header from './Components/Header/Header';
+import LandingPage from './Components/Views/LandingPage/LandingPageContent';
+import SearchChallenges from './Components/Views/SearchChallenges/SearchChallenges';
 
 function App(props) {
 
   //Is the user authenticated?
-  const { isAuthenticated } = props.auth;
+  const { isAuthenticated } = props.auth;  
 
-  
-
+  console.log(isAuthenticated())
   return (
     <div className="App">
       {!isAuthenticated() && <LandingPage {...props} />}
-      {isAuthenticated() && <React.Fragment><Header {...props}/><Editor {...props}/></React.Fragment>}
+      {isAuthenticated() && <SearchChallenges {...props}/>}
     </div>
   );
 }

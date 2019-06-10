@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function AddChallenge() {
+export default function Footer() {
     return (
         <div>
-            Add Challenge Route
+            Footer
         </div>
     )
 }

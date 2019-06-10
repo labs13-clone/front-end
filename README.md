@@ -86,18 +86,55 @@ Our app helps learn and master JavaScript in an entertaining manner. It is suita
   - Get any approved challenges
   - Optionally filter challenges by difficulty
   - Show challenges not completed by default
-    - Optionally filter for challenges already complete
+    - Optionally filter for challenges already completed
     - Users can retake a challenge they already completed
   - Allow users to start a code challenge
 
 ### Complete Code Challenge View
-
-  - View challenge information
+  - View Challenge Information
+    - Title, Difficulty, Instruction, and Categories
   - Get the user's already existing submission
   - Save their answer
     - Either every X seconds or each time they make a change
   - Users can retake a challenge they already completed
   - Submit their answer for review
+  - Skip the challenge and go to another
+    - Same difficulty level
+
+
+## Application Structure
+
+ - Auth
+    - Protected Route
+    - Auth
+    - Callback
+ - Utility
+    - WebWorker
+ - Components
+    - Views
+        - User Profile
+            - Tabs
+            - Sidebar
+            - User Card
+        - Create Challenges
+        - Search Challenges
+        - Complete A Challenge
+            - Render Markdown
+        - Not Found (404)
+        - LandingPage
+    - Layout
+        - Header
+        - Main
+        - Footer
+    - Shared
+        - Editor (Complete A Challenge & Create Challenge & Edit Challenge)
+            - Lines Of Code
+            - Markdown or Javascript
+        - Console (Complete A Challenge & Create Challenge & Edit Challenge)
+        - MetaData Form (Create Challenge & Edit Challenge)
+        - Challenge Card (Search Challenges & User Profile Tabs)
+
+
 
 ## Tech Stack
 
