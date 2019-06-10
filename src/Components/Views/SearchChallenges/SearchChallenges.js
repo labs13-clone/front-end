@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import CategoriesFilter from './CategoriesFilter';
 import DifficultyLevels from './DifficultyLevels';
 
-
-const Challenges = () => {
-
-  
-
+const SearchChallenges = () => {
   return (
     <div >
         <CategoriesFilter />
@@ -15,4 +11,4 @@ const Challenges = () => {
   );
 }
 
-export default Challenges;
+export default SearchChallenges;

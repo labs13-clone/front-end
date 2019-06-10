@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import DropdownMenu from './DropdownMenu';
-import '../../Styles/Header.css';
+import './Header.css';
 
 
 const Header = (props) => {
