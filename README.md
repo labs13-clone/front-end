@@ -55,15 +55,51 @@
 Our app helps learn and master JavaScript in an entertaining manner. It is suitable for users of any level of knowledge. If you are master or totally beginner you will be able to find a lot of code challenges of different difficulty levels and also create your own challenges for users.  
 
 
-### 4️⃣ Key Features
+## Key Features
 
--    feature one
--    feature two
--    feature three
--    feature four
--    feature five
+### User Profile View
+  - Can view user profile information
+  - View all challenges they already started
+  - View all challenges they completed
+  - View unapproved challenges they created
+    - Edit unapproved challenges they created
+  - Admins can get any unapproved challenges
+    - Admins can edit unapproved challenges
+    - Admins can approve a challenge
 
-## 1️⃣ Tech Stack
+### Create Challenge View
+  - Create a new code challenge
+    - Tab to create a description
+    - Tab to create a skeleton function
+    - Tab to create tests
+        - Run tests
+        - Console
+            - Clear Console Button
+    - Tab to create a solution
+        - Run solution
+        - Console
+            - Clear Console Button
+  - Save Button
+
+  
+### Search Challenge View
+  - Get any approved challenges
+  - Optionally filter challenges by difficulty
+  - Show challenges not completed by default
+    - Optionally filter for challenges already complete
+    - Users can retake a challenge they already completed
+  - Allow users to start a code challenge
+
+### Complete Code Challenge View
+
+  - View challenge information
+  - Get the user's already existing submission
+  - Save their answer
+    - Either every X seconds or each time they make a change
+  - Users can retake a challenge they already completed
+  - Submit their answer for review
+
+## Tech Stack
 
 ### Front end (https://github.com/labs13-clone/front-end):
 

@@ -58,13 +58,9 @@ export default class Auth {
        if (authResult && authResult.accessToken && authResult.idToken) {
          this.setSession(authResult);
        } else if (err) {
-        if(process.env.NODE_ENV === 'production') {
-          this.auth0.logout({
-            returnTo: 'https://clone-coding-client.herokuapp.com'
-          });
-        } else {
-          this.auth0.logout();
-        }
+         
+        logoutForReal();
+        
          alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
        }
     });
@@ -79,13 +75,7 @@ export default class Auth {
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
 
-    if(process.env.NODE_ENV === 'production') {
-      this.auth0.logout({
-        returnTo: 'https://clone-coding-client.herokuapp.com'
-      });
-    } else {
-      this.auth0.logout();
-    }
+    logoutForReal();
     
   }
 
@@ -94,5 +84,15 @@ export default class Auth {
     // access token's expiry time
     let expiresAt = this.expiresAt;
     return new Date().getTime() < expiresAt;
+  }
+}
+
+function logoutForReal() {
+  if(process.env.NODE_ENV === 'production') {
+    this.auth0.logout({
+      returnTo: 'https://clone-coding-client.herokuapp.com'
+    });
+  } else {
+    this.auth0.logout();
   }
 }
