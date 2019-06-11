@@ -57,7 +57,9 @@ export default class Auth {
     this.auth0.checkSession({}, (err, authResult) => {
        if (authResult && authResult.accessToken && authResult.idToken) {
          this.setSession(authResult);
-       } else if (err) {
+
+       } 
+      else if (err) {
          
         this.logoutForReal();
         
