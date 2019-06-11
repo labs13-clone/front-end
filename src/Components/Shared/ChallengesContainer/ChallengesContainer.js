@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ChallengeCard from '../../Shared/ChallengeCard/ChallengeCard';
+import ChallengeCard from '../ChallengeCard/ChallengeCard';
 
 
 const ChallengesContainer = (props) => {
