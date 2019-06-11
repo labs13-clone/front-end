@@ -1,53 +1,39 @@
-import React, { useState } from 'react';
-import ChallengeCard from '../../Shared/ChallengeCard/ChallengeCard';
+import React, {useState} from 'react';
 
 const TabsView = () => {
 
-  const [completed, setCompleted] = useState(true);
-  const [published, setPublished] = useState(false);
-  const [pending, setPending] = useState(false);
+    const [tab,
+        setTab] = useState('completed');
 
-  function showPublished() {
-     setPublished(true);
-     setCompleted(false);
-     setPending(false);
-  }
+    const toggleTab = (event) => {
+        setTab(event.target.id);
+    }
 
-  function showCompleted() {
-    setCompleted(true);
-    setPublished(false);
-    setPending(false);
- }
+    return (
+        <div>
+            <div className="tabs-wrapper">
+                <p id="started" className="tab-btn" onClick={toggleTab}>Started Challenges</p>
+            </div>
 
- function showPending() {
-    setPending(true);
-    setCompleted(false);
-    setPublished(false);
- }
+            <div className="tabs-wrapper">
+                <p id="completed" className="tab-btn" onClick={toggleTab}>Completed Challenges</p>
+            </div>
 
-  return (
-    <div >
-        <div className="tabs-wrapper">
-            <p className="tab-btn" onClick={showCompleted}>Completed</p>
+            <div className="tabs-wrapper">
+                <p id="created" className="tab-btn" onClick={toggleTab}>Created Challenges</p>
+            </div>
+
+            <div className="tabs-wrapper">
+                <p id="unapproved" className="tab-btn" onClick={toggleTab}>Unapproved Challenges</p>
+            </div>
+
+            {tab === 'started' && <p>Started challenges go here</p>}
+            {tab === 'completed' && <p>Completed challenges go here</p>}
+            {tab === 'created' && <p>Created challenges go here</p>}
+            {tab === 'unapproved' && <p>Unapproved challenges go here</p>}
+
         </div>
-
-        <div className="tabs-wrapper">
-            <p className="tab-btn" onClick={showPublished}>Published</p>
-        </div>
- 
-        <div className="tabs-wrapper">
-            <p className="tab-btn" onClick={showPending}>Pending</p>
-        </div>
-            {completed ? <p>Completed challenges go here</p> : null}
-            {published ? <p>Published challenges go here</p> : null}
-            {pending ? <p>Pending challenges go here</p> : null}
-
-    </div>
-  );
+    );
 }
 
 export default TabsView;
-
-
-
-
