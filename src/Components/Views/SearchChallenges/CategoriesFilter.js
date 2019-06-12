@@ -1,23 +1,14 @@
 import React, { useState } from 'react';
 
 
-const CategoriesFilter = () => {
+const CategoriesFilter = (props) => {
 
   //Todo: Get category names from API
 
   return (
     <div >
         <select>
-            <option value="arrays">Arrays</option>
-            <option value="conditions">Conditions</option>
-            <option value="loops">Loops</option>
-            <option value="math">Math</option>
-            <option value="numbers">Numbers</option>
-            <option value="objects">Objects</option>
-            <option value="recursion">Recursion</option>
-            <option value="regex">Regex</option>
-            <option value="sorting">Sorting</option>
-            <option value="strings">Strings</option>
+            {props.categories.map(category => <option key={category.id} value={category.name}>{category.name}</option>)}
         </select>
     </div>
   );
