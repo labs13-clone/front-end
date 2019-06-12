@@ -1,5 +1,6 @@
 export const objToQuery = (filter) => {
 
+    //If there's no query params return an empty string
     if(Object.keys(filter).length === 0) return '';
 
     //Query strings begin with a question mark
