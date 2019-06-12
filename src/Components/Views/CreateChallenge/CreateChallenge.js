@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {ReactDOM, render} from 'react-dom'
-import MarkdownJsx from 'markdown-to-jsx';
 import ReactMarkdown from 'react-markdown';
 
 import Editor from '../../Shared/Editor/Editor';
