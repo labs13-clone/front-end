@@ -20,7 +20,7 @@ class Editor extends Component {
 
   componentDidMount() {
     axios
-    .get("https://clone-coding-server.herokuapp.com/api/challenges",{headers:{Authorization: `Bearer ${this.props.auth.accessToken}`}})
+    .get("https://clone-coding-server.herokuapp.com/api/challenges", {headers:{Authorization: `Bearer ${this.props.auth.accessToken}`}})
     .then(data => {
       this.setState({
         challenges:data.data,
@@ -72,7 +72,7 @@ class Editor extends Component {
             <CodeMirror
               value={this.state.js}
               options={{
-                mode: 'javascript',
+                mode: 'markdown',
                 theme: 'material',
                 lineNumbers: true,
                 scrollbarStyle: null,
