@@ -20,7 +20,7 @@ class Editor extends Component {
 
   componentDidMount() {
     axios
-    .get("https://clone-coding-server.herokuapp.com/api/challenges")
+    .get("https://clone-coding-server.herokuapp.com/api/challenges", {headers:{Authorization: `Bearer ${this.props.auth.accessToken}`}})
     .then(data => {
       this.setState({
         challenges:data.data,

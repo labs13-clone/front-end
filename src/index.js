@@ -47,7 +47,7 @@ const Root = () => {
                 <Route path="/" exact render={_ => <App auth={auth} />} />
                 <ProtectedRoute path="/userprofile" component={UserProfile} />} />
                 <ProtectedRoute path="/challenges" exact component={SearchChallenges} />
-                <Route path="/new/challenge" component={CreateChallenge} />
+                <ProtectedRoute path="/new/challenge" component={CreateChallenge} />
                 <ProtectedRoute path="/challenges/:id" component={AttemptChallenge} />
                 <Route path="/callback" render={(props) => {
                     handleAuthentication(props);
