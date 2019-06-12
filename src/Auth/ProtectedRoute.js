@@ -11,7 +11,7 @@ export default auth => ({
         return <Route
             {...props}
             render={(props) =>             
-                <Component {...props}/>
+                <Component {...props} auth={auth}/>
         }/>
 
     } else {
