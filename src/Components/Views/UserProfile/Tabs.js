@@ -17,25 +17,20 @@ const TabsView = (props) => {
         let endpoint = '';
         const filter = {};
 
-        const user = {
-            id: 1,
-            role: 'admin'
-        }
-
         //Toggle the endpoint and filters Depending on which tab is being shown
         switch (tab) {
             case "started":
 
                 endpoint = 'submissions';
                 filter.completed = 0;
-                filter.created_by = user.id;
+                filter.created_by = props.auth.user.id;
                 break;
 
             case "completed":
 
                 endpoint = 'submissions';
                 filter.completed = 1;
-                filter.created_by = user.id;
+                filter.created_by = props.auth.user.id;
                 break;
 
             case "created":
@@ -44,8 +39,8 @@ const TabsView = (props) => {
                 filter.approved = 1;
 
                 //If the user is not an admin Then only return their challenges
-                if (user.role !== 'admin') {
-                    filter.created_by = user.id;
+                if (props.auth.user.role !== 'admin') {
+                    filter.created_by = props.auth.user.id;
                 }
 
                 break;
@@ -56,8 +51,8 @@ const TabsView = (props) => {
                 filter.approved = 0;
 
                 //If the user is not an admin Then only return their challenges
-                if (user.role !== 'admin') {
-                    filter.created_by = user.id;
+                if (props.auth.user.role !== 'admin') {
+                    filter.created_by = props.auth.user.id;
                 }
 
                 break;

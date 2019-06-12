@@ -1,11 +1,15 @@
 import history from '../history';
 import auth0 from 'auth0-js';
-import { AUTH_CONFIG } from './auth0-variables';
+import {
+  AUTH_CONFIG
+} from './auth0-variables';
+import axios from 'axios';
 
 export default class Auth {
   accessToken;
   idToken;
   expiresAt;
+  user;
 
   auth0 = new auth0.WebAuth({
     domain: AUTH_CONFIG.domain,
@@ -39,6 +43,10 @@ export default class Auth {
     return this.idToken;
   }
 
+  getUser = () => {
+    return this.user;
+  }
+
   setSession = (authResult) => {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
@@ -49,22 +57,36 @@ export default class Auth {
     this.idToken = authResult.idToken;
     this.expiresAt = expiresAt;
 
+    //Request the challenges or submissions from the api
+    axios({
+        method: 'get',
+        url: `https://clone-coding-server.herokuapp.com/api/users`,
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`
+        }
+      })
+      .then(response => {
+        this.user = response.data;
+      })
+      .catch(err => {
+        console.log(err.message)
+      });
+
     // navigate to the home route
     history.replace('/');
   }
 
   renewSession = () => {
     this.auth0.checkSession({}, (err, authResult) => {
-       if (authResult && authResult.accessToken && authResult.idToken) {
-         this.setSession(authResult);
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        this.setSession(authResult);
 
-       } 
-      else if (err) {
-         
+      } else if (err) {
+
         this.logoutForReal();
-        
-         alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
-       }
+
+        alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
+      }
     });
   }
 
@@ -72,13 +94,14 @@ export default class Auth {
     // Remove tokens and expiry time
     this.accessToken = null;
     this.idToken = null;
+    this.user = null;
     this.expiresAt = 0;
 
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
 
     this.logoutForReal();
-    
+
   }
 
   isAuthenticated = () => {
@@ -89,7 +112,7 @@ export default class Auth {
   }
 
   logoutForReal = () => {
-    if(process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production') {
       this.auth0.logout({
         returnTo: 'https://clone-coding-client.herokuapp.com'
       });
