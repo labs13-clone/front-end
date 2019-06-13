@@ -38,8 +38,7 @@ const ChallengeCard = (props) => {
                 </p>
                 <div className="header-flex">
                     <div>
-                        <button className="category">Math</button>
-                        <button className="category">Algorithms</button>
+                        <div className="category">{props.challenge.categories[0].name}</div>
                     </div>
                     <div>{difficulty}</div>
                 </div>
