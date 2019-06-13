@@ -7,9 +7,8 @@ import SearchChallenges from './Components/Views/SearchChallenges/SearchChalleng
 function App(props) {
 
   //Is the user authenticated?
-  const { isAuthenticated } = props.auth;  
+  const { isAuthenticated } = props.auth;
 
-  console.log(isAuthenticated())
   return (
     <div className="App">
       {!isAuthenticated() && <LandingPage {...props} />}

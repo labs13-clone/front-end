@@ -118,6 +118,7 @@ Our app helps learn and master JavaScript in an entertaining manner. It is suita
           - Clear console button
         - MetaData Form (Create Challenge & Edit Challenge)
         - Challenge Card (Search Challenges & User Profile Tabs)
+        - Render Markdown
 
 ## Tech Stack
 

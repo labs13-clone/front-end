@@ -1,53 +1,113 @@
-import React, { useState } from 'react';
-import ChallengeCard from '../../Shared/ChallengeCard/ChallengeCard';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import ChallengesContainer from '../../Shared/ChallengesContainer/ChallengesContainer';
+import {objToQuery} from '../../../Utility/objToQuery';
 
-const TabsView = () => {
+const TabsView = (props) => {
 
-  const [completed, setCompleted] = useState(true);
-  const [published, setPublished] = useState(false);
-  const [pending, setPending] = useState(false);
+    const [tab,
+        setTab] = useState('completed');
+    const [challenges,
+        setChallenges] = useState([]);
+    const token = props.auth.accessToken;
 
-  function showPublished() {
-     setPublished(true);
-     setCompleted(false);
-     setPending(false);
-  }
+    useEffect(() => {
 
-  function showCompleted() {
-    setCompleted(true);
-    setPublished(false);
-    setPending(false);
- }
+        //Create empty endpoint string and filter object
+        let endpoint = '';
+        const filter = {};
 
- function showPending() {
-    setPending(true);
-    setCompleted(false);
-    setPublished(false);
- }
+        //Toggle the endpoint and filters Depending on which tab is being shown
+        switch (tab) {
+            case "started":
 
-  return (
-    <div >
-        <div className="tabs-wrapper">
-            <p className="tab-btn" onClick={showCompleted}>Completed</p>
+                endpoint = 'submissions';
+                filter.completed = 0;
+                filter.created_by = props.auth.user.id;
+                break;
+
+            case "completed":
+
+                endpoint = 'submissions';
+                filter.completed = 1;
+                filter.created_by = props.auth.user.id;
+                break;
+
+            case "created":
+
+                endpoint = 'challenges';
+                filter.approved = 1;
+
+                //If the user is not an admin Then only return their challenges
+                if (props.auth.user.role !== 'admin') {
+                    filter.created_by = props.auth.user.id;
+                }
+
+                break;
+
+            case "unapproved":
+
+                endpoint = 'challenges';
+                filter.approved = 0;
+
+                //If the user is not an admin Then only return their challenges
+                if (props.auth.user.role !== 'admin') {
+                    filter.created_by = props.auth.user.id;
+                }
+
+                break;
+
+            default:
+                break;
+        }
+
+        //Request the challenges or submissions from the api
+        axios({
+            method: 'get',
+            url: `https://clone-coding-server.herokuapp.com/api/${endpoint}${objToQuery(filter)}`,
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            setChallenges(response.data);
+        })
+        .catch(err => {
+            console.log(err.message)
+        });
+
+    }, [tab]);
+
+    //Toggle the current tab
+    const toggleTab = (event) => {
+        setTab(event.target.id);
+    }
+
+    return (
+        <div>
+            <div className="tabs-wrapper">
+                <p id="started" className="tab-btn" onClick={toggleTab}>Started Challenges</p>
+            </div>
+
+            <div className="tabs-wrapper">
+                <p id="completed" className="tab-btn" onClick={toggleTab}>Completed Challenges</p>
+            </div>
+
+            <div className="tabs-wrapper">
+                <p id="created" className="tab-btn" onClick={toggleTab}>Created Challenges</p>
+            </div>
+
+            <div className="tabs-wrapper">
+                <p id="unapproved" className="tab-btn" onClick={toggleTab}>Unapproved Challenges</p>
+            </div>
+
+            {tab === 'started' && <ChallengesContainer challenges={challenges}/>}
+            {tab === 'completed' && <ChallengesContainer challenges={challenges}/>}
+            {tab === 'created' && <ChallengesContainer challenges={challenges}/>}
+            {tab === 'unapproved' && <ChallengesContainer challenges={challenges}/>}
+
         </div>
-
-        <div className="tabs-wrapper">
-            <p className="tab-btn" onClick={showPublished}>Published</p>
-        </div>
- 
-        <div className="tabs-wrapper">
-            <p className="tab-btn" onClick={showPending}>Pending</p>
-        </div>
-            {completed ? <p>Completed challenges go here</p> : null}
-            {published ? <p>Published challenges go here</p> : null}
-            {pending ? <p>Pending challenges go here</p> : null}
-
-    </div>
-  );
+    );
 }
 
 export default TabsView;
-
-
-
-
