@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
-<<<<<<< Updated upstream
-import {ReactDOM, render} from 'react-dom'
-=======
->>>>>>> Stashed changes
 import ReactMarkdown from 'react-markdown';
 
 import Editor from '../../Shared/Editor/Editor';
-import "./CreateChallenge.css";
+import "./CreateChallenge.css"
 
 
 function CreateChallenge(props) {
@@ -37,6 +33,12 @@ function CreateChallenge(props) {
         const values = [...tests]
         values[i][e.target.name] = e.target.value;
         setTests(values)
+    }
+
+    let [javascriptInput, setJavascriptInput] = useState('')
+
+    function handleInputChange(editor, data, code){
+        setJavascriptInput(code);
     }
 
     return(
@@ -98,6 +100,17 @@ function CreateChallenge(props) {
                 <button onClick={(e) => addTest(e)}>Add Test</button>
                 <button>Submit</button>
                 </form>
+            </div>
+            <div>
+                <div>
+                    <Editor
+                        input={javascriptInput}
+                        theme={'material'}
+                        mode={'javascript'}
+                        changeHandler={handleInputChange}
+                        auth={props.auth}
+                    />
+                </div>
             </div>
         </div>
     )

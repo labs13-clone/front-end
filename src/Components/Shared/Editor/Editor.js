@@ -72,7 +72,7 @@ class Editor extends Component {
             <CodeMirror
               value={this.state.js}
               options={{
-                mode: 'markdown',
+                mode: 'javascript',
                 theme: 'material',
                 lineNumbers: true,
                 scrollbarStyle: null,
