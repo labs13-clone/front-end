@@ -78,7 +78,6 @@ const SearchChallenges = (props) => {
   }
 
 
-  console.log('categories', categories, challenges)
   return (
     <div >
         <CategoriesFilter categories={categories}/>
