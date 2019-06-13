@@ -56,26 +56,23 @@ const SearchChallenges = (props) => {
 
   function filterByDifficulty (level) {
       setDifficulty(level);
-      let hardnessLevel;
       
-      challenges.forEach(challenge => {
-        if(challenge.difficulty >= 1 && challenge.difficulty <=33) {
-          hardnessLevel = 'easy';
+      
+      let filtered;
+      
+        if(level === 'easy') {
+          filtered = challenges.filter(challenge => challenge.difficulty >=1 && challenge.difficulty <=33);
+        } else if (level === 'medium') {
+          filtered = challenges.filter(challenge => challenge.difficulty >=34 && challenge.difficulty <=66);
+        } else if(level === 'hard') {
+          filtered = challenges.filter(challenge => challenge.difficulty >=67 && challenge.difficulty <=100);
         }
 
-        if(challenge.difficulty >= 34 && challenge.difficulty <=66) {
-          hardnessLevel = 'medium';
-        }
-
-        if(challenge.difficulty >= 35 && challenge.difficulty <=100) {
-          hardnessLevel = 'hard';
-        }
-      });
-
-      const filtered = challenges.filter(challenge => hardnessLevel === level);
       //const filtered = challenges.filter(challenge => challenge.difficulty.toLowerCase() === level.toLowerCase());
       setFiltered(filtered); 
   }
+
+  console.log(challenges);
 
 
   return (
