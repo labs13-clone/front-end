@@ -13,12 +13,12 @@ function CreateChallenge(props) {
     }
 
     
-    let [tests, setTests] = useState([{value1: "", value2: "", value3: ""}])
+    let [tests, setTests] = useState([{descriptor: "", arguments: "", expected_return_value: ""}])
     let [buttonState, setButtonState] = useState(true)
 
     useEffect(() => {
         const myArray = tests.map(e => {
-            if(e.value1 !== "" && e.value2 !== "" && e.value3 !== ""){
+            if(e.descriptor !== "" && e.arguments !== "" && e.expected_return_value !== ""){
                 return true
             } else {
                 return false
@@ -32,7 +32,6 @@ function CreateChallenge(props) {
                 return false
             }
         });
-        console.log(bool);
         setButtonState(bool);
     }, [tests]);
 
@@ -40,7 +39,7 @@ function CreateChallenge(props) {
     function addTest(e) {
         e.preventDefault();
         const values = [...tests]
-        values.push({value1: "", value2: "", value3: ""});
+        values.push({descriptor: "", arguments: "", expected_return_value: ""});
         setTests(values)
     }
 
@@ -96,22 +95,22 @@ function CreateChallenge(props) {
                         return (<div>
                             <h2>Test {index + 1}</h2>
                             <input
-                                value={tests[index].value1}
-                                name="value1"
+                                value={tests[index].descriptor}
+                                name="descriptor"
                                 placeholder="descriptor"
                                 onChange={e => handleChanges(index, e)}
                                 required
                             />
                             <input
-                                value={tests[index].value2}
-                                name="value2"
+                                value={tests[index].arguments}
+                                name="arguments"
                                 placeholder="arguments"
                                 onChange={e => handleChanges(index, e)}
                                 required
                             />
                             <input
-                                value={tests[index].value3}
-                                name="value3"
+                                value={tests[index].expected_return_value}
+                                name="expected_return_value"
                                 placeholder="expected return value"
                                 onChange={e => handleChanges(index, e)}
                                 required
