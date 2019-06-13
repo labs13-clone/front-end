@@ -1,17 +1,40 @@
 .landingContainer {
-  width: 800px;
-  margin: 0 auto;
-  background-color:#000033;
+  background-color:#060d24;
   color:white;
-}
-h1{
-  color:#0000FF;
-}
-header{
+ }
+ .landingContent{
+  margin: 0 auto;
+  width: 1000px;
+ }
+ .landingContent h1{
+  color:#009dc4;
+  margin-bottom: 30px;
+ }
+ .landingContent header{
     display:flex;
   justify-content: space-between;
-}
-.topText{
+  padding-top: 30px;
+ }
+ .topText{
   display:flex;
-}
-
+  width:50%;
+  margin-bottom: 100px;
+  margin-top: 50px;
+ 
+ }
+ .landingBody{
+  background-color:white;
+  color: black;
+  display: flex;
+  padding:80px;
+ }
+ .landingBody p{
+ border: 10px black;
+ }
+ header button{
+  margin-left: 30px;
+  margin-top: 30px;
+  padding:10px 40px;
+  color: white;
+  background-color:#060d24;
+ }
