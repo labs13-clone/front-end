@@ -1,23 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import './ChallengeCard.css';
 
 const ChallengeCard = (props) => {
 
-    const [difficulty, setDifficulty] = useState('easy');
+    const [difficulty, setDifficulty] = useState('Easy');
 
-    function convirtToAString () {
+    useEffect(() => {
+        const level = props.challenge.difficulty;
+        convirtToAString(level);
+    }, []);
+
+    function convirtToAString (level) {
         
-            if(props.challenge.difficulty >= 1 && props.challenge.difficulty <=33) {
-                setDifficulty('easy');
+            if(level >= 1 && level <=33) {
+                setDifficulty('Easy');
             }
     
-            if(props.challenge.difficulty >= 34 && props.challenge.difficulty <=66) {
-                setDifficulty('meduim');
+            if(level >= 34 && level <=66) {
+                setDifficulty('Medium');
             }
     
-            if(props.challenge.difficulty >= 35 && props.challenge.difficulty <=100) {
-                setDifficulty('hard');
+            if(level >= 67 && level <=100) {
+                setDifficulty('Hard');
         }
 
     }
@@ -33,8 +38,7 @@ const ChallengeCard = (props) => {
                 </p>
                 <div className="header-flex">
                     <div>
-                        <button className="category">Math</button>
-                        <button className="category">Algorithms</button>
+                        <div className="category">{props.challenge.categories[0].name}</div>
                     </div>
                     <div>{difficulty}</div>
                 </div>

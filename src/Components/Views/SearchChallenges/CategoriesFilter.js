@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 
 const CategoriesFilter = (props) => {
@@ -7,7 +7,7 @@ const CategoriesFilter = (props) => {
 
   return (
     <div >
-        <select>
+        <select onChange={(e) => props.filterByCategory(e.target.value)}>
             {props.categories.map(category => <option key={category.id} value={category.name}>{category.name}</option>)}
         </select>
     </div>
