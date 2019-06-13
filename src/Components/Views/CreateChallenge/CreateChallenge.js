@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
 
 import Editor from '../../Shared/Editor/Editor';
@@ -13,12 +13,33 @@ function CreateChallenge(props) {
     }
 
     
-    let [tests, setTests] = useState([{value1: null, value2: null, value3: null}])
+    let [tests, setTests] = useState([{descriptor: "", arguments: "", expected_return_value: ""}])
+    let [buttonState, setButtonState] = useState(true)
+
+    useEffect(() => {
+        const myArray = tests.map(e => {
+            if(e.descriptor !== "" && e.arguments !== "" && e.expected_return_value !== ""){
+                return true
+            } else {
+                return false
+            }	
+        })
+        
+        const bool = myArray.every(e => {
+            if(e===true){ 
+                return true
+            } else {
+                return false
+            }
+        });
+        setButtonState(bool);
+    }, [tests]);
+
 
     function addTest(e) {
         e.preventDefault();
         const values = [...tests]
-        values.push({value1: null, value2: null, value3: null});
+        values.push({descriptor: "", arguments: "", expected_return_value: ""});
         setTests(values)
     }
 
@@ -74,22 +95,22 @@ function CreateChallenge(props) {
                         return (<div>
                             <h2>Test {index + 1}</h2>
                             <input
-                                value={tests[index].value1}
-                                name="value1"
+                                value={tests[index].descriptor}
+                                name="descriptor"
                                 placeholder="descriptor"
                                 onChange={e => handleChanges(index, e)}
                                 required
                             />
                             <input
-                                value={tests[index].value2}
-                                name="value2"
+                                value={tests[index].arguments}
+                                name="arguments"
                                 placeholder="arguments"
                                 onChange={e => handleChanges(index, e)}
                                 required
                             />
                             <input
-                                value={tests[index].value3}
-                                name="value3"
+                                value={tests[index].expected_return_value}
+                                name="expected_return_value"
                                 placeholder="expected return value"
                                 onChange={e => handleChanges(index, e)}
                                 required
@@ -97,8 +118,8 @@ function CreateChallenge(props) {
                             <button id={index} onClick={e => removeTest(e)}>Remove Test</button>
                         </div>)
                     })}
-                <button onClick={(e) => addTest(e)}>Add Test</button>
-                <button>Submit</button>
+                <button disabled={!buttonState} onClick={(e) => addTest(e)}>Add Test</button>
+                <button disabled={!buttonState}>Submit</button>
                 </form>
             </div>
             <div>
