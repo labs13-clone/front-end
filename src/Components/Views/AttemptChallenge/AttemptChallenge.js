@@ -29,7 +29,6 @@ function AttemptChallenge(props) {
                 });
 
             } else {
-                //console.log(res.data)
                 let userSub;
                 res.data.forEach(subs => {
                     if(Number(subs.challenge_id)===Number(props.match.params.id)){
