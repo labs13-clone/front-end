@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
 
 import Editor from '../../Shared/Editor/Editor';
@@ -13,12 +13,34 @@ function CreateChallenge(props) {
     }
 
     
-    let [tests, setTests] = useState([{value1: null, value2: null, value3: null}])
+    let [tests, setTests] = useState([{value1: "", value2: "", value3: ""}])
+    let [buttonState, setButtonState] = useState(true)
+
+    useEffect(() => {
+        const myArray = tests.map(e => {
+            if(e.value1 !== "" && e.value2 !== "" && e.value3 !== ""){
+                return true
+            } else {
+                return false
+            }	
+        })
+        
+        const bool = myArray.every(e => {
+            if(e===true){ 
+                return true
+            } else {
+                return false
+            }
+        });
+        console.log(bool);
+        setButtonState(bool);
+    }, [tests]);
+
 
     function addTest(e) {
         e.preventDefault();
         const values = [...tests]
-        values.push({value1: null, value2: null, value3: null});
+        values.push({value1: "", value2: "", value3: ""});
         setTests(values)
     }
 
@@ -97,8 +119,8 @@ function CreateChallenge(props) {
                             <button id={index} onClick={e => removeTest(e)}>Remove Test</button>
                         </div>)
                     })}
-                <button onClick={(e) => addTest(e)}>Add Test</button>
-                <button>Submit</button>
+                <button disabled={!buttonState} onClick={(e) => addTest(e)}>Add Test</button>
+                <button disabled={!buttonState}>Submit</button>
                 </form>
             </div>
             <div>

@@ -8,3 +8,11 @@
     height: 300px;
     background-color: yellow;
 }
+
+.hide-button{
+    display: none;
+}
+
+.show-button{
+    display: inline;
+}
