@@ -10,6 +10,7 @@ const SearchChallenges = (props) => {
    
   const [challenges, setChallenges] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState('Strings');
   const [difficulty, setDifficulty] = useState('easy');
 
   const [filtered, setFiltered] = useState([]);
@@ -30,7 +31,11 @@ const SearchChallenges = (props) => {
                 }
         });
         setChallenges(result.data);
-        setFiltered(result.data);
+        const defaultData = result.data.filter(challenge => {
+          return challenge.difficulty >=1 && challenge.difficulty <=33 &&  challenge.categories[0].name === 'Strings'
+        });
+        console.log(defaultData);
+        setFiltered(defaultData);
             
         } catch (e) {
             console.log(e);
@@ -52,35 +57,54 @@ const SearchChallenges = (props) => {
           console.log(e);
       }
   }
+  
+  function filterByCategory (newCategory) {
+    setCategory(newCategory);
+      
+    let filtered;
+    let filterByCategory;
+    
+      if(difficulty === 'easy') {
+        filtered = challenges.filter(challenge => challenge.difficulty >=1 && challenge.difficulty <=33);
+        filterByCategory = filtered.filter(challenge => challenge.categories[0].name === newCategory);
+        console.log('category', category);
+      } else if (difficulty === 'medium') {
+        filtered = challenges.filter(challenge => challenge.difficulty >=34 && challenge.difficulty <=66);
+        filterByCategory = filtered.filter(challenge => challenge.categories[0].name === newCategory);
+      } else if(difficulty === 'hard') {
+        filtered = challenges.filter(challenge => challenge.difficulty >=67 && challenge.difficulty <=100);
+        filterByCategory = filtered.filter(challenge => challenge.categories[0].name === newCategory);
+      }
+    setFiltered(filterByCategory); 
+  }
 
   function filterByDifficulty (level) {
       setDifficulty(level);
-      let hardnessLevel;
       
-      challenges.forEach(challenge => {
-        if(challenge.difficulty >= 1 && challenge.difficulty <=33) {
-          hardnessLevel = 'easy';
+      let filtered;
+      let filterByCategory;
+      
+        if(level === 'easy') {
+          filtered = challenges.filter(challenge => challenge.difficulty >=1 && challenge.difficulty <=33);
+          filterByCategory = filtered.filter(challenge => challenge.categories[0].name === category);
+          console.log('category', category);
+        } else if (level === 'medium') {
+          filtered = challenges.filter(challenge => challenge.difficulty >=34 && challenge.difficulty <=66);
+          filterByCategory = filtered.filter(challenge => challenge.categories[0].name === category);
+        } else if(level === 'hard') {
+          filtered = challenges.filter(challenge => challenge.difficulty >=67 && challenge.difficulty <=100);
+          filterByCategory = filtered.filter(challenge => challenge.categories[0].name === category);
         }
-
-        if(challenge.difficulty >= 34 && challenge.difficulty <=66) {
-          hardnessLevel = 'medium';
-        }
-
-        if(challenge.difficulty >= 35 && challenge.difficulty <=100) {
-          hardnessLevel = 'hard';
-        }
-      });
-
-      const filtered = challenges.filter(challenge => hardnessLevel === level);
-      //const filtered = challenges.filter(challenge => challenge.difficulty.toLowerCase() === level.toLowerCase());
-      setFiltered(filtered); 
+      setFiltered(filterByCategory); 
   }
+
+  console.log(category);
 
 
   return (
     <div >
-        <CategoriesFilter categories={categories}/>
-        <DifficultyLevels filterByDifficulty={filterByDifficulty}/>
+        <CategoriesFilter categories={categories} filterByCategory={filterByCategory}/>
+        <DifficultyLevels filterByDifficulty={filterByDifficulty} />
         <ChallengesContainer auth={props.auth} challenges={filtered}/>
     </div>
   );

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React from 'react';
+=======
+import React, { useState, useEffect } from 'react';
+>>>>>>> 30e08f5ebdbe19ab776d267858c9480a9190bf5e
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {difficultyToString} from '../../../Utility/difficultyToString';
@@ -47,8 +51,12 @@ const ChallengeCard = (props) => {
                 </p>
                 <div className="header-flex">
                     <div>
+<<<<<<< HEAD
                         {categories}
                         {approveButton}
+=======
+                        <div className="category">{props.challenge.categories[0].name}</div>
+>>>>>>> 30e08f5ebdbe19ab776d267858c9480a9190bf5e
                     </div>
                     <div>{difficultyToString(props.challenge.difficulty)}</div>
                 </div>
