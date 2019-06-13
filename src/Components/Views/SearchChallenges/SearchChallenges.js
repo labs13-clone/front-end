@@ -16,7 +16,6 @@ const SearchChallenges = (props) => {
 
   useEffect(() => {
     const token = props.auth.accessToken;
-    console.log('rendered1');
     getData(token);  
     getCategories(token);
   }, []);

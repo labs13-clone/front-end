@@ -1,5 +1,5 @@
 import React from "react";
-import LandingPageContent from "./LandingPageContent.js";
+import LandingPageContent from "../LandingPage/LandingPageContent.js";
 import "./LandingPage.css";
 
 const LandingPageContainer = props => {

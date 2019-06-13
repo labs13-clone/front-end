@@ -1,26 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
+import {difficultyToString} from '../../../Utility/difficultyToString';
 import './ChallengeCard.css';
 
 const ChallengeCard = (props) => {
 
-    const [difficulty, setDifficulty] = useState('easy');
+    const categories = props.challenge.categories.map(cat => <button key={cat.id} className="category">{cat.name}</button>);
 
-    function convirtToAString () {
-        
-            if(props.challenge.difficulty >= 1 && props.challenge.difficulty <=33) {
-                setDifficulty('easy');
-            }
-    
-            if(props.challenge.difficulty >= 34 && props.challenge.difficulty <=66) {
-                setDifficulty('meduim');
-            }
-    
-            if(props.challenge.difficulty >= 35 && props.challenge.difficulty <=100) {
-                setDifficulty('hard');
-        }
+    console.log(props.challenge)
 
-    }
     return (
         <Link to={`/challenges/${props.challenge.id}`}>
             <div className="challenge-wrapper">
@@ -33,10 +21,9 @@ const ChallengeCard = (props) => {
                 </p>
                 <div className="header-flex">
                     <div>
-                        <button className="category">Math</button>
-                        <button className="category">Algorithms</button>
+                        {categories}
                     </div>
-                    <div>{difficulty}</div>
+                    <div>{difficultyToString(props.challenge.difficulty)}</div>
                 </div>
             </div>
         </Link>

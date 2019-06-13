@@ -101,10 +101,10 @@ const TabsView = (props) => {
                 <p id="unapproved" className="tab-btn" onClick={toggleTab}>Unapproved Challenges</p>
             </div>
 
-            {tab === 'started' && <ChallengesContainer challenges={challenges}/>}
-            {tab === 'completed' && <ChallengesContainer challenges={challenges}/>}
-            {tab === 'created' && <ChallengesContainer challenges={challenges}/>}
-            {tab === 'unapproved' && <ChallengesContainer challenges={challenges}/>}
+            {tab === 'started' && <ChallengesContainer challenges={challenges} auth={props.auth}/>}
+            {tab === 'completed' && <ChallengesContainer challenges={challenges} auth={props.auth}/>}
+            {tab === 'created' && <ChallengesContainer challenges={challenges} auth={props.auth}/>}
+            {tab === 'unapproved' && <ChallengesContainer challenges={challenges} auth={props.auth}/>}
 
         </div>
     );
