@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
+import axios from 'axios';
+import worker_script from "../../../Utility/worker";
 
 import Editor from '../../Shared/Editor/Editor';
 import "./CreateChallenge.css"
 
 
 function CreateChallenge(props) {
+    let payload = {}
     let [markdownInput, setMarkdownInput] = useState('')
+    let [title, setTitle] = useState("")
+    let [difficulty, setDifficulty] = useState("")
+    let [category, setCategory] = useState("")
+    let [tests, setTests] = useState([{descriptor: "", argumentsToPass: [], expectedResult: ""}])
+    let [buttonState, setButtonState] = useState(true)
+    let [javascriptInput, setJavascriptInput] = useState('')
+    let [javascriptSolutionInput, setjavascriptSolutionInput] = useState('')
+    const [passed, setPassed] = useState(false);
 
     function handEditorleInputChange(editor, data, code){
         setMarkdownInput(code);
+        payload.description = markdownInput
     }
-
-    
-    let [tests, setTests] = useState([{descriptor: "", arguments: "", expected_return_value: ""}])
-    let [buttonState, setButtonState] = useState(true)
 
     useEffect(() => {
         const myArray = tests.map(e => {
-            if(e.descriptor !== "" && e.arguments !== "" && e.expected_return_value !== ""){
+            if(e.descriptor !== "" && e.expectedResult !== ""){
                 return true
             } else {
                 return false
@@ -35,11 +43,37 @@ function CreateChallenge(props) {
         setButtonState(bool);
     }, [tests]);
 
+    useEffect(() => {
+        if (window.Worker) {
+            window.worker = new Worker(worker_script);
+              window.worker.onmessage = (e) => {
+                setPassed([e.data.toString()]);
+              }
+              window.worker.onerror = (e) => {
+                window.worker.terminate();
+                }
+        } else {
+            console.log('Your browser doesn\'t support web workers.');
+            // todo : send alert to user and redirect home
+        }
+        return () => {
+            window.worker.terminate();
+            window.worker = undefined;
+        }
+    }, [])
+
+    function runTests(){ 
+        const testArray = tests.map(obj => {
+            obj.argumentsToPass = eval(obj.argumentsToPass);
+            return obj;
+        })
+        window.worker.postMessage({msg:"run_tests",code:javascriptSolutionInput,tests:tests});
+    };
 
     function addTest(e) {
         e.preventDefault();
         const values = [...tests]
-        values.push({descriptor: "", arguments: "", expected_return_value: ""});
+        values.push({descriptor: "", argumentsToPass: "", expectedResult: ""});
         setTests(values)
     }
 
@@ -54,12 +88,42 @@ function CreateChallenge(props) {
         const values = [...tests]
         values[i][e.target.name] = e.target.value;
         setTests(values)
+        payload.tests = tests
     }
-
-    let [javascriptInput, setJavascriptInput] = useState('')
 
     function handleInputChange(editor, data, code){
         setJavascriptInput(code);
+        payload.skeleton_function = javascriptInput
+        console.log(payload)
+    }
+
+    function handleSolutionInputChange(editor, data, code){
+        setjavascriptSolutionInput(code);
+    }
+
+    function handleTitleChanges(e) {
+        e.preventDefault()
+        let values = [...title]
+        values = e.target.value;
+        setTitle(values)
+        payload.title = title
+    }
+
+    function handleDifficultyChanges(e) {
+        e.preventDefault()
+        let values = [...difficulty]
+        values = e.target.value;
+        setDifficulty(values)
+        payload.difficulty = difficulty
+    }
+
+    function handleCategoryChanges(e) {
+        e.preventDefault()
+        let values = [...category]
+        values = e.target.value;
+        setCategory(values)
+        payload.category = category
+        console.log(payload)
     }
 
     return(
@@ -68,11 +132,11 @@ function CreateChallenge(props) {
                 <h3>Meta</h3>
                 <form>
                     <h4>Title</h4>
-                    <input/>
+                    <input value={title} onChange={e => handleTitleChanges(e)}/>
                     <h4>Difficulty</h4>
-                    <input/>
-                    <h4>Tags</h4>
-                    <input/>
+                    <input value={difficulty} onChange={e => handleDifficultyChanges(e)}/>
+                    <h4>Categories</h4>
+                    <input value={category} onChange={e => handleCategoryChanges(e)}/>
                 </form>
             </div>
             <div className="instructions-container">
@@ -102,15 +166,15 @@ function CreateChallenge(props) {
                                 required
                             />
                             <input
-                                value={tests[index].arguments}
-                                name="arguments"
-                                placeholder="arguments"
+                                value={tests[index].argumentsToPass}
+                                name="argumentsToPass"
+                                placeholder="Arguments to pass"
                                 onChange={e => handleChanges(index, e)}
                                 required
                             />
                             <input
-                                value={tests[index].expected_return_value}
-                                name="expected_return_value"
+                                value={tests[index].expectedResult}
+                                name="expectedResult"
                                 placeholder="expected return value"
                                 onChange={e => handleChanges(index, e)}
                                 required
@@ -124,13 +188,26 @@ function CreateChallenge(props) {
             </div>
             <div>
                 <div>
+                <h1>skeleton</h1>
                     <Editor
-                        input={javascriptInput}
+                        code={javascriptInput}
                         theme={'material'}
                         mode={'javascript'}
                         changeHandler={handleInputChange}
                         auth={props.auth}
                     />
+                </div>
+                <div>
+                    <h1>solution</h1>
+                    <h2>{passed.toString()}</h2>
+                    <Editor
+                        code={javascriptSolutionInput}
+                        theme={'material'}
+                        mode={'javascript'}
+                        changeHandler={handleSolutionInputChange}
+                        auth={props.auth}
+                    />
+                    <button onClick={runTests}>Run Tests</button>
                 </div>
             </div>
         </div>
