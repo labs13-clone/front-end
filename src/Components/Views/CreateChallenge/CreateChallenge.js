@@ -8,7 +8,7 @@ import "./CreateChallenge.css"
 function CreateChallenge(props) {
     let [markdownInput, setMarkdownInput] = useState('')
 
-    function handleInputChange(editor, data, code){
+    function handEditorleInputChange(editor, data, code){
         setMarkdownInput(code);
     }
 
@@ -81,10 +81,10 @@ function CreateChallenge(props) {
             </div>
             <div className="creation-editor-container">
                 <Editor
-                    input={markdownInput}
+                    code={markdownInput}
                     theme={'material'}
                     mode={'markdown'}
-                    changeHandler={handleInputChange}
+                    changeHandler={handEditorleInputChange}
                     auth={props.auth}
                 />
                 <ReactMarkdown source={markdownInput} className="markdown-render"/>
