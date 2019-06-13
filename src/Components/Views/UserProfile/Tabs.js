@@ -64,7 +64,7 @@ const TabsView = (props) => {
         //Request the challenges or submissions from the api
         axios({
             method: 'get',
-            url: `https://clone-coding-server.herokuapp.com/api/${endpoint}${objToQuery(filter)}`,
+            url: `${process.env.REACT_APP_SERVER}/api/${endpoint}${objToQuery(filter)}`,
             headers: {
                 Authorization: `Bearer ${token}`
             }
