@@ -11,33 +11,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.editor {
-  /* display: flex; */
-  width: 45%;
-  margin: 150px auto;
-}
-
-.playground {
-  background-color: #1E1E2C;
-}
-
-.code-editor {
-  height: 300px;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-}
-
-.editor-header {
-  height: 30px;
-  content: attr(title);
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-  font-size: 18px;
-  color: #fafafa;
-}
-
 .react-codemirror2 {
   max-height: 100%;
   width:430px;
