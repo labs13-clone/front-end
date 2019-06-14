@@ -90,7 +90,6 @@ function CreateChallenge(props) {
     }
 
     function runTests(){ 
-        console.log('hi')
         const testArray = tests.map(obj => {
             if(obj.argumentsToPass === "") {
                 obj.argumentsToPass = "[]"
@@ -155,7 +154,7 @@ function CreateChallenge(props) {
 
     function postForChallengeCreation(event, token, payload) {
         event.preventDefault();
-        if(passed === true) {
+        // if(passed === true) {
             axios({
                     method: 'post', 
                     url: `${process.env.REACT_APP_SERVER}/api/challenges`,
@@ -170,9 +169,9 @@ function CreateChallenge(props) {
             .catch(err => {
                 console.log(err, err.message, process.env.REACT_APP_SERVER)
             })
-        } else {
-            alert("the challenge didn't pass")
-        }
+        // } else {
+        //     alert("the challenge didn't pass")
+        // }
     };
 
     return(
@@ -251,9 +250,6 @@ function CreateChallenge(props) {
             <button onClick={clearConsole}>Clear Console</button>
 
             <Console output={output} style={{width: "63%"}}/>
-            {/* <div className="console-div">
-                <p>{passed.toString()}</p>            
-            </div> */}
 
             <div className="create-challenge-tests">
                 <form className="tests-form">

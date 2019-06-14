@@ -83,13 +83,15 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
+let _tmp_build_4e72d605dfab05b7ab8326d010a1b739_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = {}
+
 class Test {
     constructor(params) {
         this.tests = params.tests;
         this.solution = params.solution;
         this.results = [];
         this.passed = true;
-
+        
         this.tests.forEach(({descriptor, argumentsToPass, expectedResult}) => {
 
             argumentsToPass = argumentsToPass.map(arg => {
