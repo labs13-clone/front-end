@@ -40,6 +40,8 @@ body {
 
 .react-codemirror2 {
   max-height: 100%;
+  width:430px;
+  margin-top:20px;
 }
 
 .result {
@@ -57,4 +59,10 @@ body {
 .tests {
   margin: 0 5px;
   background-color: red;
+}
+
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }

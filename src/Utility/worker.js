@@ -124,12 +124,16 @@ class Test {
 
                         const capture = testFunc();
                         if(capture===undefined){
-                            self.postMessage("undefined"); // eslint-disable-line no-restricted-globals
+                          self.postMessage({msg:"run_code",result:"undefined"}); // eslint-disable-line no-restricted-globals
+                          //self.postMessage("undefined"); // eslint-disable-line no-restricted-globals
                         } else{
-                            self.postMessage(capture); // eslint-disable-line no-restricted-globals
+                          self.postMessage({msg:"run_code",result:capture}); // eslint-disable-line no-restricted-globals
+                          //self.postMessage(capture); // eslint-disable-line no-restricted-globals
                         }
                     }catch(err){
-                        self.postMessage(err.stack.toString()); // eslint-disable-line no-restricted-globals
+                        self.postMessage({msg:"run_code",result:err.stack.toString()}); // eslint-disable-line no-restricted-globals
+
+                        //self.postMessage(err.stack.toString()); // eslint-disable-line no-restricted-globals
                     }
                     break;
                 case 'run_tests':
@@ -138,10 +142,12 @@ class Test {
                         const tests = e.data.tests
                         const runTest = new Test({solution:solution,tests:tests});
                         
-                        self.postMessage(runTest.passed); // eslint-disable-line no-restricted-globals
-                        
+                        //self.postMessage(runTest.passed); // eslint-disable-line no-restricted-globals
+                        self.postMessage({msg:"run_tests",result:runTest.passed}); // eslint-disable-line no-restricted-globals
+
                     }catch(err){
-                        self.postMessage(err.stack.toString()); // eslint-disable-line no-restricted-globals
+                        self.postMessage({msg:"run_code",result:err.stack.toString()}); // eslint-disable-line no-restricted-globals
+                        //self.postMessage(err.stack.toString()); // eslint-disable-line no-restricted-globals
                     }
                     break;
                 default:
