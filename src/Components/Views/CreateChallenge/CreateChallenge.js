@@ -8,12 +8,13 @@ import "./CreateChallenge.css"
 
 
 function CreateChallenge(props) {
-    let payload = {}
+    const accessToken = props.auth.accessToken;
+    let [payload, setPayload] = useState({})
     let [markdownInput, setMarkdownInput] = useState('')
     let [title, setTitle] = useState("")
-    let [difficulty, setDifficulty] = useState("")
+    let [difficulty, setDifficulty] = useState(1)
     let [category, setCategory] = useState("")
-    let [tests, setTests] = useState([{descriptor: "", argumentsToPass: [], expectedResult: ""}])
+    let [tests, setTests] = useState([{descriptor: "", argumentsToPass: "", expectedResult: ""}])
     let [buttonState, setButtonState] = useState(true)
     let [javascriptInput, setJavascriptInput] = useState('')
     let [javascriptSolutionInput, setjavascriptSolutionInput] = useState('')
@@ -21,7 +22,7 @@ function CreateChallenge(props) {
 
     function handEditorleInputChange(editor, data, code){
         setMarkdownInput(code);
-        payload.description = markdownInput
+        setPayload({...payload, description:code})
     }
 
     useEffect(() => {
@@ -47,7 +48,7 @@ function CreateChallenge(props) {
         if (window.Worker) {
             window.worker = new Worker(worker_script);
               window.worker.onmessage = (e) => {
-                setPassed([e.data.toString()]);
+                setPassed(e.data.toString() == "true");
               }
               window.worker.onerror = (e) => {
                 window.worker.terminate();
@@ -64,6 +65,9 @@ function CreateChallenge(props) {
 
     function runTests(){ 
         const testArray = tests.map(obj => {
+            if(obj.argumentsToPass === "") {
+                obj.argumentsToPass = "[]"
+            }
             obj.argumentsToPass = eval(obj.argumentsToPass);
             return obj;
         })
@@ -88,17 +92,17 @@ function CreateChallenge(props) {
         const values = [...tests]
         values[i][e.target.name] = e.target.value;
         setTests(values)
-        payload.tests = tests
+        setPayload({...payload, tests:values})
     }
 
     function handleInputChange(editor, data, code){
         setJavascriptInput(code);
-        payload.skeleton_function = javascriptInput
-        console.log(payload)
+        setPayload({...payload, skeleton_function:code})
     }
 
     function handleSolutionInputChange(editor, data, code){
         setjavascriptSolutionInput(code);
+        setPayload({...payload, solution:code})
     }
 
     function handleTitleChanges(e) {
@@ -106,15 +110,13 @@ function CreateChallenge(props) {
         let values = [...title]
         values = e.target.value;
         setTitle(values)
-        payload.title = title
+        setPayload({...payload, title:values})
     }
 
     function handleDifficultyChanges(e) {
         e.preventDefault()
-        let values = [...difficulty]
-        values = e.target.value;
-        setDifficulty(values)
-        payload.difficulty = difficulty
+        setDifficulty(parseInt(e.target.value, 10))
+        setPayload({...payload, difficulty:parseInt(e.target.value, 10)})
     }
 
     function handleCategoryChanges(e) {
@@ -122,9 +124,29 @@ function CreateChallenge(props) {
         let values = [...category]
         values = e.target.value;
         setCategory(values)
-        payload.category = category
-        console.log(payload)
     }
+
+    function postForChallengeCreation(event, token, payload) {
+        event.preventDefault();
+        if(passed === true) {
+            axios({
+                    method: 'post', 
+                    url: `${process.env.REACT_APP_SERVER}/api/challenges`,
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    data: payload
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err, err.message, process.env.REACT_APP_SERVER)
+            })
+        } else {
+            alert("the challenge didn't pass")
+        }
+    };
 
     return(
         <div>
@@ -134,7 +156,12 @@ function CreateChallenge(props) {
                     <h4>Title</h4>
                     <input value={title} onChange={e => handleTitleChanges(e)}/>
                     <h4>Difficulty</h4>
-                    <input value={difficulty} onChange={e => handleDifficultyChanges(e)}/>
+                    <select onChange={e => handleDifficultyChanges(e)}>
+                        <option>Select</option>
+                        <option value="16">Easy</option>
+                        <option value="50">Medium</option>
+                        <option value="75">Hard</option>
+                    </select>
                     <h4>Categories</h4>
                     <input value={category} onChange={e => handleCategoryChanges(e)}/>
                 </form>
@@ -183,7 +210,7 @@ function CreateChallenge(props) {
                         </div>)
                     })}
                 <button disabled={!buttonState} onClick={(e) => addTest(e)}>Add Test</button>
-                <button disabled={!buttonState}>Submit</button>
+                <button disabled={!buttonState} onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit</button>
                 </form>
             </div>
             <div>
