@@ -21,14 +21,14 @@ const TabsView = (props) => {
         switch (tab) {
             case "started":
 
-                endpoint = 'submissions';
+                endpoint = 'challenges';
                 filter.completed = 0;
                 filter.created_by = props.auth.user.id;
                 break;
 
             case "completed":
 
-                endpoint = 'submissions';
+                endpoint = 'challenges';
                 filter.completed = 1;
                 filter.created_by = props.auth.user.id;
                 break;
@@ -37,6 +37,7 @@ const TabsView = (props) => {
 
                 endpoint = 'challenges';
                 filter.approved = 1;
+                filter.created_by = props.auth.user.id;
 
                 //If the user is not an admin Then only return their challenges
                 if (props.auth.user.role !== 'admin') {
@@ -61,6 +62,8 @@ const TabsView = (props) => {
                 break;
         }
 
+        console.log(endpoint, objToQuery(filter))
+
         //Request the challenges or submissions from the api
         axios({
             method: 'get',
@@ -70,6 +73,7 @@ const TabsView = (props) => {
             }
         })
         .then(response => {
+            console.log(response.data)
             setChallenges(response.data);
         })
         .catch(err => {

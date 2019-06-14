@@ -5,6 +5,8 @@ import ChallengeCard from '../ChallengeCard/ChallengeCard';
 
 const ChallengesContainer = (props) => {
 
+  console.log(props)
+
   return (
     <div >
         {props.challenges.map(challenge => <ChallengeCard key={challenge.id} challenge={challenge} auth={props.auth}/>)}
