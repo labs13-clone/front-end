@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React from 'react';
-=======
-import React, { useState, useEffect } from 'react';
->>>>>>> 30e08f5ebdbe19ab776d267858c9480a9190bf5e
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {difficultyToString} from '../../../Utility/difficultyToString';
@@ -13,7 +9,7 @@ const ChallengeCard = (props) => {
     const categories = props.challenge.categories.map(cat => <button key={cat.id} className="category">{cat.name}</button>);
 
     //Button click handler that approves a challenge
-    const approveChallenge = id => {
+    const approveChallenge = _ => {
 
         //Update the challenge
         axios({
@@ -37,7 +33,7 @@ const ChallengeCard = (props) => {
 
     //Only show the approve button if the challenge is not approved
     //AND only show it if the user is an admin
-    const approveButton = (!props.challenge.approved && props.auth.user.role === 'admin') && <button onClick={approveChallenge(props.challenge.id)}>Approve Challenge</button>
+    const approveButton = (!props.challenge.approved && props.auth.user.role === 'admin') && <button onClick={approveChallenge()}>Approve Challenge</button>
 
     return (
         <Link to={`/challenges/${props.challenge.id}`}>
@@ -51,12 +47,8 @@ const ChallengeCard = (props) => {
                 </p>
                 <div className="header-flex">
                     <div>
-<<<<<<< HEAD
                         {categories}
                         {approveButton}
-=======
-                        <div className="category">{props.challenge.categories[0].name}</div>
->>>>>>> 30e08f5ebdbe19ab776d267858c9480a9190bf5e
                     </div>
                     <div>{difficultyToString(props.challenge.difficulty)}</div>
                 </div>
