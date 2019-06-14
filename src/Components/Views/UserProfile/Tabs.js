@@ -14,28 +14,23 @@ const TabsView = (props) => {
     useEffect(() => {
 
         //Create empty endpoint string and filter object
-        let endpoint = '';
         const filter = {};
 
         //Toggle the endpoint and filters Depending on which tab is being shown
         switch (tab) {
+
             case "started":
 
-                endpoint = 'challenges';
-                filter.completed = 0;
-                filter.created_by = props.auth.user.id;
+                filter.started = 1;
                 break;
 
             case "completed":
 
-                endpoint = 'challenges';
                 filter.completed = 1;
-                filter.created_by = props.auth.user.id;
                 break;
 
             case "created":
 
-                endpoint = 'challenges';
                 filter.approved = 1;
                 filter.created_by = props.auth.user.id;
 
@@ -48,7 +43,6 @@ const TabsView = (props) => {
 
             case "unapproved":
 
-                endpoint = 'challenges';
                 filter.approved = 0;
 
                 //If the user is not an admin Then only return their challenges
@@ -62,18 +56,15 @@ const TabsView = (props) => {
                 break;
         }
 
-        console.log(endpoint, objToQuery(filter))
-
         //Request the challenges or submissions from the api
         axios({
             method: 'get',
-            url: `${process.env.REACT_APP_SERVER}/api/${endpoint}${objToQuery(filter)}`,
+            url: `${process.env.REACT_APP_SERVER}/api/challenges${objToQuery(filter)}`,
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
         .then(response => {
-            console.log(response.data)
             setChallenges(response.data);
         })
         .catch(err => {
