@@ -8,10 +8,6 @@ require('codemirror/mode/javascript/javascript');
 
 const Editor = (props) => {
   return (
-    <div className="editor">
-      <section className="playground">
-        <div className="code-editor js-code">
-          <div className="editor-header">JavaScript</div>
           <CodeMirror
             value={props.code}
             options={{
@@ -23,10 +19,6 @@ const Editor = (props) => {
             }}
             onBeforeChange={props.changeHandler}
           />
-        </div>
-      </section>
-
-    </div>
   );
 }
 

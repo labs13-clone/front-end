@@ -3,45 +3,55 @@ import axios from "axios";
 import Editor from "../../Shared/Editor/Editor";
 import Console from "../../Shared/Console/Console";
 import worker_script from "../../../Utility/worker";
+import ReactMarkdown from 'react-markdown';
+import Modal from '@material-ui/core/Modal';
 
 function AttemptChallenge(props) {
 
     const [challenge, setChallenge] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [code, setCode] = useState("");
     const [output, setOutput] = useState([]);
     const [passed, setPassed] = useState(false);
     const [submissionID, setSubmissionID] = useState(null);
+    const [submission, setSubmission] = useState(null);
+    const [completed, setCompleted] = useState(null);
+    const [modalState, setModalState] = useState(false)
 
     useEffect(() => {
         const accessToken = props.auth.accessToken;
          getSubmission(accessToken)
         .then(res=>{
+            setSubmission(res.data);
             if(res.data.length === 0){
+                setCompleted(false)
                 getData(accessToken)
                 .then(res => {
                     setChallenge(res.data[0]);
                     setCode(res.data[0].skeleton_function);
+                    setCategories(res.data[0].categories);
                     postSubmission(accessToken,res.data[0].skeleton_function)
                     .then(res => {
-                        setSubmissionID(res.data.id)
-    
+                        setSubmissionID(res.data.id);
                     });
                 });
 
             } else {
                 let userSub;
+                setCompleted(res.data[0].completed);
                 res.data.forEach(subs => {
                     if(Number(subs.challenge_id)===Number(props.match.params.id)){
-                        userSub = subs
+                        userSub = subs;
                     }
                 })
 
                 setCode(userSub.solution);
-                const subID = res.data.id;
+                const subID = res.data[0].id;
                 setSubmissionID(subID);
                 getData(accessToken)
                 .then(res => {
                     setChallenge(res.data[0]);
+                    setCategories(res.data[0].categories);
                 });
             }
             });
@@ -50,21 +60,47 @@ function AttemptChallenge(props) {
         if (window.Worker) {
             window.worker = new Worker(worker_script);
               window.worker.onmessage = (e) => {
-                setOutput([e.data.toString()]);
-              }
+                  switch (e.data.msg){
+                    case "run_code":
+                        setOutput([e.data.result.toString()]);
+                        break;
+                    case "run_tests":
+                        const testResult = (e.data.result.toString()==='true' ? true : false)
+                        setPassed(testResult);
+                        setCompleted(testResult);
+                        if(testResult){
+                            setOutput(["Passed Tests!!!",e.data.result.toString()]);
+                        }else{
+                            setOutput(["Not all tests passed",e.data.result.toString()]);
+                        }
+                        break;
+                    default:
+                        break;
+                  };
+                
+              };
               window.worker.onerror = (e) => {
                 window.worker.terminate();
-                }
+                };
         } else {
             console.log('Your browser doesn\'t support web workers.');
             // todo : send alert to user and redirect home
-        }
+        };
         return () => {
             window.worker.terminate();
             window.worker = undefined;
-        }
+        };
     }, []);
 
+
+    useEffect(() => {
+
+        if(submissionID!==null){
+            updateSubmission(props.auth.accessToken,code,submissionID,passed)
+            .then()
+            .catch();
+        }
+    },[passed]);
     
 
     async function getData(token) {
@@ -76,12 +112,10 @@ function AttemptChallenge(props) {
                     Authorization: `Bearer ${token}`
                 }
         }); 
-            // setChallenge(result.data[0]);
-            // setCode(result.data[0].solution);
-            return result
+            return result;
         } catch (e) {
-        }
-    }
+        };
+    };
 
     async function getSubmission(token) {
         try {
@@ -115,7 +149,7 @@ function AttemptChallenge(props) {
         };
     };
 
-    async function updateSubmission(token,solution,subID) {
+    async function updateSubmission(token,solution,subID,pass) {
         try {
             const result = await axios({
                 method: 'put', 
@@ -125,7 +159,7 @@ function AttemptChallenge(props) {
                          },
                 data: {
                         id: subID,
-                        completed: passed,
+                        completed: pass,
                         solution: solution
                       }
         });
@@ -144,19 +178,55 @@ function AttemptChallenge(props) {
     
     function runCode(){
         window.worker.postMessage({msg:"run_code",code});
-        updateSubmission(props.auth.accessToken,code,submissionID)
+        updateSubmission(props.auth.accessToken,code,submissionID,passed)
         .then()
-        .catch()
+        .catch();
     };
 
     function runTests(){
         window.worker.postMessage({msg:"run_tests",code,tests:challenge.tests});
+        // setModalState(!modalState);
+        // updateSubmission(props.auth.accessToken,code,submissionID,passed)
+        // .then()
+        // .catch();
+
     };
+
+    function modalCallback(){
+        setModalState(!modalState)
+    }
     
     return (
-        <div>
-            <Editor code={code} changeHandler={handleInputChange} mode={"javascript"}/>
-            <div style={{width:550,"margin":"0px auto"}}>
+        <div style={{"width":"900px", "margin":"0 auto"}}>
+            <h3 style={{color:"black","marginBottom":"5px"}}>{challenge.title}</h3>
+            <div style={{"display":"flex","justifyContent":"space-between","alignItems":"center","width":"900px", "margin":"0 auto"}}>
+                <div>
+                    {
+                        categories.map(e =>{
+                            return <span style={{"background":"grey","color":"white","margin":"5px","borderRadius":"5px","padding":"5px","fontSize":"12px"}}key={e.id}>{e.name}</span>
+                        })
+                    }
+                </div>
+                {
+                    (completed ? <span style={{"color":"darkgreen","fontWeight":"bold"}}>Completed</span>  : <span style={{"color":"crimson","fontWeight":"bold"}}>Uncompleted</span> )
+                }
+            </div>
+            <div style={{"display":"flex","justifyContent":"space-between","width":"900px", "margin":"0 auto"}}>  
+                <Editor code={code} changeHandler={handleInputChange} mode={"javascript"}/>
+                <div style={{"background":"#263238",color:"white","padding":"10px","marginTop":"20px","textDecoration":"none","width":"430px", "height":"280px","overflow":"scroll"}}>
+                    <h2 style={{"color":"white","marginTop":"0px","marginBottom":"0px"}}>Instructions</h2>
+                    <ReactMarkdown source={challenge.description} />
+                </div>
+            </div>
+            <Modal onClick={modalCallback} open={modalState} children={
+                <div style={{"display":"flex","justifyContent":"center","alignItems":"center","width":"200px","height":"200px","background":"white","color":"black","left":"50%","top":"50%","position":"absolute","transform": "translate(-57%, -40%)"}} onClick={modalCallback}>
+                    {
+                        (passed ? <h4>Passed Tests!!!</h4> : <h4>Not All the Tests Passed</h4>)
+                    }
+                </div>}
+            />
+            <br/>
+            <div style={{"display":"flex","justifyContent":"space-between","alignItems":"center","width":"300px"}}>
                 <button onClick={runCode}>Run Code</button>
                 <button onClick={runTests}>Run Tests</button>
                 <button onClick={clearConsole}>Clear Console</button>
