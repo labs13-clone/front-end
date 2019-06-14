@@ -117,6 +117,7 @@ class Test {
             switch (e.data.msg) {
                 case 'run_code':
                     try{
+                      console.log(e.data)
                         const testFunc = function(){
                             "use strict";
                             return eval(`${e.data.code}`);

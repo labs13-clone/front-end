@@ -5,6 +5,7 @@ import worker_script from "../../../Utility/worker";
 
 import Editor from '../../Shared/Editor/Editor';
 import "./CreateChallenge.css"
+import Console from "../../Shared/Console/Console";
 
 
 function CreateChallenge(props) {
@@ -18,12 +19,8 @@ function CreateChallenge(props) {
     let [buttonState, setButtonState] = useState(true)
     let [javascriptInput, setJavascriptInput] = useState('')
     let [javascriptSolutionInput, setjavascriptSolutionInput] = useState('')
-    const [passed, setPassed] = useState(false);
-
-    function handEditorleInputChange(editor, data, code){
-        setMarkdownInput(code);
-        setPayload({...payload, description:code})
-    }
+    let [passed, setPassed] = useState(false);
+    let [output, setOutput] = useState([]);
 
     useEffect(() => {
         const myArray = tests.map(e => {
@@ -47,10 +44,26 @@ function CreateChallenge(props) {
     useEffect(() => {
         if (window.Worker) {
             window.worker = new Worker(worker_script);
-              window.worker.onmessage = (e) => {
-                setPassed(e.data.toString() == "true");
-              }
-              window.worker.onerror = (e) => {
+            window.worker.onmessage = (e) => {
+                switch (e.data.msg){
+                    case "run_code":
+                        setPassed(e.data.result.toString() === "true" ? true : false);
+                        setOutput([e.data.result.toString()]);
+                        break;
+                    case "run_tests":
+                        const testResult = (e.data.result.toString()==='true' ? true : false)
+                        setPassed(testResult);
+                        if(testResult){
+                            setOutput(["Passed Tests!!!",e.data.result.toString()]);
+                        }else{
+                            setOutput(["Not all tests passed",e.data.result.toString()]);
+                        }
+                        break;
+                    default:
+                        break;
+                };
+            };
+            window.worker.onerror = (e) => {
                 window.worker.terminate();
                 }
         } else {
@@ -63,7 +76,21 @@ function CreateChallenge(props) {
         }
     }, [])
 
+    function clearConsole(){
+        setOutput([]);
+    };
+
+    function runCode(){
+        window.worker.postMessage({msg:"run_code", code:javascriptSolutionInput});
+    };
+
+    function handEditorleInputChange(editor, data, code){
+        setMarkdownInput(code);
+        setPayload({...payload, description:code})
+    }
+
     function runTests(){ 
+        console.log('hi')
         const testArray = tests.map(obj => {
             if(obj.argumentsToPass === "") {
                 obj.argumentsToPass = "[]"
@@ -71,7 +98,7 @@ function CreateChallenge(props) {
             obj.argumentsToPass = eval(obj.argumentsToPass);
             return obj;
         })
-        window.worker.postMessage({msg:"run_tests",code:javascriptSolutionInput,tests:tests});
+        window.worker.postMessage({msg:"run_tests", code:javascriptSolutionInput, tests:tests});
     };
 
     function addTest(e) {
@@ -151,37 +178,85 @@ function CreateChallenge(props) {
     return(
         <div>
             <div className="meta-container">
-                <h3>Meta</h3>
-                <form>
-                    <h4>Title</h4>
-                    <input value={title} onChange={e => handleTitleChanges(e)}/>
-                    <h4>Difficulty</h4>
-                    <select onChange={e => handleDifficultyChanges(e)}>
-                        <option>Select</option>
-                        <option value="16">Easy</option>
-                        <option value="50">Medium</option>
-                        <option value="75">Hard</option>
-                    </select>
-                    <h4>Categories</h4>
-                    <input value={category} onChange={e => handleCategoryChanges(e)}/>
+                <h3>Basic Information</h3>
+                <form className="meta-form">
+                    <div>
+                        <h4>Title</h4>
+                        <input value={title} onChange={e => handleTitleChanges(e)}/>
+                    </div>
+                    <div>
+                        <h4>Difficulty</h4>
+                        <select style={{width:200}} onChange={e => handleDifficultyChanges(e)}>
+                            <option>Select</option>
+                            <option value="16">Easy</option>
+                            <option value="50">Medium</option>
+                            <option value="75">Hard</option>
+                        </select>
+                    </div>
+                    <div>
+                        <h4>Categories</h4>
+                        <input value={category} onChange={e => handleCategoryChanges(e)}/>
+                    </div>
                 </form>
             </div>
-            <div className="instructions-container">
-                <h3>instructions</h3>
-                <p>we are going to pull a paragraph from backend and will render here.</p>
+            <div className="description-editor-container">
+                <div className="editor" style={{"margin-left": "250px"}}>
+                    <section className="playground">
+                        <div className="code-editor js-code">
+                            <div className="editor-header">Description</div>
+                            <Editor
+                                code={markdownInput}
+                                theme={'material'}
+                                mode={'markdown'}
+                                changeHandler={handEditorleInputChange}
+                                auth={props.auth}
+                            />
+                        </div>
+                    </section>
+                </div>
+                <ReactMarkdown source={markdownInput} className="markdown-render" placeholder="Preview"/>
             </div>
-            <div className="creation-editor-container">
-                <Editor
-                    code={markdownInput}
-                    theme={'material'}
-                    mode={'markdown'}
-                    changeHandler={handEditorleInputChange}
-                    auth={props.auth}
-                />
-                <ReactMarkdown source={markdownInput} className="markdown-render"/>
+            <div className="challenge-code-container">
+                <div className="editor" style={{"margin-left": "250px"}}>
+                    <section className="playground">
+                        <div className="code-editor js-code">
+                            <div className="editor-header">Skeleton Function</div>
+                            <Editor
+                                code={javascriptInput}
+                                theme={'material'}
+                                mode={'javascript'}
+                                changeHandler={handleInputChange}
+                                auth={props.auth}
+                            />
+                        </div>
+                    </section>
+                </div>
+                <div className="editor" style={{"margin-right": "250px"}}>
+                    <section className="playground">
+                        <div className="code-editor js-code">
+                            <div className="editor-header">Solution</div>
+                            <Editor
+                                code={javascriptSolutionInput}
+                                theme={'material'}
+                                mode={'javascript'}
+                                changeHandler={handleSolutionInputChange}
+                                auth={props.auth}
+                            />
+                        </div>
+                    </section>
+                </div>
             </div>
-            <div>
-                <form>
+            <button style={{"margin-left": "250px"}} onClick={runTests}>Run Tests</button>
+            <button onClick={runCode}>Run Code</button>
+            <button onClick={clearConsole}>Clear Console</button>
+
+            <Console output={output} style={{width: "63%"}}/>
+            {/* <div className="console-div">
+                <p>{passed.toString()}</p>            
+            </div> */}
+
+            <div className="create-challenge-tests">
+                <form className="tests-form">
                     {tests.map((test, index) => {
                         return (<div>
                             <h2>Test {index + 1}</h2>
@@ -212,30 +287,6 @@ function CreateChallenge(props) {
                 <button disabled={!buttonState} onClick={(e) => addTest(e)}>Add Test</button>
                 <button disabled={!buttonState} onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit</button>
                 </form>
-            </div>
-            <div>
-                <div>
-                <h1>skeleton</h1>
-                    <Editor
-                        code={javascriptInput}
-                        theme={'material'}
-                        mode={'javascript'}
-                        changeHandler={handleInputChange}
-                        auth={props.auth}
-                    />
-                </div>
-                <div>
-                    <h1>solution</h1>
-                    <h2>{passed.toString()}</h2>
-                    <Editor
-                        code={javascriptSolutionInput}
-                        theme={'material'}
-                        mode={'javascript'}
-                        changeHandler={handleSolutionInputChange}
-                        auth={props.auth}
-                    />
-                    <button onClick={runTests}>Run Tests</button>
-                </div>
             </div>
         </div>
     )

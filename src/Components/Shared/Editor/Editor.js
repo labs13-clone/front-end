@@ -8,27 +8,17 @@ require('codemirror/mode/javascript/javascript');
 
 const Editor = (props) => {
   return (
-    <div>
-     {/* <div className="editor">
-       <section className="playground">
-         <div className="code-editor js-code"> */}
-          {/* <div className="editor-header" style={{"background":"#263238","color":"white"}}>JavaScript</div> */}
-            <CodeMirror
-              value={props.code}
-              options={{
-                mode: props.mode,
-                theme: 'material',
-                lineNumbers: true,
-                scrollbarStyle: null,
-                lineWrapping: true,
-              }}
-              onBeforeChange={props.changeHandler}
-            />
-        {/* </div>
-       </section>
-
-     </div> */}
-    </div>
+          <CodeMirror
+            value={props.code}
+            options={{
+              mode: props.mode,
+              theme: 'material',
+              lineNumbers: true,
+              scrollbarStyle: null,
+              lineWrapping: true,
+            }}
+            onBeforeChange={props.changeHandler}
+          />
   );
 }
 
