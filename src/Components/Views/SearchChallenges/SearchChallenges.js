@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import CategoriesFilter from './CategoriesFilter';
 import DifficultyLevels from './DifficultyLevels';
 import ChallengesContainer from '../../Shared/ChallengesContainer/ChallengesContainer';
-
-import axios from 'axios';
 import {objToQuery} from '../../../Utility/objToQuery';
+import './SearchChallenges.css';
 
 const SearchChallenges = (props) => {
 
@@ -17,15 +17,17 @@ const SearchChallenges = (props) => {
     const [difficulty,
         setDifficulty] = useState('1-100');
 
+    //Get categories on load
     useEffect(() => {
         getCategories();
     }, []);
 
+    //Get challenges every time the filters are changed
     useEffect(() => {
         const filter = {};
         if (category) 
             filter.category_id = category;
-        if (difficulty) 
+        if (difficulty !== '1-100') 
             filter.difficulty = difficulty;
         getData(filter);
     }, [category, difficulty]);
@@ -60,8 +62,10 @@ const SearchChallenges = (props) => {
 
     return (
         <div>
+          <div className='filter-container'>
             <CategoriesFilter categories={categories} setCategory={setCategory}/>
             <DifficultyLevels setDifficulty={setDifficulty}/>
+          </div>
             <ChallengesContainer auth={props.auth} challenges={challenges}/>
         </div>
     )

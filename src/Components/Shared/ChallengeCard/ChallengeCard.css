@@ -1,19 +1,20 @@
 .challenge-wrapper {
-
+    cursor: pointer;
     margin: 30px;
-    border-top: 1px solid rgba(0, 0, 0, 0.4);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    border-top: 1px dashed rgba(0, 0, 0, 0.4);
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.4);
 }
 
-.header-flex {
+.card-body {
     display: flex;
     justify-content: space-between;
 }
 
 .category {
+    font-size: 1.2rem;
     background: rgba(103,58,183, .5);
     border: none;
     color: white;
     border-radius: 2px;
-    margin-right: 3px;
+    margin: 5px;
 }
