@@ -9,7 +9,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #343d61;
+  color: #9ac6c9;
 }
+
+* {
+  box-sizing: border-box;
+}
+
 
 .react-codemirror2 {
   max-height: 100%;
@@ -39,3 +46,13 @@ pre {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
+.main-view {
+  max-width: 1000px;
+  margin: 0 auto;
+  min-height: 90vh;
+}
+
+/* .MuiButtonBase-root {
+  padding:0px;
+} */

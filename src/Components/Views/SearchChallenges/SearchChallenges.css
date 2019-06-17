@@ -1,0 +1,14 @@
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px auto;
+    width: 1000px;
+}
+
+.filter {
+    color: #222840;
+    background:whitesmoke;
+    font-size: 1.3rem;
+    margin: 5px;
+    padding: 5px;
+}

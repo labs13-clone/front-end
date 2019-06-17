@@ -169,9 +169,6 @@ function CreateChallenge(props) {
             .catch(err => {
                 console.log(err, err.message, process.env.REACT_APP_SERVER)
             })
-        // } else {
-        //     alert("the challenge didn't pass")
-        // }
     };
 
     return(

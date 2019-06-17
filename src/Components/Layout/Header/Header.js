@@ -21,12 +21,12 @@ const Header = (props) => {
   return (
     <nav className="header"> 
        <div className="header__wrapper">
-            <div>
-                <Link to="/">Home</Link>
-                <Link to="/challenges">Challenges</Link>
+            <div className="link-wrapper">
+                <Link className="logo" to="/">ChallengeJS</Link>
+                <Link className="challenge-link" to="/challenges">Challenges</Link>
             </div>
-            <div>
-                <Link to="/new/challenge">+ Add Challenge</Link>
+            <div className="link-wrapper">
+                <Link className="challenge-link" to="/new/challenge">+ Add Challenge</Link>
                 <DropdownMenu {...props} openDropdown={openDropdown} toggleOpen={toggleOpen} toggleClose={toggleClose}/>
             </div>  
         </div> 

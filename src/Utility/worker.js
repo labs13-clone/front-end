@@ -1,5 +1,6 @@
 const workercode = () => {
-
+////////////////////////////////////////////////////////////////////////
+// Deep Equal
 var pSlice = Array.prototype.slice;
 var objectKeys = Object.keys
 var isArguments = function supported(object) {
@@ -83,43 +84,42 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-let _tmp_build_4e72d605dfab05b7ab8326d010a1b739_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = {}
 
-class Test {
-    constructor(params) {
-        this.tests = params.tests;
-        this.solution = params.solution;
-        this.results = [];
-        this.passed = true;
-        
-        this.tests.forEach(({descriptor, argumentsToPass, expectedResult}) => {
+////////////////////////////////////////////////////////////////////////
+function Testing(params){
+  const tests = params.tests;
+  const userSolution = params.solution;
+  const results = [];
+ 
+  tests.forEach(({descriptor, argumentsToPass, expectedResult}) => {
 
-            argumentsToPass = argumentsToPass.map(arg => {
-                if(typeof arg === 'array' || typeof arg === 'object' || typeof arg === 'string') {
-                    return JSON.stringify(arg);
-                } else {
-                    return arg;
-                }
-            });
+    argumentsToPass = argumentsToPass.map(arg => {
+        if(typeof arg === 'array' || typeof arg === 'object' || typeof arg === 'string') {
+            return JSON.stringify(arg);
+        } else {
+            return arg;
+        }
+    });
 
-            
-            const solution = eval(`(${this.solution}\n)`);
-            const result = eval(`(solution(${argumentsToPass}))`);
-            if(!deepEqual(result, expectedResult)) this.passed = false;
+    
+    const solution = eval(`(${userSolution}\n)`);
+    const result = eval(`(solution(${argumentsToPass}))`);
 
-            this.results.push({
-                descriptor,
-                passed: deepEqual(result, expectedResult)
-            });
-        });
-    }
+    results.push({
+        descriptor,
+        passed: deepEqual(result, expectedResult)
+    });
+    
+});
+
+  const finalResult = results.every(e => (e.passed===true ? true : false));
+  return finalResult;
 }
-
+////////////////////////////////////////////////////////////////////////
     self.onmessage = function(e) { // eslint-disable-line no-restricted-globals
             switch (e.data.msg) {
                 case 'run_code':
                     try{
-                      console.log(e.data)
                         const testFunc = function(){
                             "use strict";
                             return eval(`${e.data.code}`);
@@ -143,10 +143,9 @@ class Test {
                     try{
                         const solution = e.data.code
                         const tests = e.data.tests
-                        const runTest = new Test({solution:solution,tests:tests});
-                        
+                        const runTest = Testing({solution:solution,tests:tests});
                         //self.postMessage(runTest.passed); // eslint-disable-line no-restricted-globals
-                        self.postMessage({msg:"run_tests",result:runTest.passed}); // eslint-disable-line no-restricted-globals
+                        self.postMessage({msg:"run_tests",result:runTest}); // eslint-disable-line no-restricted-globals
 
                     }catch(err){
                         self.postMessage({msg:"run_code",result:err.stack.toString()}); // eslint-disable-line no-restricted-globals
@@ -158,7 +157,7 @@ class Test {
               }
     }
 };
-
+////////////////////////////////////////////////////////////////////////
 let code = workercode.toString();
 code = code.substring(code.indexOf("{")+1, code.lastIndexOf("}"));
 

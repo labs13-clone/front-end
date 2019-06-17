@@ -1,49 +1,58 @@
-import React, { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import React from 'react';
+import history from '../../../history';
+import axios from 'axios';
+import {difficultyToString} from '../../../Utility/difficultyToString';
+import ReactMarkdown from 'react-markdown';
 import './ChallengeCard.css';
 
 const ChallengeCard = (props) => {
 
-    const [difficulty, setDifficulty] = useState('Easy');
+    const categories = props.challenge.categories.map(cat => <button key={cat.id} className="pill-button">{cat.name}</button>);
 
-    useEffect(() => {
-        const level = props.challenge.difficulty;
-        convirtToAString(level);
-    }, []);
+    //Button click handler that approves a challenge
+    const approveChallenge = _ => {
 
-    function convirtToAString (level) {
-        
-            if(level >= 1 && level <=33) {
-                setDifficulty('Easy');
+        //Update the challenge
+        axios({
+            method: 'put',
+            url: `${process.env.REACT_APP_SERVER}/api/challenges`,
+            headers: {
+                Authorization: `Bearer ${props.auth.accessToken}`
+            },
+            data: {
+                id: props.challenge.id,
+                approved: 1
             }
-    
-            if(level >= 34 && level <=66) {
-                setDifficulty('Medium');
-            }
-    
-            if(level >= 67 && level <=100) {
-                setDifficulty('Hard');
-        }
-
+        })
+        .then(response => {
+            props.challenge = response.data;
+        })
+        .catch(err => {
+            console.log(err.message)
+        });
     }
+
+    //Only show the approve button if the challenge is not approved
+    //AND only show it if the user is an admin
+    const approveButton = (!props.challenge.approved && props.auth.user.role === 'admin') && <button onClick={approveChallenge}>Approve Challenge</button>
+
     return (
-        <Link to={`/challenges/${props.challenge.id}`}>
-            <div className="challenge-wrapper">
-                <div className="header-flex">
-                    <h3>{props.challenge.title}</h3>
-                    <h3>+</h3>
+        <div onClick={_ => history.replace(`/challenges/${props.challenge.id}`)} className="challenge-wrapper">
+
+                <div className="card-body">
+                    <h1 className="challenge-title" >{props.challenge.title}</h1>
                 </div>
                 <p>
-                    {props.challenge.description}
+                    <ReactMarkdown source={props.challenge.description}/>
                 </p>
-                <div className="header-flex">
+                <div className="card-footer">
                     <div>
-                        <div className="category">{props.challenge.categories[0].name}</div>
+                        {categories}
+                        {approveButton}
                     </div>
-                    <div>{difficulty}</div>
+                    <div className="pill-button" >{difficultyToString(props.challenge.difficulty)}</div>
                 </div>
-            </div>
-        </Link>
+        </div>
     );
 }
 

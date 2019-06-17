@@ -5,6 +5,7 @@ import Console from "../../Shared/Console/Console";
 import worker_script from "../../../Utility/worker";
 import ReactMarkdown from 'react-markdown';
 import Modal from '@material-ui/core/Modal';
+import './AttemptChallenge.css';
 
 function AttemptChallenge(props) {
 
@@ -197,41 +198,47 @@ function AttemptChallenge(props) {
     }
     
     return (
-        <div style={{"width":"900px", "margin":"0 auto"}}>
-            <h3 style={{color:"black","marginBottom":"5px"}}>{challenge.title}</h3>
-            <div style={{"display":"flex","justifyContent":"space-between","alignItems":"center","width":"900px", "margin":"0 auto"}}>
-                <div>
-                    {
-                        categories.map(e =>{
-                            return <span style={{"background":"grey","color":"white","margin":"5px","borderRadius":"5px","padding":"5px","fontSize":"12px"}}key={e.id}>{e.name}</span>
-                        })
-                    }
+        <div className="challenge-main">
+            <div className="challenge-header">
+                <div className="left-side">
+                    <h1 className="challenge-title">{challenge.title}</h1>
+                    <div className="challenge-categories">
+                        
+                            {
+                                categories.map(e =>{
+                                    return <span className="pill-button pill-modified" key={e.id}>{e.name}</span>
+                                })
+                            }
+                    </div>
                 </div>
-                {
-                    (completed ? <span style={{"color":"darkgreen","fontWeight":"bold"}}>Completed</span>  : <span style={{"color":"crimson","fontWeight":"bold"}}>Uncompleted</span> )
-                }
+                        {
+                            (completed ? <div className="challenge-completed" style={{"color":"#7e7","fontWeight":"bold"}}>Completed</div>  : <div className="challenge-completed" style={{"color":"#f52b51","fontWeight":"bold"}}>Uncompleted</div> )
+                        }
             </div>
-            <div style={{"display":"flex","justifyContent":"space-between","width":"900px", "margin":"0 auto"}}>  
-                <Editor code={code} changeHandler={handleInputChange} mode={"javascript"}/>
-                <div style={{"background":"#263238",color:"white","padding":"10px","marginTop":"20px","textDecoration":"none","width":"430px", "height":"280px","overflow":"scroll"}}>
-                    <h2 style={{"color":"white","marginTop":"0px","marginBottom":"0px"}}>Instructions</h2>
-                    <ReactMarkdown source={challenge.description} />
+
+            
+                <div style={{"display":"flex","justifyContent":"space-between","width":"900px", "margin":"0 auto"}}>  
+                    <Editor code={code} changeHandler={handleInputChange} mode={"javascript"}/>
+                    <div style={{"background":"#263238",color:"white","padding":"10px","marginTop":"20px","textDecoration":"none","width":"430px", "height":"280px","overflow":"scroll"}}>
+                        <h2 style={{"color":"white","marginTop":"0px","marginBottom":"0px"}}>Instructions</h2>
+                        <ReactMarkdown source={challenge.description} />
+                    </div>
                 </div>
-            </div>
-            <Modal onClick={modalCallback} open={modalState} children={
-                <div style={{"display":"flex","justifyContent":"center","alignItems":"center","width":"200px","height":"200px","background":"white","color":"black","left":"50%","top":"50%","position":"absolute","transform": "translate(-57%, -40%)"}} onClick={modalCallback}>
-                    {
-                        (passed ? <h4>Passed Tests!!!</h4> : <h4>Not All the Tests Passed</h4>)
-                    }
-                </div>}
-            />
-            <br/>
-            <div style={{"display":"flex","justifyContent":"space-between","alignItems":"center","width":"300px"}}>
-                <button onClick={runCode}>Run Code</button>
-                <button onClick={runTests}>Run Tests</button>
-                <button onClick={clearConsole}>Clear Console</button>
-            </div>
-            <Console output={output}/>
+                <Modal onClick={modalCallback} open={modalState} children={
+                    <div style={{"display":"flex","justifyContent":"center","alignItems":"center","width":"200px","height":"200px","background":"white","color":"black","left":"50%","top":"50%","position":"absolute","transform": "translate(-57%, -40%)"}} onClick={modalCallback}>
+                        {
+                            (passed ? <h4>Passed Tests!!!</h4> : <h4>Not All the Tests Passed</h4>)
+                        }
+                    </div>}
+                />
+                <br/>
+                <div style={{"display":"flex","justifyContent":"space-between","alignItems":"center","width":"300px"}}>
+                    <button onClick={runCode}>Run Code</button>
+                    <button onClick={runTests}>Run Tests</button>
+                    <button onClick={clearConsole}>Clear Console</button>
+                </div>
+                <Console output={output}/>
+           
         </div>
     );
 }

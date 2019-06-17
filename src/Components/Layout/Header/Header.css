@@ -1,21 +1,32 @@
 .header {
-  background: #2db84b;
+  background: #222840;
   padding-top: 10px;
   padding-bottom: 10px;
   width: 100%;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  min-height: 5vh;
 }
 
-.header__wrapper {
-  width: 70%;
+.header__wrapper  {
+  max-width: 1000px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
-.header__wrapper a {
-  color: darkmagenta;
+.link-wrapper {
+  display: flex;
+  align-items: flex-end;
+}
+
+.challenge-link, .challenge-link a:visited,.challenge-link a:active {
+  color: #c04789;
   text-decoration: none;
   margin-right: 10px;
+  font-weight: bold;
 }
 
 .container {
@@ -45,4 +56,12 @@
   .option:hover {
     background-color: rgba(0, 0, 0, 0.14);
     cursor: pointer;
+  }
+
+  .logo,.logo:visited,.logo:active {
+    color:#2A9FD8;
+    font-size:1.5rem;
+    text-decoration: none;
+    margin-right: 10px;
+    font-weight: bold;
   }
