@@ -1,114 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import CategoriesFilter from './CategoriesFilter';
 import DifficultyLevels from './DifficultyLevels';
 import ChallengesContainer from '../../Shared/ChallengesContainer/ChallengesContainer';
-
-import axios from 'axios';
+import {objToQuery} from '../../../Utility/objToQuery';
+import './SearchChallenges.css';
 
 const SearchChallenges = (props) => {
 
-   
-  const [challenges, setChallenges] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState('Strings');
-  const [difficulty, setDifficulty] = useState('easy');
+    const [challenges,
+        setChallenges] = useState([]);
+    const [categories,
+        setCategories] = useState([]);
+    const [category,
+        setCategory] = useState(null);
+    const [difficulty,
+        setDifficulty] = useState('1-100');
 
-  const [filtered, setFiltered] = useState([]);
+    //Get categories on load
+    useEffect(() => {
+        getCategories();
+    }, []);
 
-  useEffect(() => {
-    const token = props.auth.accessToken;
-    console.log('rendered1', token);
-    getData(token);  
-    getCategories(token);
-  }, []);
+    //Get challenges every time the filters are changed
+    useEffect(() => {
+        const filter = {};
+        if (category) 
+            filter.category_id = category;
+        if (difficulty !== '1-100') 
+            filter.difficulty = difficulty;
+        getData(filter);
+    }, [category, difficulty]);
 
-  async function getData (token) {
-        try {
-            const result = await axios({
-                method: 'get', 
-                url: `https://clone-coding-server.herokuapp.com/api/challenges`,
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-        });
-        setChallenges(result.data);
-        const defaultData = result.data.filter(challenge => {
-          return challenge.difficulty >=1 && challenge.difficulty <=33 &&  challenge.categories[0].name === 'Strings'
-        });
-        console.log(defaultData);
-        setFiltered(defaultData);
-            
-        } catch (e) {
+    function getData(filter) {
+        axios({
+            method: 'get',
+            url: `${process.env.REACT_APP_SERVER}/api/challenges${objToQuery(filter)}`,
+            headers: {
+                Authorization: `Bearer ${props.auth.accessToken}`
+            }
+        }).then(result => {
+            setChallenges(result.data);
+        }).catch(e => {
             console.log(e);
-        }
-  }
-
-  async function getCategories (token) {
-        try {
-          const result = await axios({
-              method: 'get', 
-              url: `https://clone-coding-server.herokuapp.com/api/categories`,
-              headers: {
-                  Authorization: `Bearer ${token}`
-              }
         });
-      setCategories(result.data);
-          
-      } catch (e) {
-          console.log(e);
-      }
-  }
-  
-  function filterByCategory (newCategory) {
-    setCategory(newCategory);
-      
-    let filtered;
-    let filterByCategory;
-    
-      if(difficulty === 'easy') {
-        filtered = challenges.filter(challenge => challenge.difficulty >=1 && challenge.difficulty <=33);
-        filterByCategory = filtered.filter(challenge => challenge.categories[0].name === newCategory);
-        console.log('category', category);
-      } else if (difficulty === 'medium') {
-        filtered = challenges.filter(challenge => challenge.difficulty >=34 && challenge.difficulty <=66);
-        filterByCategory = filtered.filter(challenge => challenge.categories[0].name === newCategory);
-      } else if(difficulty === 'hard') {
-        filtered = challenges.filter(challenge => challenge.difficulty >=67 && challenge.difficulty <=100);
-        filterByCategory = filtered.filter(challenge => challenge.categories[0].name === newCategory);
-      }
-    setFiltered(filterByCategory); 
-  }
+    }
 
-  function filterByDifficulty (level) {
-      setDifficulty(level);
-      
-      let filtered;
-      let filterByCategory;
-      
-        if(level === 'easy') {
-          filtered = challenges.filter(challenge => challenge.difficulty >=1 && challenge.difficulty <=33);
-          filterByCategory = filtered.filter(challenge => challenge.categories[0].name === category);
-          console.log('category', category);
-        } else if (level === 'medium') {
-          filtered = challenges.filter(challenge => challenge.difficulty >=34 && challenge.difficulty <=66);
-          filterByCategory = filtered.filter(challenge => challenge.categories[0].name === category);
-        } else if(level === 'hard') {
-          filtered = challenges.filter(challenge => challenge.difficulty >=67 && challenge.difficulty <=100);
-          filterByCategory = filtered.filter(challenge => challenge.categories[0].name === category);
-        }
-      setFiltered(filterByCategory); 
-  }
+    function getCategories() {
+        axios({
+            method: 'get',
+            url: `${process.env.REACT_APP_SERVER}/api/categories`,
+            headers: {
+                Authorization: `Bearer ${props.auth.accessToken}`
+            }
+        }).then(result => {
+            setCategories(result.data);
+        }).catch(e => {
+            console.log(e);
+        });
+    }
 
-  console.log(category);
-
-
-  return (
-    <div >
-        <CategoriesFilter categories={categories} filterByCategory={filterByCategory}/>
-        <DifficultyLevels filterByDifficulty={filterByDifficulty} />
-        <ChallengesContainer auth={props.auth} challenges={filtered}/>
-    </div>
-  );
+    return (
+        <div>
+          <div className='filter-container'>
+            <CategoriesFilter categories={categories} setCategory={setCategory}/>
+            <DifficultyLevels setDifficulty={setDifficulty}/>
+          </div>
+            <ChallengesContainer auth={props.auth} challenges={challenges}/>
+        </div>
+    )
 }
 
 export default SearchChallenges;

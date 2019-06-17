@@ -1,19 +1,34 @@
-.challenge-wrapper {
-
-    margin: 30px;
-    border-top: 1px solid rgba(0, 0, 0, 0.4);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+.challenge-title {
+    font-size: 1.3rem;
 }
 
-.header-flex {
+.challenge-wrapper {
+    background: #232840;
+    cursor: pointer;
+    margin: 30px auto;
+    border-top: 1px dashed rgba(0, 0, 0, 0.4);
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.4);
+    padding: 15px;
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+    border-bottom:3px solid #9ac6c9;
+}
+
+.card-footer {
     display: flex;
     justify-content: space-between;
 }
 
-.category {
-    background: rgba(103,58,183, .5);
+.pill-button {
+    font-size: 1.2rem;
+    background: rgb(192, 71, 137);
     border: none;
     color: white;
     border-radius: 2px;
     margin-right: 3px;
+    margin: 5px;
+    padding: 4px 7px;
 }

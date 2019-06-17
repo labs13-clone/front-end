@@ -6,6 +6,7 @@ require('./LandingPage.css')
 
 
 const LandingPageContent = props => {
+ const login = () => props.auth.login();
 
     const login = () => props
         .auth

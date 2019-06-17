@@ -14,29 +14,25 @@ const TabsView = (props) => {
     useEffect(() => {
 
         //Create empty endpoint string and filter object
-        let endpoint = '';
         const filter = {};
 
         //Toggle the endpoint and filters Depending on which tab is being shown
         switch (tab) {
+
             case "started":
 
-                endpoint = 'submissions';
-                filter.completed = 0;
-                filter.created_by = props.auth.user.id;
+                filter.started = 1;
                 break;
 
             case "completed":
 
-                endpoint = 'submissions';
                 filter.completed = 1;
-                filter.created_by = props.auth.user.id;
                 break;
 
             case "created":
 
-                endpoint = 'challenges';
                 filter.approved = 1;
+                filter.created_by = props.auth.user.id;
 
                 //If the user is not an admin Then only return their challenges
                 if (props.auth.user.role !== 'admin') {
@@ -47,7 +43,6 @@ const TabsView = (props) => {
 
             case "unapproved":
 
-                endpoint = 'challenges';
                 filter.approved = 0;
 
                 //If the user is not an admin Then only return their challenges
@@ -64,7 +59,7 @@ const TabsView = (props) => {
         //Request the challenges or submissions from the api
         axios({
             method: 'get',
-            url: `https://clone-coding-server.herokuapp.com/api/${endpoint}${objToQuery(filter)}`,
+            url: `${process.env.REACT_APP_SERVER}/api/challenges${objToQuery(filter)}`,
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -101,10 +96,10 @@ const TabsView = (props) => {
                 <p id="unapproved" className="tab-btn" onClick={toggleTab}>Unapproved Challenges</p>
             </div>
 
-            {tab === 'started' && <ChallengesContainer challenges={challenges}/>}
-            {tab === 'completed' && <ChallengesContainer challenges={challenges}/>}
-            {tab === 'created' && <ChallengesContainer challenges={challenges}/>}
-            {tab === 'unapproved' && <ChallengesContainer challenges={challenges}/>}
+            {tab === 'started' && <ChallengesContainer challenges={challenges} auth={props.auth}/>}
+            {tab === 'completed' && <ChallengesContainer challenges={challenges} auth={props.auth}/>}
+            {tab === 'created' && <ChallengesContainer challenges={challenges} auth={props.auth}/>}
+            {tab === 'unapproved' && <ChallengesContainer challenges={challenges} auth={props.auth}/>}
 
         </div>
     );

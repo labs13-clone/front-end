@@ -57,7 +57,7 @@ export default class Auth {
     this.idToken = authResult.idToken;
     this.expiresAt = expiresAt;
 
-    //Request the challenges or submissions from the api
+    // Request the challenges or submissions from the api
     axios({
         method: 'get',
         url: `https://clone-coding-server.herokuapp.com/api/users`,
@@ -72,7 +72,7 @@ export default class Auth {
         console.log(err.message)
       });
 
-    // navigate to the home route
+    // Navigate to the home route
     history.replace('/');
   }
 

@@ -9,37 +9,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #343d61;
+  color: #9ac6c9;
 }
 
-.editor {
-  /* display: flex; */
-  width: 45%;
-  margin: 150px auto;
+* {
+  box-sizing: border-box;
 }
 
-.playground {
-  background-color: #1E1E2C;
-}
-
-.code-editor {
-  height: 300px;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-}
-
-.editor-header {
-  height: 30px;
-  content: attr(title);
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-  font-size: 18px;
-  color: #fafafa;
-}
 
 .react-codemirror2 {
   max-height: 100%;
+  width:430px;
+  margin-top:20px;
 }
 
 .result {
@@ -58,3 +40,19 @@ body {
   margin: 0 5px;
   background-color: red;
 }
+
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.main-view {
+  max-width: 1000px;
+  margin: 0 auto;
+  min-height: 90vh;
+}
+
+/* .MuiButtonBase-root {
+  padding:0px;
+} */

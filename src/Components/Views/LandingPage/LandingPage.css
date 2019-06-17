@@ -4,15 +4,21 @@
   margin: 0 auto;
   background-color: #22273f;
   color:white;
-}
-h1{
-  color:#0000FF;
-}
-header{
+ }
+ .landingContent{
+  margin: 0 auto;
+  width: 1000px;
+ }
+ .landingContent h1{
+  color:#009dc4;
+  margin-bottom: 30px;
+ }
+ .landingContent header{
     display:flex;
   justify-content: space-between;
-}
-.topText{
+  padding-top: 30px;
+ }
+ .topText{
   display:flex;
 }
 
