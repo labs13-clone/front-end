@@ -1,5 +1,8 @@
 .landingContainer {
-  background-color:#060d24;
+  padding-left: 10%;
+  padding-right: 10%;
+  margin: 0 auto;
+  background-color: #22273f;
   color:white;
  }
  .landingContent{
@@ -17,24 +20,41 @@
  }
  .topText{
   display:flex;
-  width:50%;
-  margin-bottom: 100px;
-  margin-top: 50px;
- 
- }
- .landingBody{
-  background-color:white;
-  color: black;
+}
+
+.content-cards {
+  background: #f5f5f6;
+  color: #000019;
+  border: 2px;
+  /* font-family: 'IBM Plex Mono', monospace; */
+
+}
+
+.content-cards__centered {
+  padding-top: 40px;
+}
+
+.card {
   display: flex;
-  padding:80px;
- }
- .landingBody p{
- border: 10px black;
- }
- .landingContent header button{
-  margin-left: 30px;
-  margin-top: 30px;
-  padding:10px 40px;
-  color: white;
-  background-color:#060d24;
- }
+  padding: 15px;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 80px;
+}
+
+.card div {
+  width: 40%;
+  text-align: justify;
+}
+
+.card h2 {
+  color: #f649a7;
+  text-transform: uppercase;
+
+}
+
+.card img {
+  width: 600px;
+  height: auto;
+}
+
