@@ -45,7 +45,7 @@ const ChallengeCard = (props) => {
                 <p>
                     <ReactMarkdown source={props.challenge.description}/>
                 </p>
-                <div className="card-body">
+                <div className="card-footer">
                     <div>
                         {categories}
                         {approveButton}

@@ -1,9 +1,10 @@
-.footer{
-    background: #9ac6c9;
-    padding-top: 10px;
-    padding-bottom: 10px;
+.footer {
+    background: #222840;
     width: 100%;
-    color: #222840;
-    text-align: center;
+    color: #2A9FD8;
     font-weight: bold;
+    min-height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

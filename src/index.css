@@ -13,6 +13,11 @@ body {
   color: #9ac6c9;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+
 .react-codemirror2 {
   max-height: 100%;
   width:430px;
@@ -45,4 +50,9 @@ pre {
 .main-view {
   max-width: 1000px;
   margin: 0 auto;
+  min-height: 90vh;
 }
+
+/* .MuiButtonBase-root {
+  padding:0px;
+} */
