@@ -48,7 +48,8 @@ pre {
 }
 
 .main-view {
-  max-width: 1000px;
+  /* Lidiia had this changed, possibly it could be talked about */
+  /* max-width: 1000px; */
   margin: 0 auto;
   min-height: 90vh;
 }
