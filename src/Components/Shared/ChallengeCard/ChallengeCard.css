@@ -17,6 +17,11 @@
     border-bottom:3px solid #9ac6c9;
 }
 
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
 .pill-button {
     font-size: 1.2rem;
     background: rgb(192, 71, 137);

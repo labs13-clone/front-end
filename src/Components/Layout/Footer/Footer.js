@@ -3,7 +3,7 @@ require('./Footer.css')
 export default function Footer() {
     return (
         <div className="footer">
-            ChallengeJS 2019
+            ChallengeJS    &copy; 2019
         </div>
     )
 }
