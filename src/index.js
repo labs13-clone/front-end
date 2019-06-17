@@ -43,6 +43,7 @@ const Root = () => {
     return (<div>        
         <Router history={history}>
             <Header auth={auth}/>
+            <div className="main-view">
             <Switch>
                 <Route path="/" exact render={_ => <App auth={auth} />} />
                 <ProtectedRoute path="/userprofile" component={UserProfile} />} />
@@ -55,6 +56,7 @@ const Root = () => {
                 }}/>
                 <Redirect to="/" />
             </Switch>
+            </div>
             <Footer/>
         </Router>
     </div>);

@@ -30,11 +30,6 @@
     text-align: center;
 }
 
-.button-wrapper {
-    display: flex;
-    justify-content: center;
-}
-
 .btn-edit {
     padding: 7px 50px;
     background: #673ab7;
@@ -43,32 +38,12 @@
     border-radius: 3px;
 }
 
-.challenge-wrapper {
-
-    margin: 30px;
-    border-top: 1px solid rgba(0, 0, 0, 0.4);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.header-flex {
-    display: flex;
-    justify-content: space-between;
-}
-
-.category {
-    background: rgba(103,58,183, .5);
-    border: none;
-    color: white;
-    border-radius: 2px;
-    margin-right: 3px;
-}
 
 .tabs-wrapper {
     display: inline-block;
 }
 
 .tab-btn {
-
     color: rgba(103,58,183);
     font-weight: 700;
     font-size: 1em;

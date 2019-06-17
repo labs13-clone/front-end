@@ -22,7 +22,7 @@ const Header = (props) => {
     <nav className="header"> 
        <div className="header__wrapper">
             <div>
-                <Link to="/">Home</Link>
+                <Link className="logo" to="/">ChallengeJS</Link>
                 <Link to="/challenges">Challenges</Link>
             </div>
             <div>
