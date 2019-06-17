@@ -1,7 +1,8 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import history from '../../../history';
 import axios from 'axios';
 import {difficultyToString} from '../../../Utility/difficultyToString';
+import ReactMarkdown from 'react-markdown';
 import './ChallengeCard.css';
 
 const ChallengeCard = (props) => {
@@ -35,26 +36,23 @@ const ChallengeCard = (props) => {
     //AND only show it if the user is an admin
     const approveButton = (!props.challenge.approved && props.auth.user.role === 'admin') && <button onClick={approveChallenge}>Approve Challenge</button>
 
-    if(props.challenge.title === 'Stringzzz') console.log(props.challenge)
     return (
-        <Link to={`/challenges/${props.challenge.id}`}>
-            <div className="challenge-wrapper">
-                <div className="header-flex">
-                    <h3>{props.challenge.title}</h3>
-                    <h3>+</h3>
+        <div onClick={_ => history.replace(`/challenges/${props.challenge.id}`)} className="challenge-wrapper">
+
+                <div className="card-body">
+                    <h1>{props.challenge.title}</h1>
                 </div>
                 <p>
-                    {props.challenge.description}
+                    <ReactMarkdown source={props.challenge.description}/>
                 </p>
-                <div className="header-flex">
+                <div className="card-body">
                     <div>
                         {categories}
                         {approveButton}
                     </div>
                     <div>{difficultyToString(props.challenge.difficulty)}</div>
                 </div>
-            </div>
-        </Link>
+        </div>
     );
 }
 
