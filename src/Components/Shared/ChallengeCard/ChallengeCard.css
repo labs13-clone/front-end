@@ -1,20 +1,29 @@
+.challenge-title {
+    font-size: 1.3rem;
+}
+
 .challenge-wrapper {
+    background: #232840;
     cursor: pointer;
-    margin: 30px;
+    margin: 30px auto;
     border-top: 1px dashed rgba(0, 0, 0, 0.4);
     border-bottom: 1px dashed rgba(0, 0, 0, 0.4);
+    padding: 15px;
 }
 
 .card-body {
     display: flex;
     justify-content: space-between;
+    border-bottom:3px solid #9ac6c9;
 }
 
-.category {
+.pill-button {
     font-size: 1.2rem;
-    background: rgba(103,58,183, .5);
+    background: rgb(192, 71, 137);
     border: none;
     color: white;
     border-radius: 2px;
+    margin-right: 3px;
     margin: 5px;
+    padding: 4px 7px;
 }

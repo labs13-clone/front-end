@@ -9,6 +9,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #343d61;
+  color: #9ac6c9;
 }
 
 .react-codemirror2 {
@@ -38,4 +40,9 @@ pre {
   overflow-x: auto;
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+.main-view {
+  max-width: 1000px;
+  margin: 0 auto;
 }

@@ -7,7 +7,7 @@ import './ChallengeCard.css';
 
 const ChallengeCard = (props) => {
 
-    const categories = props.challenge.categories.map(cat => <button key={cat.id} className="category">{cat.name}</button>);
+    const categories = props.challenge.categories.map(cat => <button key={cat.id} className="pill-button">{cat.name}</button>);
 
     //Button click handler that approves a challenge
     const approveChallenge = _ => {
@@ -40,7 +40,7 @@ const ChallengeCard = (props) => {
         <div onClick={_ => history.replace(`/challenges/${props.challenge.id}`)} className="challenge-wrapper">
 
                 <div className="card-body">
-                    <h1>{props.challenge.title}</h1>
+                    <h1 className="challenge-title" >{props.challenge.title}</h1>
                 </div>
                 <p>
                     <ReactMarkdown source={props.challenge.description}/>
@@ -50,7 +50,7 @@ const ChallengeCard = (props) => {
                         {categories}
                         {approveButton}
                     </div>
-                    <div>{difficultyToString(props.challenge.difficulty)}</div>
+                    <div className="pill-button" >{difficultyToString(props.challenge.difficulty)}</div>
                 </div>
         </div>
     );

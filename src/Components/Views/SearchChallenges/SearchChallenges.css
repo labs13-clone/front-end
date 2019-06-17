@@ -1,12 +1,13 @@
 .filter-container {
     display: flex;
-    justify-content: center;
-    margin: 30px;
+    justify-content: space-between;
+    margin: 30px auto;
+    width: 1000px;
 }
 
 .filter {
-    color: white;
-    background: #2db84b;;
+    color: #222840;
+    background:whitesmoke;
     font-size: 1.3rem;
     margin: 5px;
     padding: 5px;
