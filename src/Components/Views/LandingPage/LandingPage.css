@@ -2,25 +2,69 @@
   padding-left: 10%;
   padding-right: 10%;
   margin: 0 auto;
-  background-color: #22273f;
+  background-color: #343d61;
   color:white;
 }
-h1{
-  color:#0000FF;
+
+.landingContent {
+  background-color: #232840;
+  margin-top: 30px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }
-header{
-    display:flex;
+
+.cta {
+  width: 85%;
+  margin: 20px auto;
+  color: #9ac6c9;
+}
+
+.header img{
+  padding-top: 73px;
+  width: 260px;
+  height: auto;
+}
+
+.topContent {
+  margin-top: 50px;
+}
+
+.topContent h2 {
+  font-size: 1.4rem;
+}
+
+.topText {
+  display: flex;
+  align-items: baseline;
   justify-content: space-between;
 }
-.topText{
-  display:flex;
+
+.topText p {
+  width: 70%;
+  font-size: 1.2rem;
 }
+
+.topText button {
+  height: 50px;
+  padding: 12px 15px;
+  border-radius: 3px;
+  border: none;
+  background: #c04789;
+  -webkit-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
+  -moz-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
+  box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
+  color: #f5f5f6;
+  font-family: inherit;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 
 .content-cards {
   background: #f5f5f6;
   color: #000019;
   border: 2px;
-  /* font-family: 'IBM Plex Mono', monospace; */
 
 }
 
@@ -36,13 +80,18 @@ header{
   margin-bottom: 80px;
 }
 
+.card p {
+  font-size: 1.2rem;
+}
+
+
 .card div {
   width: 40%;
   text-align: justify;
 }
 
 .card h2 {
-  color: #f649a7;
+  color: #c04789;
   text-transform: uppercase;
 
 }
@@ -51,3 +100,60 @@ header{
   width: 600px;
   height: auto;
 }
+
+.testimonials {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.testimonials-header {
+  color: #9AC6C9;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
+
+.testimonial-card {
+  width: 30%;
+  background: #f5f5f6;
+  border-radius: 3px;
+  -webkit-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
+  -moz-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
+  box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
+  color: #000019;
+  margin-bottom: 30px;
+}
+
+.testimonial-card div {
+  text-align: center;
+}
+
+.testimonial-card img {
+  width: 200px;
+  height: auto;
+  border-radius: 50%;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.testimonial-card h3 {
+  margin: 0;
+  text-align: center;
+}
+
+.testimonial-card p {
+  width: 90%;
+  margin: 0px auto 30px auto;
+  text-align: justify;
+  border-top: 2px solid #2A9FD8;
+  padding-top: 30px;
+}
+
+.card-sm {
+  min-height: 450px;
+}
+
