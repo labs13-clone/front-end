@@ -65,23 +65,10 @@ function CreateChallenge(props) {
         setButtonState(bool);
     }, [tests]);
 
-
-    // function clearConsole(){
-    //     setOutput([]);
-    // };
-
-    // function runCode(){
-    //     window.worker.postMessage({msg:"run_code", code:javascriptSolutionInput});
-    // };
-
     function handEditorleInputChange(editor, data, code){
         setMarkdownInput(code);
         setPayload({...payload, description:code})
     }
-
-    // function runTests(){ 
-    //     window.worker.postMessage({msg:"run_tests", code:javascriptSolutionInput, tests:tests});
-    // };
 
     function addTest(e) {
         e.preventDefault();
@@ -142,7 +129,6 @@ function CreateChallenge(props) {
         event.preventDefault();
         payload.skeleton_function = `${payload.solution}`.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g)[0]
         console.log(payload)
-        // if(passed === true) {
             axios({
                     method: 'post', 
                     url: `${process.env.REACT_APP_SERVER}/api/challenges`,
@@ -180,24 +166,6 @@ function CreateChallenge(props) {
 
     return(
         <div className="create-challenge-container">
-
-            {/* <div className="challenge-code-container">
-                <div className="editor" style={{"margin-left": "250px"}}>
-                    <section className="playground">
-                        <div className="code-editor js-code">
-                            <div className="editor-header">Skeleton Function</div>
-                            <Editor
-                                code={javascriptInput}
-                                theme={'material'}
-                                mode={'javascript'}
-                                changeHandler={handleInputChange}
-                                auth={props.auth}
-                            />
-                        </div>
-                    </section>
-                </div>
-            </div> */}
-
             <Tabs className="tabs">
                 <div label="Meta">
                     <div className="tab-container">
@@ -318,10 +286,10 @@ function CreateChallenge(props) {
                 </div>
             </Tabs>
             <div>
-                    <Console runTests={runTests} runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
-                    <div className="submit-button-wrapper">
-                        <button className="submit-button" disabled={!passed} onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit Challenge</button>
-                    </div>
+                <Console runTests={runTests} runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
+                <div className="submit-button-wrapper">
+                    <button className="submit-button" disabled={!passed} onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit Challenge</button>
+                </div>
             </div>
         </div>
     )
