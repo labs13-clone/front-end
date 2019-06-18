@@ -6,7 +6,7 @@ import worker_script from "../../../Utility/worker";
 import Editor from '../../Shared/Editor/Editor';
 import "./CreateChallenge.css"
 import Console from "../../Shared/Console/Console";
-
+import Tabs from './Tabs';
 
 function CreateChallenge(props) {
     const accessToken = props.auth.accessToken;
@@ -173,7 +173,27 @@ function CreateChallenge(props) {
 
     return(
         <div>
-            <div className="meta-container">
+
+            {/* <div className="challenge-code-container">
+                <div className="editor" style={{"margin-left": "250px"}}>
+                    <section className="playground">
+                        <div className="code-editor js-code">
+                            <div className="editor-header">Skeleton Function</div>
+                            <Editor
+                                code={javascriptInput}
+                                theme={'material'}
+                                mode={'javascript'}
+                                changeHandler={handleInputChange}
+                                auth={props.auth}
+                            />
+                        </div>
+                    </section>
+                </div>
+            </div> */}
+
+            <Tabs>
+                <div label="Meta">
+                <div className="meta-container">
                 <h3>Basic Information</h3>
                 <form className="meta-form">
                     <div>
@@ -195,60 +215,33 @@ function CreateChallenge(props) {
                     </div>
                 </form>
             </div>
-            <div className="description-editor-container">
-                <div className="editor" style={{"margin-left": "250px"}}>
-                    <section className="playground">
-                        <div className="code-editor js-code">
-                            <div className="editor-header">Description</div>
-                            <Editor
-                                code={markdownInput}
-                                theme={'material'}
-                                mode={'markdown'}
-                                changeHandler={handEditorleInputChange}
-                                auth={props.auth}
-                            />
-                        </div>
-                    </section>
+
                 </div>
+                <div label="Description">
+                <div className="description-editor-container">
+                <div className="editor" style={{"margin-left": "250px"}}>
+                        <section className="playground">
+                            <div className="code-editor js-code">
+                                <div className="editor-header">Description</div>
+                                <Editor
+                                    code={markdownInput}
+                                    theme={'material'}
+                                    mode={'markdown'}
+                                    changeHandler={handEditorleInputChange}
+                                    auth={props.auth}
+                                />
+                            </div>
+                        </section>
+                    </div>
+
+                </div>
+                </div>
+                <div label="Preview">
                 <ReactMarkdown source={markdownInput} className="markdown-render" placeholder="Preview"/>
-            </div>
-            <div className="challenge-code-container">
-                <div className="editor" style={{"margin-left": "250px"}}>
-                    <section className="playground">
-                        <div className="code-editor js-code">
-                            <div className="editor-header">Skeleton Function</div>
-                            <Editor
-                                code={javascriptInput}
-                                theme={'material'}
-                                mode={'javascript'}
-                                changeHandler={handleInputChange}
-                                auth={props.auth}
-                            />
-                        </div>
-                    </section>
-                </div>
-                <div className="editor" style={{"margin-right": "250px"}}>
-                    <section className="playground">
-                        <div className="code-editor js-code">
-                            <div className="editor-header">Solution</div>
-                            <Editor
-                                code={javascriptSolutionInput}
-                                theme={'material'}
-                                mode={'javascript'}
-                                changeHandler={handleSolutionInputChange}
-                                auth={props.auth}
-                            />
-                        </div>
-                    </section>
-                </div>
-            </div>
-            <button style={{"margin-left": "250px"}} onClick={runTests}>Run Tests</button>
-            <button onClick={runCode}>Run Code</button>
-            <button onClick={clearConsole}>Clear Console</button>
 
-            <Console output={output} style={{width: "63%"}}/>
-
-            <div className="create-challenge-tests">
+                </div>
+                <div label="Tests">
+                <div className="create-challenge-tests">
                 <form className="tests-form">
                     {tests.map((test, index) => {
                         return (<div>
@@ -281,6 +274,30 @@ function CreateChallenge(props) {
                 <button disabled={!buttonState} onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit</button>
                 </form>
             </div>
+                </div>
+                <div label="Code">
+                <div className="editor" style={{"margin-right": "250px"}}>
+                    <section className="playground">
+                        <div className="code-editor js-code">
+                            <div className="editor-header">Solution</div>
+                            <Editor
+                                code={javascriptSolutionInput}
+                                theme={'material'}
+                                mode={'javascript'}
+                                changeHandler={handleSolutionInputChange}
+                                auth={props.auth}
+                            />
+                        </div>
+                    </section>
+                </div>
+                </div>
+            </Tabs>
+
+            <button style={{"margin-left": "250px"}} onClick={runTests}>Run Tests</button>
+            <button onClick={runCode}>Run Code</button>
+            <button onClick={clearConsole}>Clear Console</button>
+
+            <Console output={output} style={{width: "63%"}}/>
         </div>
     )
 }

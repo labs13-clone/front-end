@@ -15,7 +15,7 @@ const LandingPageContent = props => {
         <div className="landingContainer">
             <div className="landingContent">
                 <header>
-                    <h1>Clone Coding</h1>
+                    <h1 className="landing-page-header">Clone Coding</h1>
                     <div>
                         <button onClick={login}>Sign In / Register</button>
                     </div>
