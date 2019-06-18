@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import Editor from "../../Shared/Editor/Editor";
 import Console from "../../Shared/Console/Console";
 import worker_script from "../../../Utility/worker";
+import { useWorker } from "../../../Utility/WorkerHook";
 import ReactMarkdown from 'react-markdown';
 import Modal from '@material-ui/core/Modal';
 import './AttemptChallenge.css';
@@ -11,19 +12,20 @@ function AttemptChallenge(props) {
 
     const [challenge, setChallenge] = useState({id:null,difficulty:null,skeleton_function:"",tests:[],title:"",categories:[]});
     const [userSubmission, setUserSubmission] = useState({id:null,attempts:null,challenge_id:null,completed:false,solution:""});
+    const [userMessage, setUserMessage] = useState({});
     const [output, setOutput] = useState([]);
     const [passed, setPassed] = useState(false);
-    const [modalState, setModalState] = useState(false)
+    const [modalState, setModalState] = useState(false);
 
-    const lastWorker = useRef(null);
-
+    const {result,error} = useWorker(worker_script,userMessage);
+  
     useEffect(() => {
         const submissionReq = getSubmission(props.auth.accessToken);
         const challengeReq = getData(props.auth.accessToken);
 
         const attemptChallengeData = Promise.all([submissionReq,challengeReq]);
         attemptChallengeData.then(res => {
-            const [{data:{0:submissionRes}}, {data:{0:challengeRes}}] = res; // destructuring to unpack response data to an object. Res is an array with two responses from axios. The final result is a an object for each request by destructuring res to two variables that are objects. The objects have properties named "data". Data is an array with a single element. The first index "0" is destructured to retreive an object. 
+        const [{data:{0:submissionRes}}, {data:{0:challengeRes}}] = res; // destructuring to unpack response data to an object. Res is an array with two responses from axios. The final result is a an object for each request by destructuring res to two variables that are objects. The objects have properties named "data". Data is an array with a single element. The first index "0" is destructured to retreive an object. 
 
             setChallenge(challengeRes);
 
@@ -38,72 +40,34 @@ function AttemptChallenge(props) {
                 console.log(submissionRes);
                 setUserSubmission(submissionRes);
             }
-
         });
-
     }, []);
 
     useEffect(() => {
-        if (window.Worker) {
-            var worker = new Worker(worker_script);
-
-            lastWorker.current = worker;
-            //   let dispatchSafe = action => dispatch(action);
-            //   worker.onmessage = e => dispatchSafe({ type: 'result', result: e.data });
-            //   worker.onerror = () => dispatchSafe({ type: 'error' });
-            //   worker.onmessageerror = () => dispatchSafe({ type: 'messageerror' });
-
-
-
-            worker.onmessage = (e) => {
-                switch (e.data.msg){
-                  case "run_code":
-                      setOutput([e.data.result.toString()]);
-                      break;
-                  case "run_tests":
-                      const testResult = (e.data.result.toString()==='true' ? true : false)
-                      setPassed(testResult);
-                      setUserSubmission({...userSubmission,completed:testResult})
-                      if(testResult){
-                          setOutput(["Passed Tests!!!",e.data.result.toString()]);
-                      }else{
-                          setOutput(["Not all tests passed",e.data.result.toString()]);
-                      }
-                      break;
-                  default:
-                      break;
-                };
-              
-            };
-            worker.onerror = (e) => {
-              worker.terminate();
-              };
-    
-        } else {
-                console.log('Your browser doesn\'t support web workers.');
-                // todo : send alert to user and redirect home
+    if(result.length===0){
+        setOutput([]);
+    } else {
+        const resLen = result.length;
+        switch (result[resLen-1].msg){
+            case "run_code":
+                setOutput(result);
+                updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,passed)
+                .then()
+                .catch();
+                break;
+            case "run_tests":
+                const testResult = (result[resLen-1].result.toString()==='true' ? true : false);
+                setPassed(testResult);
+                setUserSubmission({...userSubmission,completed:testResult});
+                updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,testResult)
+                .then()
+                .catch();
+                break;
+            default:
+                break;
         };
-
-        return (worker) => {
-            worker.terminate();
-            worker = undefined;
-        };
-
-
-    },[worker])
-   
-
-
-    useEffect(() => {
-        const token = props.auth.accessToken;
-        const solution = userSubmission.solution;
-        const id = userSubmission.id;
-        if(userSubmission.id!==null){
-            updateSubmission(token,solution,id,passed)
-            .then()
-            .catch();
-        }
-    },[passed]);
+    } 
+    },[result]);
     
     
     async function getData(token) {
@@ -176,35 +140,25 @@ function AttemptChallenge(props) {
     };
 
     function handleInputChange(editor, data, userCode){
-setUserSubmission({...userSubmission,solution:userCode})
+        setUserSubmission({...userSubmission,solution:userCode});
     };
 
     function clearConsole(){
-        setOutput([]);
+        setUserMessage("clear_console")
     };
     
     function runCode(){
-        const token = props.auth.accessToken;
-        const id = userSubmission.id;
         const solution = userSubmission.solution;
-        window.worker.postMessage({msg:"run_code",code:solution});
-        updateSubmission(token,solution,id,passed)
-            .then(res => console.log("update sub res",res))
-            .catch(err => console.log("update sub err",err));
+        setUserMessage({msg:"run_code",code:solution});
     };
 
     function runTests(){
         const solution = userSubmission.solution;
-        window.worker.postMessage({msg:"run_tests",code:solution,tests:challenge.tests});
-        // setModalState(!modalState);
-        // updateSubmission(props.auth.accessToken,code,submissionID,passed)
-        // .then()
-        // .catch();
-
+        setUserMessage({msg:"run_tests",code:solution,tests:challenge.tests});
     };
 
     function modalCallback(){
-        setModalState(!modalState)
+        setModalState(!modalState);
     }
     
     return (
