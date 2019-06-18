@@ -1,6 +1,15 @@
+.create-challenge-container {
+  /* background-color: #222840; */
+  width: 1000px;
+  margin: 50px auto;
+  padding-bottom: 10px;
+  height: auto;
+}
+
 .meta-container{
     width: 600px;
     margin: 50px auto;
+    /* background-color: yellow; */
 }
 
 .meta-form{
@@ -15,12 +24,18 @@
 }
 
 .markdown-render{
-    width: 30%;
+    width: 60%;
     height: 300px;
-    background-color: lightgray;
-    margin-right: 250px;
+    background-color: #1C2938;
+    margin: auto;
     box-sizing: border-box;
-    border: solid darkgray 5px;
+    border: solid gray 5px;
+    color: white;
+    padding: 10px;
+}
+
+.markdown-render * {
+  margin: 0px;
 }
 
 .hide-button{
@@ -37,65 +52,69 @@
 }
 
 .editor {
-    width: 30%;
-    margin: 15px auto;
-  }
-  
-  .playground {
-    background-color: #1E1E2C;
-  }
-  
-  .code-editor {
-    height: 300px;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-  }
-  
-  .editor-header {
-    height: 30px;
-    content: attr(title);
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
-    font-size: 18px;
-    color: #fafafa;
-  }
-  
-  .react-codemirror2 {
-    max-height: 100%;
-  }
-  
-  .result {
-    left: 600px;
-    overflow: hidden;
-    background-color: lightgray;
-  }
-  
-  .iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-  
-  .tests {
-    margin: 0 5px;
-    background-color: red;
-  }
+  width: 60%;
+  margin: 0 auto;
+  border-radius: 5px;
+  overflow: hidden;
+}
 
-  .create-challenge-tests{
-      margin: 50px auto;
-      width: 680px;
-  }
+.playground {
+  background-color: #1E1E2C;
+}
 
-  .create-challenge-tests input{
-      margin-right: 10px;
-      margin-bottom: 15px;
-  }
+.code-editor {
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
 
-  .create-challenge-tests button{
+
+
+.editor-header {
+  margin: 0;
+  padding: 10px;
+  font-size: 18px;
+  color: #fafafa;
+}
+
+.react-codemirror2 {
+  max-height: 100%;
+  width: 100%;
+  margin-top: 0;
+}
+
+.result {
+  left: 600px;
+  overflow: hidden;
+  background-color: lightgray;
+}
+
+.iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.tests {
+  margin: 0 5px;
+  background-color: red;
+}
+
+.create-challenge-tests{
+    margin: 50px auto;
+    width: 680px;
+}
+
+.create-challenge-tests input{
     margin-right: 10px;
-  }
+    margin-bottom: 15px;
+    
+}
+
+.create-challenge-tests button{
+  margin-right: 10px;
+}
 
 .console-div{
     width: 63%;
@@ -112,9 +131,18 @@
     margin: 0;
 }
 
+.tabs {
+  width: 900px;
+  margin: 30px auto;
+  height: 430px;
+}
+
 .tab-list {
   border-bottom: 1px solid #ccc;
   padding-left: 0;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
 }
 
 .tab-list-item {
@@ -122,10 +150,124 @@
   list-style: none;
   margin-bottom: -1px;
   padding: 0.5rem 0.75rem;
+  width: 180px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  height: 50px;
+  padding-top: 13px;
 }
 
 .tab-list-active {
-  background-color: white;
-  border: solid #ccc;
-  border-width: 1px 1px 0 1px;
+  /* background-color: #222840; */
+  border-bottom: 3px solid #C04789;
+}
+
+.tab-container {
+  padding: 20px;
+  background-color: #222840;
+  height: 350px;
+  margin-bottom: 100px;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+/* width */
+.tab-container::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+/* Track */
+/* .tab-container::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+} */
+
+/* Handle */
+.tab-container::-webkit-scrollbar-thumb {
+  background: #9AC6C9; 
+  border-radius: 5px;
+
+}
+
+/* Handle on hover */
+.tab-container::-webkit-scrollbar-thumb:hover {
+  background: #2A9FD8; 
+}
+
+.challenge-info{
+  height: 25px;
+  border: none;
+  padding: 3px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+.test-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.delete-test-button{
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  background-color: #C04789;
+  font-weight: bold;
+  margin-top: 55px;
+  cursor: pointer;
+  font-size: 15px;
+  color: white;
+}
+
+.tests-input{
+  border: none;
+  border-radius: 3px;
+  height: 25px;
+  padding: 3px;
+  font-weight: bold;
+}
+
+.add-test-button{
+  border: none;
+  border-radius: 5px;
+  width: 130px;
+  height: 40px;
+  font-weight: bold;
+  background-color: #2A9FD8;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 15px;
+  color: white;
+}
+
+.add-test-button:disabled {
+  opacity: 0.5;
+}
+
+.test-header{
+  margin-bottom: 0px;
+  margin-top: 50px;
+}
+
+.submit-button-wrapper {
+  margin: auto;
+  width: 400px;
+}
+
+.submit-button {
+  width: 100%;
+  height: 80px;
+  border: none;
+  border-radius: 15px;
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #C04789;
+  color: white;
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
 }
