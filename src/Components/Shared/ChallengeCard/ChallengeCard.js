@@ -34,17 +34,18 @@ const ChallengeCard = (props) => {
 
     //Only show the approve button if the challenge is not approved
     //AND only show it if the user is an admin
-    const approveButton = (!props.challenge.approved && props.auth.user.role === 'admin') && <button onClick={approveChallenge}>Approve Challenge</button>
+    const approveButton = (!props.challenge.approved && props.auth.user !== undefined && props.auth.user.role === 'admin') && <button onClick={approveChallenge}>Approve Challenge</button>
 
+    if(props.challenge.title === 'Stringzzz') console.log(props.challenge)
     return (
         <div onClick={_ => history.replace(`/challenges/${props.challenge.id}`)} className="challenge-wrapper">
 
                 <div className="card-body">
                     <h1 className="challenge-title" >{props.challenge.title}</h1>
                 </div>
-                <p>
+                <div>
                     <ReactMarkdown source={props.challenge.description}/>
-                </p>
+                </div>
                 <div className="card-footer">
                     <div>
                         {categories}

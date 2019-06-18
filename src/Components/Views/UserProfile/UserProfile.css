@@ -1,53 +1,88 @@
-.UserProfile-wrapper {
+.user-profile {
+    margin: 0 auto;
+    padding: 30px 0;
+    max-width: 1000px;
+    height: 90vh;
+
     display: flex;
-    justify-content: flex-start;
-    width: 100%;
+    justify-content: space-around;
 }
 
-.card-wrapper {
-   width: 350px;
-   height: 600px;
-   border: 1px solid #f0f0f0;
-   -webkit-box-shadow: -1px 1px 16px -4px rgba(0,0,0,0.82);
-    -moz-box-shadow: -1px 1px 16px -4px rgba(0,0,0,0.82);
-    box-shadow: -1px 1px 16px -4px rgba(0,0,0,0.82);
-    margin: 20px;
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #232840;
+    max-width: 30%;
+    padding: 30px;
 }
 
-.user-avatar {
-    width: 100%;
+.sidebar-avatar {
+    max-width: 100%;
+    border-radius: 50%;
 }
 
-.joined-date {
-    color: rgba(0, 0, 0, 0.4);
-}
-
-.xp {
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.4);
-    border-top: 1px solid rgba(0, 0, 0, 0.4);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-    text-align: center;
-}
-
-.btn-edit {
-    padding: 7px 50px;
-    background: #673ab7;
-    border: none;
-    color: white;
-    border-radius: 3px;
-}
-
-
-.tabs-wrapper {
-    display: inline-block;
-}
-
-.tab-btn {
-    color: rgba(103,58,183);
-    font-weight: 700;
-    font-size: 1em;
+.sidebar-tabs {
     cursor: pointer;
-    margin-right: 25px;
-    border-bottom: rgba(103,58,183);
+}
+
+.sidebar-tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-weight: 600;
+    border-top: 1px dashed #f1f1f1;
+}
+
+.sidebar-tab:last-of-type {
+    border-bottom: 1px dashed #f1f1f1;
+}
+
+.sidebar-tab-inactive {
+    color: rgb(192, 71, 137);
+}
+
+.sidebar-tab-active {
+    color: #2A9FD8;
+}
+
+.tabs-view {
+    width: 100%;
+    height: 100%;
+    margin: 0 5px;
+    overflow-y: auto;
+}
+
+/* width */
+.tabs-view::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 5px;
+}
+
+/* Track */
+.tabs-view::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+.tabs-view::-webkit-scrollbar-thumb {
+    background: #9AC6C9;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+.tabs-view::-webkit-scrollbar-thumb:hover {
+    background: #2A9FD8;
+}
+
+.tabs-right-side {
+    background: #232840;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
 }

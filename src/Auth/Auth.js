@@ -27,10 +27,38 @@ export default class Auth {
   handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
+
+        //Get profile
+        this.getUserProfile(authResult);      
+
+        //Set session
         this.setSession(authResult);
-      } else if (err) {
+
+      }
+
+      //Else go home
+      //If there's an error alert user
+      else if (err) {
         history.replace('/');
         alert(`Error: ${err.error}. Check the console for further details.`);
+      }
+    });
+  }
+
+  getUserProfile = (authResult) => {
+
+    //Get the auth0 user profile
+    this.auth0.client.userInfo(authResult.accessToken, (err, user) => {
+
+      //If there's an error alert user
+      if (err) {
+        alert(`Error: ${err.error}. Check the console for further details.`);
+      } else {
+        //Set auth0 user profile
+        this.user = {
+          ...user,
+          ...this.user
+        }
       }
     });
   }
@@ -66,7 +94,12 @@ export default class Auth {
         }
       })
       .then(response => {
-        this.user = response.data;
+
+        //Set auth0 user profile
+        this.user = {
+          ...this.user,
+          ...response.data
+        }
       })
       .catch(err => {
         console.log(err.message)
@@ -79,12 +112,19 @@ export default class Auth {
   renewSession = () => {
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
+
+        //Get profile
+        this.getUserProfile(authResult);
+
+        //Set session
         this.setSession(authResult);
 
       } else if (err) {
-
+        localStorage.clear()
         this.logoutForReal();
 
+        //Occasionally, we were getting this alert endlessly
+        //So we added localStorage.clear();
         alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
       }
     });
