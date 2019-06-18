@@ -20,7 +20,7 @@ const LandingPageContent = props => {
             <div className="landingContent">
                 <div className="cta">
                     <header className="header">
-                        <img src={logo} />
+                       
                     </header>
                     <div className="topContent">
                         <h2>Achieve mastery through challenge</h2>
