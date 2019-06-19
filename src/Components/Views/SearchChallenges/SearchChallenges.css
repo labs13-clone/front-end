@@ -1,8 +1,11 @@
+.search-challenges-view {
+    max-width: 1000px;
+    margin: 30px auto;
+}
+
 .filter-container {
     display: flex;
     justify-content: space-between;
-    margin: 30px auto;
-    width: 1000px;
 }
 
 .filter {

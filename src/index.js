@@ -6,7 +6,7 @@ import history from './history';
 
 import './index.css';
 
-import App from './App';
+import LandingPage from './Components/Views/LandingPage/LandingPageContent';
 import UserProfile from './Components/Views/UserProfile/UserProfile';
 import Callback from './Auth/Callback';
 import ProtectedRouteWithoutRouter from './Auth/ProtectedRoute';
@@ -29,9 +29,7 @@ const handleAuthentication = ({location}) => {
 const ProtectedRouteWithAuthWithoutRouter = ProtectedRouteWithoutRouter(auth);
 const ProtectedRoute = withRouter(ProtectedRouteWithAuthWithoutRouter);
 
-const Root = () => {
-
-    
+const Root = () => {   
 
     //Renew auth0 session when the component is mounted
     useEffect(() => {
@@ -40,22 +38,22 @@ const Root = () => {
         }
     }, []);
     
-    return (<div>        
+    return (<div>    
         <Router history={history}>
-            <Header auth={auth}/>
+            {history.location.pathname !== '/' ? <Header auth={auth}/> : null}
             <div className="main-view">
-            <Switch>
-                <Route path="/" exact render={_ => <App auth={auth} />} />
-                <ProtectedRoute path="/userprofile" component={UserProfile} />} />
-                <ProtectedRoute path="/challenges" exact component={SearchChallenges} />
-                <ProtectedRoute path="/new/challenge" component={CreateChallenge} />
-                <ProtectedRoute path="/challenges/:id" component={AttemptChallenge} />
-                <Route path="/callback" render={(props) => {
-                    handleAuthentication(props);
-                    return <Callback {...props} />
-                }}/>
-                <Redirect to="/" />
-            </Switch>
+                <Switch>
+                    <Route path="/" exact render={_ => <LandingPage auth={auth} />} />
+                    <ProtectedRoute path="/userprofile" component={UserProfile}/>
+                    <ProtectedRoute path="/challenges" component={SearchChallenges} />
+                    <ProtectedRoute path="/create-challenge" component={CreateChallenge} />
+                    <ProtectedRoute path="/challenges/:id" component={AttemptChallenge} />
+                    <Route path="/callback" render={(props) => {
+                        handleAuthentication(props);
+                        return <Callback {...props} />
+                    }}/>
+                    <Redirect to="/" />
+                </Switch>
             </div>
             <Footer/>
         </Router>

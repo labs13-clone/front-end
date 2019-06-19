@@ -26,9 +26,16 @@ export default class Auth {
 
   handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
+      if (authResult && authResult.accessToken && authResult.idToken) {   
+
+        //Set session
         this.setSession(authResult);
-      } else if (err) {
+
+      }
+
+      //Else go home
+      //If there's an error alert user
+      else if (err) {
         history.replace('/');
         alert(`Error: ${err.error}. Check the console for further details.`);
       }
@@ -60,12 +67,14 @@ export default class Auth {
     // Request the challenges or submissions from the api
     axios({
         method: 'get',
-        url: `https://clone-coding-server.herokuapp.com/api/users`,
+        url: `${process.env.REACT_APP_SERVER}/api/users`,
         headers: {
           Authorization: `Bearer ${this.accessToken}`
         }
       })
       .then(response => {
+
+        //Set auth0 user profile
         this.user = response.data;
       })
       .catch(err => {
@@ -73,20 +82,22 @@ export default class Auth {
       });
 
     // Navigate to the home route
-    history.replace('/');
+    history.replace('/challenges');
   }
 
   renewSession = () => {
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
+
+        //Set session
         this.setSession(authResult);
 
       } else if (err) {
-        // localStorage.setItem(`err`, JSON.stringify(err))
-        // console.log(err)
         localStorage.clear()
         this.logoutForReal();
 
+        //Occasionally, we were getting this alert endlessly
+        //So we added localStorage.clear();
         alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
       }
     });
