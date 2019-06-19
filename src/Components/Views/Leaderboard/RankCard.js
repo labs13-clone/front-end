@@ -32,7 +32,17 @@ const RankCard = (props) => {
 
 
     return (
-    <div className={banana}><h4>{props.user.nickname}</h4> {fontAwesome ? <FontAwesomeIcon icon="trophy" className={fontAwesomeClass}/> : ''}</div>
+    <div className={banana}>
+        <div className="rank-card__left">
+            <h4>{props.index+1}</h4>
+            <img className="rank-card__avatar" src={props.user.picture}/>
+            <h4>{props.user.nickname}</h4> 
+        </div>
+        <div className="rank-card__right">
+            {fontAwesome ? <FontAwesomeIcon icon="trophy" className={fontAwesomeClass}/> : ''}
+            <h4>{props.user.xp}</h4>
+        </div>
+    </div>
     );
 }
 
