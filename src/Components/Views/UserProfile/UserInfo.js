@@ -9,7 +9,6 @@ const UserInfo = (props) => {
             <h2>
                 {props.auth.user.xp} XP
             </h2>
-            <h2>Email: {props.auth.user.name}</h2>
             <h2>Role: {props.auth.user.role}</h2>
         </div>
     );

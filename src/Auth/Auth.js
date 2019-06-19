@@ -26,10 +26,7 @@ export default class Auth {
 
   handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-
-        //Get profile
-        this.getUserProfile(authResult);      
+      if (authResult && authResult.accessToken && authResult.idToken) {   
 
         //Set session
         this.setSession(authResult);
@@ -41,24 +38,6 @@ export default class Auth {
       else if (err) {
         history.replace('/');
         alert(`Error: ${err.error}. Check the console for further details.`);
-      }
-    });
-  }
-
-  getUserProfile = (authResult) => {
-
-    //Get the auth0 user profile
-    this.auth0.client.userInfo(authResult.accessToken, (err, user) => {
-
-      //If there's an error alert user
-      if (err) {
-        alert(`Error: ${err.error}. Check the console for further details.`);
-      } else {
-        //Set auth0 user profile
-        this.user = {
-          ...user,
-          ...this.user
-        }
       }
     });
   }
@@ -88,7 +67,7 @@ export default class Auth {
     // Request the challenges or submissions from the api
     axios({
         method: 'get',
-        url: `https://clone-coding-server.herokuapp.com/api/users`,
+        url: `${process.env.REACT_APP_SERVER}/api/users`,
         headers: {
           Authorization: `Bearer ${this.accessToken}`
         }
@@ -96,25 +75,19 @@ export default class Auth {
       .then(response => {
 
         //Set auth0 user profile
-        this.user = {
-          ...this.user,
-          ...response.data
-        }
+        this.user = response.data;
       })
       .catch(err => {
         console.log(err.message)
       });
 
     // Navigate to the home route
-    history.replace('/');
+    history.replace('/challenges');
   }
 
   renewSession = () => {
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-
-        //Get profile
-        this.getUserProfile(authResult);
 
         //Set session
         this.setSession(authResult);
