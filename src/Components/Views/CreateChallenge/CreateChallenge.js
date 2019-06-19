@@ -6,7 +6,8 @@ import worker_script from "../../../Utility/worker";
 import Editor from '../../Shared/Editor/Editor';
 import "./CreateChallenge.css"
 import Console from "../../Shared/Console/Console";
-
+import Tabs from './Tabs';
+import { useWorker } from '../../../Utility/WorkerHook'
 
 function CreateChallenge(props) {
     const accessToken = props.auth.accessToken;
@@ -21,6 +22,29 @@ function CreateChallenge(props) {
     let [javascriptSolutionInput, setjavascriptSolutionInput] = useState('')
     let [passed, setPassed] = useState(false);
     let [output, setOutput] = useState([]);
+    const [userMessage, setUserMessage] = useState({});
+
+    const {result,error} = useWorker(worker_script,userMessage);
+
+    useEffect(() => {
+        if(result.length===0){
+            setOutput([]);
+        } else {
+            const resLen = result.length;
+            switch (result[resLen-1].msg){
+                case "run_code":
+                    setOutput(result);
+                    break;
+                case "run_tests":
+                    const testResult = (result[resLen-1].result.toString()==='true' ? true : false);
+                    setPassed(testResult);
+                    console.log(testResult)
+                    break;
+                default:
+                    break;
+            };
+        } 
+        },[result]);
 
     useEffect(() => {
         const myArray = tests.map(e => {
@@ -41,65 +65,10 @@ function CreateChallenge(props) {
         setButtonState(bool);
     }, [tests]);
 
-    useEffect(() => {
-        if (window.Worker) {
-            window.worker = new Worker(worker_script);
-            window.worker.onmessage = (e) => {
-                switch (e.data.msg){
-                    case "run_code":
-                        setPassed(e.data.result.toString() === "true" ? true : false);
-                        setOutput([e.data.result.toString()]);
-                        break;
-                    case "run_tests":
-                        const testResult = (e.data.result.toString()==='true' ? true : false)
-                        setPassed(testResult);
-                        if(testResult){
-                            setOutput(["Passed Tests!!!",e.data.result.toString()]);
-                        }else{
-                            setOutput(["Not all tests passed",e.data.result.toString()]);
-                        }
-                        break;
-                    default:
-                        break;
-                };
-            };
-            window.worker.onerror = (e) => {
-                window.worker.terminate();
-                }
-        } else {
-            console.log('Your browser doesn\'t support web workers.');
-            // todo : send alert to user and redirect home
-        }
-        return () => {
-            window.worker.terminate();
-            window.worker = undefined;
-        }
-    }, [])
-
-    function clearConsole(){
-        setOutput([]);
-    };
-
-    function runCode(){
-        window.worker.postMessage({msg:"run_code", code:javascriptSolutionInput});
-    };
-
     function handEditorleInputChange(editor, data, code){
         setMarkdownInput(code);
         setPayload({...payload, description:code})
     }
-
-    function runTests(){ 
-        console.log('hi')
-        const testArray = tests.map(obj => {
-            if(obj.argumentsToPass === "") {
-                obj.argumentsToPass = "[]"
-            }
-            obj.argumentsToPass = eval(obj.argumentsToPass);
-            return obj;
-        })
-        window.worker.postMessage({msg:"run_tests", code:javascriptSolutionInput, tests:tests});
-    };
 
     function addTest(e) {
         e.preventDefault();
@@ -130,7 +99,10 @@ function CreateChallenge(props) {
     function handleSolutionInputChange(editor, data, code){
         setjavascriptSolutionInput(code);
         setPayload({...payload, solution:code})
+        // setPayload({...payload, skeleton_function: )
+        // console.log(`${code}`.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g))
     }
+    
 
     function handleTitleChanges(e) {
         e.preventDefault()
@@ -155,7 +127,8 @@ function CreateChallenge(props) {
 
     function postForChallengeCreation(event, token, payload) {
         event.preventDefault();
-        if(passed === true) {
+        payload.skeleton_function = `${payload.solution}`.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g)[0]
+        console.log(payload)
             axios({
                     method: 'post', 
                     url: `${process.env.REACT_APP_SERVER}/api/challenges`,
@@ -168,125 +141,155 @@ function CreateChallenge(props) {
                 console.log(res)
             })
             .catch(err => {
-                console.log(err, err.message, process.env.REACT_APP_SERVER)
+                console.log(err, payload)
             })
-        } else {
-            alert("the challenge didn't pass")
-        }
+    };
+
+    function clearConsole(){
+        setUserMessage("clear_console")
+    };
+    
+    function runCode(){
+        setUserMessage({msg:"run_code",code:javascriptSolutionInput});
+    };
+
+    function runTests(){
+        const testArray = tests.map(obj => {
+            if(obj.argumentsToPass === "") {
+                obj.argumentsToPass = "[]"
+            }
+            obj.argumentsToPass = eval(obj.argumentsToPass);
+            return obj;
+        })
+        setUserMessage({msg:"run_tests",code:javascriptSolutionInput,tests:testArray});
     };
 
     return(
-        <div>
-            <div className="meta-container">
-                <h3>Basic Information</h3>
-                <form className="meta-form">
-                    <div>
-                        <h4>Title</h4>
-                        <input value={title} onChange={e => handleTitleChanges(e)}/>
+        <div className="create-challenge-container">
+            <Tabs className="tabs">
+                <div label="Meta">
+                    <div className="tab-container">
+                        <div className="meta-container">
+                        <h3>Basic Information</h3>
+                        <form className="meta-form">
+                            <div>
+                                <h4>Title</h4>
+                                <input className="challenge-info" value={title} onChange={e => handleTitleChanges(e)}/>
+                            </div>
+                            <div>
+                                <h4>Difficulty</h4>
+                                <select className="challenge-info" style={{width:200}} onChange={e => handleDifficultyChanges(e)}>
+                                    <option>Select</option>
+                                    <option value="16">Easy</option>
+                                    <option value="50">Medium</option>
+                                    <option value="75">Hard</option>
+                                </select>
+                            </div>
+                            <div>
+                                <h4>Categories</h4>
+                                <input className="challenge-info" value={category} onChange={e => handleCategoryChanges(e)}/>
+                            </div>
+                        </form>
                     </div>
-                    <div>
-                        <h4>Difficulty</h4>
-                        <select style={{width:200}} onChange={e => handleDifficultyChanges(e)}>
-                            <option>Select</option>
-                            <option value="16">Easy</option>
-                            <option value="50">Medium</option>
-                            <option value="75">Hard</option>
-                        </select>
-                    </div>
-                    <div>
-                        <h4>Categories</h4>
-                        <input value={category} onChange={e => handleCategoryChanges(e)}/>
-                    </div>
-                </form>
             </div>
-            <div className="description-editor-container">
-                <div className="editor" style={{"margin-left": "250px"}}>
-                    <section className="playground">
-                        <div className="code-editor js-code">
-                            <div className="editor-header">Description</div>
-                            <Editor
-                                code={markdownInput}
-                                theme={'material'}
-                                mode={'markdown'}
-                                changeHandler={handEditorleInputChange}
-                                auth={props.auth}
-                            />
-                        </div>
-                    </section>
-                </div>
-                <ReactMarkdown source={markdownInput} className="markdown-render" placeholder="Preview"/>
-            </div>
-            <div className="challenge-code-container">
-                <div className="editor" style={{"margin-left": "250px"}}>
-                    <section className="playground">
-                        <div className="code-editor js-code">
-                            <div className="editor-header">Skeleton Function</div>
-                            <Editor
-                                code={javascriptInput}
-                                theme={'material'}
-                                mode={'javascript'}
-                                changeHandler={handleInputChange}
-                                auth={props.auth}
-                            />
-                        </div>
-                    </section>
-                </div>
-                <div className="editor" style={{"margin-right": "250px"}}>
-                    <section className="playground">
-                        <div className="code-editor js-code">
-                            <div className="editor-header">Solution</div>
-                            <Editor
-                                code={javascriptSolutionInput}
-                                theme={'material'}
-                                mode={'javascript'}
-                                changeHandler={handleSolutionInputChange}
-                                auth={props.auth}
-                            />
-                        </div>
-                    </section>
-                </div>
-            </div>
-            <button style={{"margin-left": "250px"}} onClick={runTests}>Run Tests</button>
-            <button onClick={runCode}>Run Code</button>
-            <button onClick={clearConsole}>Clear Console</button>
 
-            <Console output={output} style={{width: "63%"}}/>
-            {/* <div className="console-div">
-                <p>{passed.toString()}</p>            
-            </div> */}
+                </div>
+                <div label="Description">
+                    <div className="tab-container">
+                        <div className="description-editor-container">
+                            <div className="editor">
+                                <section className="playground">
+                                    <div className="code-editor js-code">
+                                        <h2 className="editor-header">Description</h2>
+                                        <Editor
+                                            code={markdownInput}
+                                            mode={'markdown'}
+                                            changeHandler={handEditorleInputChange}
+                                        />
+                                    </div>
+                                </section>
+                            </div>
 
-            <div className="create-challenge-tests">
-                <form className="tests-form">
-                    {tests.map((test, index) => {
-                        return (<div>
-                            <h2>Test {index + 1}</h2>
-                            <input
-                                value={tests[index].descriptor}
-                                name="descriptor"
-                                placeholder="descriptor"
-                                onChange={e => handleChanges(index, e)}
-                                required
-                            />
-                            <input
-                                value={tests[index].argumentsToPass}
-                                name="argumentsToPass"
-                                placeholder="Arguments to pass"
-                                onChange={e => handleChanges(index, e)}
-                                required
-                            />
-                            <input
-                                value={tests[index].expectedResult}
-                                name="expectedResult"
-                                placeholder="expected return value"
-                                onChange={e => handleChanges(index, e)}
-                                required
-                            />
-                            <button id={index} onClick={e => removeTest(e)}>Remove Test</button>
-                        </div>)
-                    })}
-                <button disabled={!buttonState} onClick={(e) => addTest(e)}>Add Test</button>
-                <button disabled={!buttonState} onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit</button>
-                </form>
+                        </div>
+                        </div>
+                    </div>
+                <div label="Preview">
+                    <div className="tab-container">
+                        <ReactMarkdown source={markdownInput} className="markdown-render" placeholder="Preview"/>
+                    </div>
+                </div>
+                <div label="Tests">
+                    <div className="tab-container">
+                        <div className="create-challenge-tests">
+                        <form className="tests-form">
+                            {tests.map((test, index) => {
+                                return (<div>
+                                    <h2 className="test-header">Test {index + 1}</h2>
+                                    <div className="test-container">
+                                        <div>
+                                            <h4>Description</h4>
+                                            <input
+                                                className="tests-input"
+                                                value={tests[index].descriptor}
+                                                name="descriptor"
+                                                onChange={e => handleChanges(index, e)}
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <h4>Arguments</h4>
+                                            <input
+                                                className="tests-input"
+                                                value={tests[index].argumentsToPass}
+                                                name="argumentsToPass"
+                                                onChange={e => handleChanges(index, e)}
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <h4>Expected Result</h4>
+                                            <input
+                                                className="tests-input"
+                                                value={tests[index].expectedResult}
+                                                name="expectedResult"
+                                                onChange={e => handleChanges(index, e)}
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <button className="delete-test-button" id={index} onClick={e => removeTest(e)}>X</button>
+                                        </div>
+                                    </div>
+                                </div>)
+                            })}
+                        <button className="add-test-button" disabled={!buttonState} onClick={(e) => addTest(e)}>Add Test</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+                <div label="Code">
+                    <div className="tab-container">
+                        <div className="editor">
+                            <section className="playground">
+                                <div className="code-editor js-code">
+                                    <h2 className="editor-header">Solution</h2>
+                                    <Editor
+                                        code={javascriptSolutionInput}
+                                        mode={'javascript'}
+                                        changeHandler={handleSolutionInputChange}
+                                        // auth={props.auth}
+                                    />
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </Tabs>
+            <div>
+                <Console runTests={runTests} runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
+                <div className="submit-button-wrapper">
+                    <button className="submit-button" disabled={!passed} onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit Challenge</button>
+                </div>
             </div>
         </div>
     )
