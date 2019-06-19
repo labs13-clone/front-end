@@ -44,6 +44,7 @@ const Root = () => {
             <div className="main-view">
                 <Switch>
                     <Route path="/" exact render={_ => <LandingPage auth={auth} />} />
+                    <Route path="/loading"  render={_ => {return <div>Loading</div>}} />
                     <ProtectedRoute path="/userprofile" component={UserProfile}/>
                     <ProtectedRoute path="/challenges" exact component={SearchChallenges} />
                     <ProtectedRoute path="/create-challenge" component={CreateChallenge} />

@@ -81,7 +81,6 @@ export default class Auth {
       });
 
     // Navigate to the home route
-    console.log(path)
     history.replace(`${path}`);
   }
 
