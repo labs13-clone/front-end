@@ -30,11 +30,11 @@ const ProtectedRouteWithAuthWithoutRouter = ProtectedRouteWithoutRouter(auth);
 const ProtectedRoute = withRouter(ProtectedRouteWithAuthWithoutRouter);
 
 const Root = () => {   
-
+    const pathName = history.location.pathname;
     //Renew auth0 session when the component is mounted
     useEffect(() => {
         if (localStorage.getItem('isLoggedIn') === 'true') {
-            auth.renewSession();
+            auth.renewSession(pathName);
         }
     }, []);
     
