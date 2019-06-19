@@ -1,0 +1,23 @@
+.console {
+    padding: 10px;
+    background: #222840;
+    color: white;
+    width: 900px;
+    height: 350px;
+    margin: 0 auto 100px;
+}
+
+.console-buttons-wrapper {
+    width: 50%; 
+    border-bottom: 1px solid #2A9fd8;
+}
+
+.console-button {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    margin: 5px 30px;
+    background: #222840; 
+    color: #2A9fd8;
+    font-weight: bold;
+}
