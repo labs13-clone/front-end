@@ -15,6 +15,7 @@ import CreateChallenge from './Components/Views/CreateChallenge/CreateChallenge'
 import AttemptChallenge from './Components/Views/AttemptChallenge/AttemptChallenge';
 import Footer from './Components/Layout/Footer/Footer';
 import Header from './Components/Layout/Header/Header';
+import Loading from './Components/Views/Loading/Loading';
 
 const auth = new Auth();
 
@@ -44,7 +45,7 @@ const Root = () => {
             <div className="main-view">
                 <Switch>
                     <Route path="/" exact render={_ => <LandingPage auth={auth} />} />
-                    <Route path="/loading"  render={_ => {return <div>Loading</div>}} />
+                    <Route path="/loading"  component={Loading} />
                     <ProtectedRoute path="/userprofile" component={UserProfile}/>
                     <ProtectedRoute path="/challenges" exact component={SearchChallenges} />
                     <ProtectedRoute path="/create-challenge" component={CreateChallenge} />

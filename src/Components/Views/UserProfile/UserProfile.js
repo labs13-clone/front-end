@@ -76,8 +76,13 @@ const UserProfile = (props) => {
 
     return (
       <div className="user-profile">
-            <SideBar auth={props.auth} toggleTab={toggleTab} tab={tab}/>
-            <TabsView auth={props.auth} tab={tab} challenges={challenges}/>
+        { 
+            props.auth.user !== undefined &&
+                (<React.Fragment>
+                    <SideBar auth={props.auth} toggleTab={toggleTab} tab={tab}/>
+                    <TabsView auth={props.auth} tab={tab} challenges={challenges}/>
+                </React.Fragment>)
+        }
       </div>
     );
 }
