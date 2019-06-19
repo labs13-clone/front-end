@@ -125,10 +125,15 @@ function CreateChallenge(props) {
         setCategory(values)
     }
 
+    function extractSkeletonFunction() {
+        payload.skeleton_function = 'function' + /\s\w(.*?)\{↵/.exec(payload.solution)[0] + '↵}'
+        //  `${payload.solution}`.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g)[0]
+    }
+
     function postForChallengeCreation(event, token, payload) {
         event.preventDefault();
-        payload.skeleton_function = `${payload.solution}`.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g)[0]
-        console.log(payload)
+        extractSkeletonFunction();
+
             axios({
                     method: 'post', 
                     url: `${process.env.REACT_APP_SERVER}/api/challenges`,
