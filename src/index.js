@@ -13,6 +13,7 @@ import ProtectedRouteWithoutRouter from './Auth/ProtectedRoute';
 import SearchChallenges from './Components/Views/SearchChallenges/SearchChallenges';
 import CreateChallenge from './Components/Views/CreateChallenge/CreateChallenge';
 import AttemptChallenge from './Components/Views/AttemptChallenge/AttemptChallenge';
+import Leaderboard from './Components/Views/Leaderboard/Leaderboard';
 import Footer from './Components/Layout/Footer/Footer';
 import Header from './Components/Layout/Header/Header';
 
@@ -50,6 +51,7 @@ const Root = () => {
                 <ProtectedRoute path="/challenges" exact component={SearchChallenges} />
                 <ProtectedRoute path="/new/challenge" component={CreateChallenge} />
                 <ProtectedRoute path="/challenges/:id" component={AttemptChallenge} />
+                <ProtectedRoute path="/leaderboard" component={Leaderboard} />
                 <Route path="/callback" render={(props) => {
                     handleAuthentication(props);
                     return <Callback {...props} />
