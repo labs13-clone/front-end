@@ -4,6 +4,7 @@ import {withRouter, Router, Route, Switch, Redirect} from 'react-router-dom';
 import Auth from './Auth/Auth';
 import history from './history';
 
+
 import './index.css';
 
 import App from './App';
@@ -16,6 +17,11 @@ import AttemptChallenge from './Components/Views/AttemptChallenge/AttemptChallen
 import Leaderboard from './Components/Views/Leaderboard/Leaderboard';
 import Footer from './Components/Layout/Footer/Footer';
 import Header from './Components/Layout/Header/Header';
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faStar)
 
 const auth = new Auth();
 
