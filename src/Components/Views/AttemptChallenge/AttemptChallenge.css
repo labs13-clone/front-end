@@ -1,18 +1,67 @@
 .challenge-main {
-    width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
-.challenge-header {
-    background: #232840;
-    display: flex;
-    justify-content: space-between;
+.challenge-header-wrapper {
+    width: 100%;
+    background: #263238;
     border-bottom:3px solid #9ac6c9;
     margin: 30px 0;
     padding: 0 10px;
 }
 
+.category-completed {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.challenge-header {
+    font-size: 1.5rem;
+    width: 100%;
+    margin: 10px 0 20px 0;
+}
+
 /* {"display":"flex","justifyContent":"space-between","alignItems":"center","width":"900px", "margin":"0 auto"}} */
+/* style={{"color":"black","marginBottom":"5px"}} */
+
+
+
+.categories {
+    background: grey;
+    color: white;
+    margin: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.completed {
+    color: #7e7;
+    font-weight: bold;
+}
+
+.uncompleted {
+    color: palevioletred;
+    font-weight: bold;
+}
+
+.attempt-challenge-wrapper {
+    display: flex ;
+    flex-direction:column;
+}
+
+.markdown-wrapper {
+    background: #263238;
+    color: white ;
+    padding: 10px;
+    width: 45%; 
+    height: 300px ;
+    overflow: scroll;
+    flex-wrap: wrap;
+}
 
 .left-side {
     display:flex;
@@ -20,10 +69,27 @@
     padding-bottom: 15px;
 }
 
+.top-panel {
+    width:100%;
+    display:flex;
+    justify-content: space-between;
+}
+
+.unneccessary-div {
+    width:45%;
+}
+
 .challenge-completed {
     display: flex;
     align-items: center;
 }
+
+.challenge-instructions {
+    color: white;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
 
 .pill-modified {
     margin-bottom: 5px;
@@ -31,4 +97,20 @@
 
 .editor-wrapper {
     background: #232840;
+}
+
+.sub-button {
+    width: 200px;
+    height: 80px;
+    border: none;
+    border-radius: 15px;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #C04789;
+    color: white;
+}
+
+.sub-button-wrapper {
+    margin: 10px auto 50px;
 }
