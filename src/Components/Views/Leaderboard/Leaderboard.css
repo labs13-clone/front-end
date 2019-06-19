@@ -94,14 +94,17 @@
 
 .first-cup {
     color: #FFD700;
+    font-size: 1.6rem;
 }
 
 .second-cup {
     color: #C0C0C0;
+    font-size: 1.6rem;
 }
 
 .third-cup {
     color: #cd7f32;
+    font-size: 1.6rem;
 }
 
 .rank-card__avatar {
