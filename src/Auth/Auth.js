@@ -82,7 +82,9 @@ export default class Auth {
         this.setSession(authResult);
 
       } else if (err) {
-
+        // localStorage.setItem(`err`, JSON.stringify(err))
+        // console.log(err)
+        localStorage.clear()
         this.logoutForReal();
 
         alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
