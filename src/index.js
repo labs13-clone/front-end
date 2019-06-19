@@ -45,7 +45,7 @@ const Root = () => {
                 <Switch>
                     <Route path="/" exact render={_ => <LandingPage auth={auth} />} />
                     <ProtectedRoute path="/userprofile" component={UserProfile}/>
-                    <ProtectedRoute path="/challenges" component={SearchChallenges} />
+                    <ProtectedRoute path="/challenges" exact component={SearchChallenges} />
                     <ProtectedRoute path="/create-challenge" component={CreateChallenge} />
                     <ProtectedRoute path="/challenges/:id" component={AttemptChallenge} />
                     <Route path="/callback" render={(props) => {
