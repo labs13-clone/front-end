@@ -56,7 +56,7 @@ export default class Auth {
   setSession = (authResult,path) => {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
-
+    console.log(path)
     // Set the time that the access token will expire at
     let expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
     this.accessToken = authResult.accessToken;
@@ -81,7 +81,12 @@ export default class Auth {
       });
 
     // Navigate to the home route
-    history.replace(`${path}`);
+    if(path==="/callback"){
+      history.replace(`/challenges`);
+    } else {
+      history.replace(`${path}`);
+    }
+    
   }
 
   renewSession = (path) => {
