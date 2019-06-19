@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,7 +8,35 @@ import './Leaderboard.css';
 
 const Leaderboard = (props) => {
 
-    const testArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const testArr = [1, 2, 3, 4, 5, 6, 7];
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        return getUsers();
+    }, [])
+
+    
+    function getUsers() {
+        axios({
+            method: 'get',
+            url: `${process.env.REACT_APP_SERVER}/api/users/all`,
+            headers: {
+                Authorization: `Bearer ${props.auth.accessToken}`
+            }
+        }).then(result => {
+            const sorted = result.data.sort((a,b) => (a.xp > b.xp) ? -1 : ((b.xp > a.xp) ? 1 : 0)); 
+            let rankedUsers = [];
+            testArr.forEach((number, index) => {
+                rankedUsers.push(sorted[index]);
+                return rankedUsers;
+            })
+            setUsers(rankedUsers)
+            console.log(rankedUsers);
+        }).catch(e => {
+            console.log(e);
+        });
+    }
+
 
     return (
         <div className="leaderboard-container">
@@ -30,7 +58,7 @@ const Leaderboard = (props) => {
                 </div>
 
                 <div className="leaderboard-ranks">
-                    {testArr.map((card, index) => <RankCard card={card} index={index}/>)}
+                    {users.map((user, index) => <RankCard user={user} index={index}/>)}
                 </div>
             </div>
         </div>

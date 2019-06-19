@@ -19,9 +19,9 @@ import Footer from './Components/Layout/Footer/Footer';
 import Header from './Components/Layout/Header/Header';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faTrophy } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faStar)
+library.add(faStar, faTrophy)
 
 const auth = new Auth();
 

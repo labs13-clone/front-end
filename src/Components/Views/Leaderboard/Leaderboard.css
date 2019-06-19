@@ -9,6 +9,7 @@
     margin-top: 50px;
     border-radius: 3px;
     padding-bottom: 50px;
+    margin-bottom: 50px;
 }
 
 .leaderboard-header {
@@ -56,18 +57,37 @@
 }
 
 .first-place{
-    background-color: #d990b8;
+    background-color: #c04789;
+    padding: 20px;
 }
 
 .second-place {
     background-color: #cc6ba0;
+    padding: 20px;
 }
 
 .third-place {
-    background-color: #c04789;
+    background-color: #d990b8;
+    padding: 20px;
 }
 
 .rank-card {
     background-color: #f5f5f6;
+    padding: 20px;
+}
+
+.rank-card:not(:last-child) {
     border-bottom: 1px dashed #2A9FD8;
+}
+
+.first-cup {
+    color: #FFD700;
+}
+
+.second-cup {
+    color: #C0C0C0;
+}
+
+.third-cup {
+    color: #cd7f32;
 }
