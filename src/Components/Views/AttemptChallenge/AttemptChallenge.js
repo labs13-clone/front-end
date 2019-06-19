@@ -39,6 +39,9 @@ function AttemptChallenge(props) {
             } else {
                 console.log(submissionRes);
                 setUserSubmission(submissionRes);
+                if(submissionRes.completed ){
+                    setPassed(true);
+                }
             }
         });
     }, []);
@@ -162,40 +165,45 @@ function AttemptChallenge(props) {
     }
     
     return (
-        <div style={{"width":"900px", "margin":"0 auto"}}>
-            <h3 style={{color:"black","marginBottom":"5px"}}>{challenge.title}</h3>
-            <div style={{"display":"flex","justifyContent":"space-between","alignItems":"center","width":"900px", "margin":"0 auto"}}>
-                <div>
+        <div className="challenge-main">
+            <div className="challenge-header-wrapper">
+                <h3 className="challenge-header">{challenge.title}</h3>
+                <div className="category-completed" >
+                    <div>
+                        {
+                            challenge.categories.map(e =>{
+                                return <span className="categories" key={e.id}>{e.name}</span>
+                            })
+                        }
+                    </div>
                     {
-                        challenge.categories.map(e =>{
-                            return <span style={{"background":"grey","color":"white","margin":"5px","borderRadius":"5px","padding":"5px","fontSize":"12px"}}key={e.id}>{e.name}</span>
-                        })
+                        (userSubmission.completed ? <span className="completed">Completed</span>  : <span className="uncompleted">Uncompleted</span> )
                     }
                 </div>
-                {
-                    (userSubmission.completed ? <span style={{"color":"darkgreen","fontWeight":"bold"}}>Completed</span>  : <span style={{"color":"crimson","fontWeight":"bold"}}>Uncompleted</span> )
-                }
             </div>
-            <div style={{"display":"flex","justifyContent":"space-between","width":"900px", "margin":"0 auto"}}>  
-                <Editor code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"}/>
-                <div style={{"background":"#263238",color:"white","padding":"10px","marginTop":"20px","textDecoration":"none","width":"430px", "height":"280px","overflow":"scroll"}}>
-                    <h2 style={{"color":"white","marginTop":"0px","marginBottom":"0px"}}>Instructions</h2>
-                    <ReactMarkdown source={challenge.description} />
+            <div className="attempt-challenge-wrapper"> 
+                <div className="top-panel">
+                    <div className="unneccessary-div">
+                        <Editor code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"}/>
+                    </div>
+                    <div className="markdown-wrapper">
+                        <h2 className="challenge-instructions">Instructions</h2>
+                        <ReactMarkdown source={challenge.description} />
+                    </div>
                 </div>
-                <Modal onClick={modalCallback} open={modalState} children={
-                    <div style={{"display":"flex","justifyContent":"center","alignItems":"center","width":"200px","height":"200px","background":"white","color":"black","left":"50%","top":"50%","position":"absolute","transform": "translate(-57%, -40%)"}} onClick={modalCallback}>
+                {/* <Modal onClick={modalCallback} open={modalState} children={
+                    <div onClick={modalCallback}>
                         {
                             (passed ? <h4>Passed Tests!!!</h4> : <h4>Not All the Tests Passed</h4>)
                         }
                     </div>}
-                />
+                /> */}
                 <br/>
-                <div style={{"display":"flex","justifyContent":"space-between","alignItems":"center","width":"300px"}}>
-                    <button onClick={runCode}>Run Code</button>
-                    <button onClick={runTests}>Run Tests</button>
-                    <button onClick={clearConsole}>Clear Console</button>
+
+                <Console runCode={runCode} runTests={runTests} clearConsole={clearConsole} output={output}/>
+                <div className="sub-button-wrapper">
+                    <button className="submit-button" disabled={!passed} >Submit Challenge</button>
                 </div>
-                <Console output={output}/>
             </div>
         </div>
     );
