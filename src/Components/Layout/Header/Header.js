@@ -26,7 +26,7 @@ const Header = (props) => {
                 <Link className="challenge-link" to="/challenges">Challenges</Link>
             </div>
             <div className="link-wrapper">
-                <Link className="challenge-link" to="/new/challenge">+ Add Challenge</Link>
+                <Link className="challenge-link" to="/create-challenge">+ Add Challenge</Link>
                 <DropdownMenu {...props} openDropdown={openDropdown} toggleOpen={toggleOpen} toggleClose={toggleClose}/>
             </div>  
         </div> 

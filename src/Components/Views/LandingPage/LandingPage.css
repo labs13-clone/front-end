@@ -1,58 +1,41 @@
 .landingContainer {
-  padding-left: 10%;
-  padding-right: 10%;
-  margin: 0 auto;
-  background-color: #343d61;
-  color:white;
-}
-
-.landingContent {
   background-color: #232840;
-  margin-top: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 }
 
-.cta {
-  width: 85%;
-  margin: 20px auto;
-  color: #9ac6c9;
-}
-
-.header img{
-  padding-top: 73px;
-  width: 260px;
-  height: auto;
-}
-
 .topContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px;
+  color: #9ac6c9;
   margin-top: 50px;
+}
+
+.topContent h1 {
+  color: #2A9FD8;
+  
 }
 
 .topContent h2 {
   font-size: 1.4rem;
+  color: #c04789;
 }
 
-.topText {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-
-.topText p {
+.topContent p {
   width: 70%;
   font-size: 1.2rem;
+  line-height: 1.5;
 }
 
-.topText button {
-  height: 50px;
-  padding: 12px 15px;
+.topContent button {
+  padding: 20px 20px;
   border-radius: 3px;
   border: none;
   background: #c04789;
-  -webkit-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
-  -moz-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
-  box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
   color: #f5f5f6;
   font-family: inherit;
   font-size: 1.2rem;
@@ -60,44 +43,39 @@
   cursor: pointer;
 }
 
+.topContent-left {
+  width: 50%;
+}
 
 .content-cards {
   background: #f5f5f6;
   color: #000019;
-  border: 2px;
-
-}
-
-.content-cards__centered {
-  padding-top: 40px;
 }
 
 .card {
   display: flex;
-  padding: 15px;
   align-items: center;
   justify-content: space-around;
-  margin-bottom: 80px;
+  padding: 40px 20px;
+}
+
+.card div {
+  padding: 0 20px;
+  text-align: center;
 }
 
 .card p {
   font-size: 1.2rem;
-}
-
-
-.card div {
-  width: 40%;
-  text-align: justify;
+  line-height: 1.5;
 }
 
 .card h2 {
   color: #c04789;
   text-transform: uppercase;
-
 }
 
 .card img {
-  width: 600px;
+  width: 50%;
   height: auto;
 }
 
@@ -156,4 +134,3 @@
 .card-sm {
   min-height: 450px;
 }
-

@@ -24,22 +24,30 @@ function AttemptChallenge(props) {
         const challengeReq = getData(props.auth.accessToken);
 
         const attemptChallengeData = Promise.all([submissionReq,challengeReq]);
-        attemptChallengeData.then(res => {
-        const [{data:{0:submissionRes}}, {data:{0:challengeRes}}] = res; // destructuring to unpack response data to an object. Res is an array with two responses from axios. The final result is a an object for each request by destructuring res to two variables that are objects. The objects have properties named "data". Data is an array with a single element. The first index "0" is destructured to retreive an object. 
 
-            setChallenge(challengeRes);
+        attemptChallengeData
+        .then(res => {
+                const [{data:{0:submissionRes}}, {data:{0:challengeRes}}] = res; // destructuring to unpack response data to an object. Res is an array with two responses from axios. The final result is a an object for each request by destructuring res to two variables that are objects. The objects have properties named "data". Data is an array with a single element. The first index "0" is destructured to retreive an object. 
+            
+            if(challengeRes===undefined){
+                props.history.replace("/challenges")
+            } else {
+                setChallenge(challengeRes);
 
             if (submissionRes===undefined){
                 postSubmission(props.auth.accessToken,challengeRes.id,challengeRes.skeleton_function)
                 .then(res => {
                     const newSubmissionRes = res.data;
-                    console.log(newSubmissionRes);
                     setUserSubmission(newSubmissionRes);
                 });
             } else {
-                console.log(submissionRes);
                 setUserSubmission(submissionRes);
+                if(submissionRes.completed ){
+                    setPassed(true);
+                }
             }
+            }
+            
         });
     }, []);
 
@@ -162,40 +170,45 @@ function AttemptChallenge(props) {
     }
     
     return (
-        <div style={{"width":"900px", "margin":"0 auto"}}>
-            <h3 style={{color:"black","marginBottom":"5px"}}>{challenge.title}</h3>
-            <div style={{"display":"flex","justifyContent":"space-between","alignItems":"center","width":"900px", "margin":"0 auto"}}>
-                <div>
+        <div className="challenge-main">
+            <div className="challenge-header-wrapper">
+                <h3 className="challenge-header">{challenge.title}</h3>
+                <div className="category-completed" >
+                    <div>
+                        {
+                            challenge.categories.map(e =>{
+                                return <span className="categories" key={e.id}>{e.name}</span>
+                            })
+                        }
+                    </div>
                     {
-                        challenge.categories.map(e =>{
-                            return <span style={{"background":"grey","color":"white","margin":"5px","borderRadius":"5px","padding":"5px","fontSize":"12px"}}key={e.id}>{e.name}</span>
-                        })
+                        (userSubmission.completed ? <span className="completed">Completed</span>  : <span className="uncompleted">Uncompleted</span> )
                     }
                 </div>
-                {
-                    (userSubmission.completed ? <span style={{"color":"darkgreen","fontWeight":"bold"}}>Completed</span>  : <span style={{"color":"crimson","fontWeight":"bold"}}>Uncompleted</span> )
-                }
             </div>
-            <div style={{"display":"flex","justifyContent":"space-between","width":"900px", "margin":"0 auto"}}>  
-                <Editor code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"}/>
-                <div style={{"background":"#263238",color:"white","padding":"10px","marginTop":"20px","textDecoration":"none","width":"430px", "height":"280px","overflow":"scroll"}}>
-                    <h2 style={{"color":"white","marginTop":"0px","marginBottom":"0px"}}>Instructions</h2>
-                    <ReactMarkdown source={challenge.description} />
+            <div className="attempt-challenge-wrapper"> 
+                <div className="top-panel">
+                    <div className="unneccessary-div">
+                        <Editor code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"}/>
+                    </div>
+                    <div className="markdown-wrapper">
+                        <h2 className="challenge-instructions">Instructions</h2>
+                        <ReactMarkdown source={challenge.description} />
+                    </div>
                 </div>
-                <Modal onClick={modalCallback} open={modalState} children={
-                    <div style={{"display":"flex","justifyContent":"center","alignItems":"center","width":"200px","height":"200px","background":"white","color":"black","left":"50%","top":"50%","position":"absolute","transform": "translate(-57%, -40%)"}} onClick={modalCallback}>
+                {/* <Modal onClick={modalCallback} open={modalState} children={
+                    <div onClick={modalCallback}>
                         {
                             (passed ? <h4>Passed Tests!!!</h4> : <h4>Not All the Tests Passed</h4>)
                         }
                     </div>}
-                />
+                /> */}
                 <br/>
-                <div style={{"display":"flex","justifyContent":"space-between","alignItems":"center","width":"300px"}}>
-                    <button onClick={runCode}>Run Code</button>
-                    <button onClick={runTests}>Run Tests</button>
-                    <button onClick={clearConsole}>Clear Console</button>
+
+                <Console runCode={runCode} runTests={runTests} clearConsole={clearConsole} output={output}/>
+                <div className="sub-button-wrapper">
+                    <button className="submit-button" disabled={!passed} >Submit Challenge</button>
                 </div>
-                <Console output={output}/>
             </div>
         </div>
     );
