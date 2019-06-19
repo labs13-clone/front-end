@@ -24,25 +24,30 @@ function AttemptChallenge(props) {
         const challengeReq = getData(props.auth.accessToken);
 
         const attemptChallengeData = Promise.all([submissionReq,challengeReq]);
-        attemptChallengeData.then(res => {
-        const [{data:{0:submissionRes}}, {data:{0:challengeRes}}] = res; // destructuring to unpack response data to an object. Res is an array with two responses from axios. The final result is a an object for each request by destructuring res to two variables that are objects. The objects have properties named "data". Data is an array with a single element. The first index "0" is destructured to retreive an object. 
 
-            setChallenge(challengeRes);
+        attemptChallengeData
+        .then(res => {
+                const [{data:{0:submissionRes}}, {data:{0:challengeRes}}] = res; // destructuring to unpack response data to an object. Res is an array with two responses from axios. The final result is a an object for each request by destructuring res to two variables that are objects. The objects have properties named "data". Data is an array with a single element. The first index "0" is destructured to retreive an object. 
+            
+            if(challengeRes===undefined){
+                props.history.replace("/challenges")
+            } else {
+                setChallenge(challengeRes);
 
             if (submissionRes===undefined){
                 postSubmission(props.auth.accessToken,challengeRes.id,challengeRes.skeleton_function)
                 .then(res => {
                     const newSubmissionRes = res.data;
-                    console.log(newSubmissionRes);
                     setUserSubmission(newSubmissionRes);
                 });
             } else {
-                console.log(submissionRes);
                 setUserSubmission(submissionRes);
                 if(submissionRes.completed ){
                     setPassed(true);
                 }
             }
+            }
+            
         });
     }, []);
 

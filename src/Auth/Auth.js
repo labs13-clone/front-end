@@ -27,7 +27,6 @@ export default class Auth {
   handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {   
-
         //Set session
         this.setSession(authResult);
 
@@ -54,10 +53,10 @@ export default class Auth {
     return this.user;
   }
 
-  setSession = (authResult) => {
+  setSession = (authResult,path) => {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
-
+    console.log(path)
     // Set the time that the access token will expire at
     let expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
     this.accessToken = authResult.accessToken;
@@ -82,15 +81,20 @@ export default class Auth {
       });
 
     // Navigate to the home route
-    history.replace('/challenges');
+    if(path==="/callback"){
+      history.replace(`/challenges`);
+    } else {
+      history.replace(`${path}`);
+    }
+    
   }
 
-  renewSession = () => {
+  renewSession = (path) => {
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
 
         //Set session
-        this.setSession(authResult);
+        this.setSession(authResult,path);
 
       } else if (err) {
         localStorage.clear()

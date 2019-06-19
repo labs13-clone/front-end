@@ -30,11 +30,11 @@ const ProtectedRouteWithAuthWithoutRouter = ProtectedRouteWithoutRouter(auth);
 const ProtectedRoute = withRouter(ProtectedRouteWithAuthWithoutRouter);
 
 const Root = () => {   
-
+    const pathName = history.location.pathname;
     //Renew auth0 session when the component is mounted
     useEffect(() => {
         if (localStorage.getItem('isLoggedIn') === 'true') {
-            auth.renewSession();
+            auth.renewSession(pathName);
         }
     }, []);
     
@@ -44,6 +44,7 @@ const Root = () => {
             <div className="main-view">
                 <Switch>
                     <Route path="/" exact render={_ => <LandingPage auth={auth} />} />
+                    <Route path="/loading"  render={_ => {return <div>Loading</div>}} />
                     <ProtectedRoute path="/userprofile" component={UserProfile}/>
                     <ProtectedRoute path="/challenges" exact component={SearchChallenges} />
                     <ProtectedRoute path="/create-challenge" component={CreateChallenge} />
