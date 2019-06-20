@@ -15,6 +15,7 @@ import Console from "../../Shared/Console/Console";
 import Tabs from './Tabs';
 import { useWorker } from '../../../Utility/WorkerHook';
 import CategoryDropDown from './Categories';
+import Instructions from './Instructions';
 
 function CreateChallenge(props) {
     const accessToken = props.auth.accessToken;
@@ -191,7 +192,6 @@ function CreateChallenge(props) {
                     })
                     .then(categoryRes => {
                         console.log(categoryRes)
-                        
                     })
                     .catch(err => {
                         console.log(err, selectedOptions, selectedCategories)
@@ -226,6 +226,11 @@ function CreateChallenge(props) {
 
         <div className="create-challenge-container">
             <Tabs className="tabs">
+                <div label="Instructions">
+                    <div className="tab-container">
+                        <Instructions/>
+                    </div>
+                </div>
                 <div label="Meta">
                     <div className="tab-container">
                         <div className="meta-container">
