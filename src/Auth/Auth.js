@@ -73,7 +73,6 @@ export default class Auth {
       })
       .then(response => {
         //Set auth0 user profile
-        console.log(response.data)
         this.user = response.data;
       })
       .catch(err => {
