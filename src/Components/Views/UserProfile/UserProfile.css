@@ -11,7 +11,7 @@
 .sidebar {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     background: #232840;
     max-width: 30%;
@@ -32,7 +32,6 @@
     justify-content: center;
     align-items: center;
     padding: 10px;
-    font-weight: 600;
     border-top: 1px dashed #f1f1f1;
 }
 
@@ -77,6 +76,10 @@
     background: #2A9FD8;
 }
 
+.user-info * {
+    margin: 15px 0;
+}
+
 .tabs-right-side {
     background: #232840;
     display: flex;
@@ -84,5 +87,35 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+}
 
+.user-info-username {
+    color: #2A9FD8;
+    font-size: 4rem;
+}
+
+.user-info-joined {
+    font-size: 2rem;
+}
+
+.user-info-experience {
+    color: #c04789;
+    font-size: 4rem;
+}
+
+.user-info-role {
+    font-size: 1.5rem;
+}
+
+.logout-button {
+    border-radius: 5px;
+    border: 1px solid #c04789;
+    outline: none;
+    cursor: pointer;
+    background: #222840;
+    margin-top: 15px;
+    padding: 7px 15px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: whitesmoke;
 }

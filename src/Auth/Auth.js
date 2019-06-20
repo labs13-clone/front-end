@@ -4,6 +4,10 @@ import {
   AUTH_CONFIG
 } from './auth0-variables';
 import axios from 'axios';
+import {
+  useEffect,
+  useState
+} from 'react';
 
 export default class Auth {
   accessToken;
@@ -26,7 +30,7 @@ export default class Auth {
 
   handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {   
+      if (authResult && authResult.accessToken && authResult.idToken) {
         //Set session
         this.setSession(authResult);
 
@@ -53,9 +57,10 @@ export default class Auth {
     return this.user;
   }
 
-  setSession = (authResult,path) => {
+  setSession = (authResult, path) => {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
+
     // Set the time that the access token will expire at
     let expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
     this.accessToken = authResult.accessToken;
@@ -71,8 +76,8 @@ export default class Auth {
         }
       })
       .then(response => {
-
         //Set auth0 user profile
+        console.log(response.data)
         this.user = response.data;
       })
       .catch(err => {
@@ -80,12 +85,14 @@ export default class Auth {
       });
 
     // Navigate to the home route
-    if(path==="/callback"){
+    if (path === "/callback") {
+      history.replace(`/challenges`);
+    } else if(path=== undefined && localStorage.getItem('isLoggedIn')) {
       history.replace(`/challenges`);
     } else {
       history.replace(`${path}`);
     }
-    
+
   }
 
   renewSession = (path) => {
@@ -93,7 +100,7 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
 
         //Set session
-        this.setSession(authResult,path);
+        this.setSession(authResult, path);
 
       } else if (err) {
         localStorage.clear()
@@ -123,8 +130,10 @@ export default class Auth {
   isAuthenticated = () => {
     // Check whether the current time is past the
     // access token's expiry time
-    let expiresAt = this.expiresAt;
-    return new Date().getTime() < expiresAt;
+
+    const expiresAt = this.expiresAt;
+
+    return (new Date().getTime() < expiresAt);
   }
 
   logoutForReal = () => {
