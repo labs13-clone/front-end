@@ -34,10 +34,6 @@
     padding: 10px;
 }
 
-.markdown-render * {
-  margin: 0px;
-}
-
 .hide-button{
     display: none;
 }
@@ -215,7 +211,7 @@
   height: 35px;
   background-color: #C04789;
   font-weight: bold;
-  margin-top: 55px;
+  margin-top: 25px;
   cursor: pointer;
   font-size: 15px;
   color: white;

@@ -1,7 +1,5 @@
 // prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
 
-
-
 import React, { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
@@ -235,13 +233,16 @@ function CreateChallenge(props) {
                     <div className="tab-container">
                         <div className="meta-container">
                         <h3>Basic Information</h3>
+                        <br/><br/>
                         <form className="meta-form">
                             <div>
                                 <h4>Title</h4>
+                                <br/>
                                 <input className="challenge-info" value={title} onChange={e => handleTitleChanges(e)}/>
                             </div>
                             <div>
                                 <h4>Difficulty</h4>
+                                <br/>
                                 <select style={{'width': '50px'}} className="challenge-info" style={{width:200}} onChange={e => handleDifficultyChanges(e)}>
                                     <option>Select</option>
                                     <option value="16">Easy</option>
@@ -251,6 +252,7 @@ function CreateChallenge(props) {
                             </div>
                             <div>
                                 <h4>Categories</h4>
+                                <br/>
                                 <CategoryDropDown 
                                     options={category} 
                                     selectedCategories={selectedCategories} 
@@ -292,10 +294,10 @@ function CreateChallenge(props) {
                         <form className="tests-form">
                             {tests.map((test, index) => {
                                 return (<div>
-                                    <h2 className="test-header">Test {index + 1}</h2>
+                                    <h2 className="test-header">Test {index + 1}</h2> <br/><br/>
                                     <div className="test-container">
                                         <div>
-                                            <h4>Description</h4>
+                                            <h4>Description</h4><br/>
                                             <input
                                                 className="tests-input"
                                                 value={tests[index].descriptor}
@@ -305,7 +307,7 @@ function CreateChallenge(props) {
                                             />
                                         </div>
                                         <div>
-                                            <h4>Arguments</h4>
+                                            <h4>Arguments</h4><br/>
                                             <input
                                                 className="tests-input"
                                                 value={tests[index].argumentsToPass}
@@ -315,7 +317,7 @@ function CreateChallenge(props) {
                                             />
                                         </div>
                                         <div>
-                                            <h4>Expected Result</h4>
+                                            <h4>Expected Result</h4><br/>
                                             <input
                                                 className="tests-input"
                                                 value={tests[index].expectedResult}
