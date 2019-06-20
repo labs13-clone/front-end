@@ -17,12 +17,16 @@
 
 .topContent h1 {
   color: #2A9FD8;
-  
+  font-size: 2.2rem;
+  font-weight: bold;
 }
 
 .topContent h2 {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   color: #c04789;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-weight: bold;
 }
 
 .topContent p {
@@ -72,6 +76,9 @@
 .card h2 {
   color: #c04789;
   text-transform: uppercase;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-weight: bold;
 }
 
 .card img {
@@ -82,7 +89,7 @@
 .testimonials {
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  margin-bottom: 40px;
+  margin: 40px 0;
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
@@ -93,6 +100,7 @@
   text-align: center;
   text-transform: uppercase;
   font-size: 1.5rem;
+  margin-top: 50px;
 }
 
 .testimonial-card {
