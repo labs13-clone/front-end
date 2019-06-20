@@ -8,11 +8,7 @@ export default function SideBar(props) {
                 alt="avatar"
                 className="sidebar-avatar"
                 src={props.auth.user.picture}/>
-            <h2>{props.auth.user.nickname}</h2>
-            <div>Chillaxin since {new Date(props.auth.user.created_at).toDateString()}</div>
-            <h2>
-                {props.auth.user.xp} XP
-            </h2>
+            
             <div className="sidebar-tabs">
                 <div
                     id="user-info"
