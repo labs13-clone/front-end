@@ -79,10 +79,21 @@ export default class Auth {
         console.log(err.message)
       });
 
-    // Navigate to the home route
-    if (path === "/callback") {
-      history.replace(`/challenges`);
-    } else if(path=== undefined && localStorage.getItem('isLoggedIn')) {
+    /*
+
+    Route the user to the route they were headed to before needing authorization or reloading the page
+    path is set in index.js when the Root component mounts
+    path is forwarded into the Auth module via renewSession then setSession
+
+    */
+    
+    //Most of the time after going through the auth0 lock screen from the landing page
+    //The path will be "/callback" so we navigate to the challenges page
+    if (path === "/callback" ||
+    // || (path=== undefined && localStorage.getItem('isLoggedIn')) was added to stop occasional bug
+    // When you clicked on the call to action on landing page you would sometimes be redirected back to landing
+    // Even after successful authorization. Turns out path was occasionally undefined.
+    (path=== undefined && localStorage.getItem('isLoggedIn'))) {
       history.replace(`/challenges`);
     } else {
       history.replace(`${path}`);
@@ -101,6 +112,7 @@ export default class Auth {
         localStorage.clear()
         this.logoutForReal();
 
+        //Todo: Possible bug?
         //Occasionally, we were getting this alert endlessly
         //So we added localStorage.clear();
         alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
