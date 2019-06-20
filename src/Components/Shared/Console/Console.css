@@ -8,16 +8,17 @@
 }
 
 .console-buttons-wrapper {
-    width: 50%; 
-    border-bottom: 1px solid #2A9fd8;
+    width: 100%; 
+    border-bottom: 3px solid #9ac6c9;
 }
 
 .console-button {
     cursor: pointer;
     outline: none;
-    border: none;
-    margin: 5px 30px;
+    border: 1px solid #2A9fd8;
+    margin: 10px 30px;
     background: #222840; 
     color: #2A9fd8;
     font-weight: bold;
+    padding: 7px;
 }

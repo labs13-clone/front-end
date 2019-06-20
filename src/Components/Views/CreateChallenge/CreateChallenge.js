@@ -1,28 +1,35 @@
+// prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+
+
+
 import React, { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 import worker_script from "../../../Utility/worker";
 
 import Editor from '../../Shared/Editor/Editor';
-import "./CreateChallenge.css"
+import "./CreateChallenge.css";
 import Console from "../../Shared/Console/Console";
 import Tabs from './Tabs';
-import { useWorker } from '../../../Utility/WorkerHook'
+import { useWorker } from '../../../Utility/WorkerHook';
+import CategoryDropDown from './Categories';
+import Instructions from './Instructions';
 
 function CreateChallenge(props) {
     const accessToken = props.auth.accessToken;
-    let [payload, setPayload] = useState({})
-    let [markdownInput, setMarkdownInput] = useState('')
-    let [title, setTitle] = useState("")
-    let [difficulty, setDifficulty] = useState(1)
-    let [category, setCategory] = useState("")
-    let [tests, setTests] = useState([{descriptor: "", argumentsToPass: "", expectedResult: ""}])
-    let [buttonState, setButtonState] = useState(true)
-    let [javascriptInput, setJavascriptInput] = useState('')
-    let [javascriptSolutionInput, setjavascriptSolutionInput] = useState('')
-    let [passed, setPassed] = useState(false);
-    let [output, setOutput] = useState([]);
+    const [payload, setPayload] = useState({})
+    const [markdownInput, setMarkdownInput] = useState('')
+    const [title, setTitle] = useState("")
+    const [difficulty, setDifficulty] = useState(1)
+    const [category, setCategory] = useState("")
+    const [tests, setTests] = useState([{descriptor: "", argumentsToPass: "", expectedResult: ""}])
+    const [buttonState, setButtonState] = useState(true)
+    const [javascriptInput, setJavascriptInput] = useState('')
+    const [javascriptSolutionInput, setjavascriptSolutionInput] = useState('')
+    const [passed, setPassed] = useState(false);
+    const [output, setOutput] = useState([]);
     const [userMessage, setUserMessage] = useState({});
+    const [selectedCategories, setSelectedCategories] = useState([])
 
     const {result,error} = useWorker(worker_script,userMessage);
 
@@ -65,6 +72,30 @@ function CreateChallenge(props) {
         setButtonState(bool);
     }, [tests]);
 
+    useEffect( async () => {
+        axios({
+            method: 'get', 
+            url: `${process.env.REACT_APP_SERVER}/api/categories/`,
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+            })
+            .then(res => {
+                setCategory(res.data)
+                const categoryOptions = res.data.map(obj => {
+                    return {
+                        label: obj.name,
+                        value: obj.id
+                    }
+                })
+                setCategory(categoryOptions)
+                console.log(res, category, categoryOptions)
+            })
+            .catch(err => {
+                console.log(err, payload, process.env.REACT_APP_SERVER)
+            })
+    }, [])
+
     function handEditorleInputChange(editor, data, code){
         setMarkdownInput(code);
         setPayload({...payload, description:code})
@@ -99,8 +130,6 @@ function CreateChallenge(props) {
     function handleSolutionInputChange(editor, data, code){
         setjavascriptSolutionInput(code);
         setPayload({...payload, solution:code})
-        // setPayload({...payload, skeleton_function: )
-        // console.log(`${code}`.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g))
     }
     
 
@@ -125,10 +154,16 @@ function CreateChallenge(props) {
         setCategory(values)
     }
 
+    function extractSkeletonFunction() {
+        //this regex is extracting everything between "first space followed by an alphanumeric character" and "{↵"
+        const regexp = /\s\w(.*?)\{↵/;
+        payload.skeleton_function = "function" + regexp.exec('function sayHello() {↵ some randome code↵}')[0] + "↵}"
+    }
+
     function postForChallengeCreation(event, token, payload) {
         event.preventDefault();
-        payload.skeleton_function = `${payload.solution}`.match(/([a-zA-Z_{1}][a-zA-Z0-9_]+)(?=\()/g)[0]
-        console.log(payload)
+        extractSkeletonFunction();
+
             axios({
                     method: 'post', 
                     url: `${process.env.REACT_APP_SERVER}/api/challenges`,
@@ -137,8 +172,31 @@ function CreateChallenge(props) {
                     },
                     data: payload
             })
-            .then(res => {
-                console.log(res)
+            .then(challengeRes => {
+                console.log(challengeRes)
+                const selectedOptions = selectedCategories.map(int => {
+                    return {
+                        challenge_id: challengeRes.data.id,
+                        categories_id: int
+                    }
+                })
+                axios({
+                    method: 'post', 
+                    url: `${process.env.REACT_APP_SERVER}/api/categories/challenges`,
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    data: selectedOptions
+                    })
+                    .then(categoryRes => {
+                        if(categoryRes) {
+                            alert('Challenge created Successfully')
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+                
             })
             .catch(err => {
                 console.log(err, payload)
@@ -165,8 +223,14 @@ function CreateChallenge(props) {
     };
 
     return(
+
         <div className="create-challenge-container">
             <Tabs className="tabs">
+                <div label="Instructions">
+                    <div className="tab-container">
+                        <Instructions/>
+                    </div>
+                </div>
                 <div label="Meta">
                     <div className="tab-container">
                         <div className="meta-container">
@@ -178,7 +242,7 @@ function CreateChallenge(props) {
                             </div>
                             <div>
                                 <h4>Difficulty</h4>
-                                <select className="challenge-info" style={{width:200}} onChange={e => handleDifficultyChanges(e)}>
+                                <select style={{'width': '50px'}} className="challenge-info" style={{width:200}} onChange={e => handleDifficultyChanges(e)}>
                                     <option>Select</option>
                                     <option value="16">Easy</option>
                                     <option value="50">Medium</option>
@@ -187,11 +251,15 @@ function CreateChallenge(props) {
                             </div>
                             <div>
                                 <h4>Categories</h4>
-                                <input className="challenge-info" value={category} onChange={e => handleCategoryChanges(e)}/>
+                                <CategoryDropDown 
+                                    options={category} 
+                                    selectedCategories={selectedCategories} 
+                                    setSelectedCategories={selected => {setSelectedCategories(selected)}}
+                                />
                             </div>
                         </form>
                     </div>
-            </div>
+                </div>
 
                 </div>
                 <div label="Description">
@@ -277,7 +345,6 @@ function CreateChallenge(props) {
                                         code={javascriptSolutionInput}
                                         mode={'javascript'}
                                         changeHandler={handleSolutionInputChange}
-                                        // auth={props.auth}
                                     />
                                 </div>
                             </section>
