@@ -4,6 +4,12 @@ import history from '../../../history';
 import './Header.css';
 
 const Header = (props) => {
+<<<<<<< Updated upstream
+=======
+    console.log(props.auth.user)
+    
+    const [openDropdown, setOpenDropdown] = useState(false);
+>>>>>>> Stashed changes
 
     return (
         <nav className="header">
