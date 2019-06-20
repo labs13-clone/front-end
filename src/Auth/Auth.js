@@ -4,10 +4,6 @@ import {
   AUTH_CONFIG
 } from './auth0-variables';
 import axios from 'axios';
-import {
-  useEffect,
-  useState
-} from 'react';
 
 export default class Auth {
   accessToken;
