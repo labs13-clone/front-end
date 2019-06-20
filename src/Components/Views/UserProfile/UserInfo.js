@@ -2,6 +2,7 @@ import React from 'react';
 import './UserProfile.css';
 
 const UserInfo = (props) => {
+
     return (
         <div className="tabs-right-side user-info">
             <div className="user-info-username">{props.auth.user.nickname}</div>
