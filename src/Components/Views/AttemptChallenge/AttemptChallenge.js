@@ -5,7 +5,8 @@ import Console from "../../Shared/Console/Console";
 import worker_script from "../../../Utility/worker";
 import { useWorker } from "../../../Utility/WorkerHook";
 import ReactMarkdown from 'react-markdown';
-import Modal from '@material-ui/core/Modal';
+import SharedModal from "../../Shared/SharedModal/SharedModal";
+
 import './AttemptChallenge.css';
 
 function AttemptChallenge(props) {
@@ -66,10 +67,11 @@ function AttemptChallenge(props) {
             case "run_tests":
                 const testResult = (result[resLen-1].result.toString()==='true' ? true : false);
                 setPassed(testResult);
-                setUserSubmission({...userSubmission,completed:testResult});
-                updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,testResult)
+                setModalState(true)
+                updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,false)
                 .then()
                 .catch();
+                
                 break;
             default:
                 break;
@@ -101,7 +103,6 @@ function AttemptChallenge(props) {
                             Authorization: `Bearer ${token}`,
                          }
         });
-            //console.log(result,"get Submission")
             return result;
         } catch (e) {
         };
@@ -147,12 +148,14 @@ function AttemptChallenge(props) {
         };
     };
 
-    function handleInputChange(editor, data, userCode){
-        setUserSubmission({...userSubmission,solution:userCode});
+    function handleInputChange(editor,data,userCode){
+        if(!userSubmission.completed){
+            setUserSubmission({...userSubmission,solution:userCode});
+        }
     };
 
     function clearConsole(){
-        setUserMessage("clear_console")
+        setUserMessage("clear_console");
     };
     
     function runCode(){
@@ -167,6 +170,28 @@ function AttemptChallenge(props) {
 
     function modalCallback(){
         setModalState(!modalState);
+    }
+
+    function submitChallenge(){
+        // setUserSubmission when the promised is resolved
+        if(userSubmission.completed){
+            setUserSubmission({...userSubmission,completed:false});
+            updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,false)
+                .then()
+                .catch();
+        } else if(passed===true){
+            setUserSubmission({...userSubmission,completed:true});
+            updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,true)
+                .then()
+                .catch();
+            // Do network request to submit passed and completed state
+        }
+    }
+
+    function resetChallenge(){
+         updateSubmission(props.auth.accessToken,challenge.skeleton_function,userSubmission.id,false)
+            .then(() => window.location.reload()) 
+            .catch();
     }
     
     return (
@@ -184,31 +209,37 @@ function AttemptChallenge(props) {
                     {
                         (userSubmission.completed ? <span className="completed">Completed</span>  : <span className="uncompleted">Uncompleted</span> )
                     }
+                    {
+                        (passed ? <span className="completed">Tests Passed</span>  : <span className="uncompleted">Not All Tests Passed</span> )
+                    }
                 </div>
             </div>
             <div className="attempt-challenge-wrapper"> 
                 <div className="top-panel">
                     <div className="unneccessary-div">
-                        <Editor code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"}/>
+                        <div style={{"background": "#222840","display":"flex","justifyContent":"space-around","alignItems":"center"}}>
+                            <button className="console-button" onClick={resetChallenge}>Reset Challenge</button>
+                            <button className="console-button" onClick={runTests}>Run Tests</button>
+                            <button className="sub-button" onClick={submitChallenge} disabled={!passed}>{userSubmission.completed ? "Unsubmit to Edit" : "Submit Solution"}</button>
+                        </div>
+                        {
+                            (!userSubmission.completed ? 
+                            <Editor code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"} readOnly={false}/> :
+                            <Editor code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"} readOnly={true}/>
+                            )
+                        }
+                        
                     </div>
-                    <div className="markdown-wrapper">
+                    <div className="attempt-markdown-wrapper">
                         <h2 className="challenge-instructions">Instructions</h2>
                         <ReactMarkdown source={challenge.description} />
                     </div>
                 </div>
-                {/* <Modal onClick={modalCallback} open={modalState} children={
-                    <div onClick={modalCallback}>
-                        {
-                            (passed ? <h4>Passed Tests!!!</h4> : <h4>Not All the Tests Passed</h4>)
-                        }
-                    </div>}
-                /> */}
+                
+                <SharedModal message={(passed ? "Passed All Tests" : "Sorry Not All Tests Passed")} modalCallback={modalCallback} modalState={modalState}/>
                 <br/>
 
-                <Console runCode={runCode} runTests={runTests} clearConsole={clearConsole} output={output}/>
-                <div className="sub-button-wrapper">
-                    <button className="submit-button" disabled={!passed} >Submit Challenge</button>
-                </div>
+                <Console runCode={runCode} clearConsole={clearConsole} output={output}/>
             </div>
         </div>
     );

@@ -4,7 +4,7 @@
 */
 
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+h1, h2, h3, h4, h5, h6, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
@@ -107,3 +107,53 @@ pre {
 /* .MuiButtonBase-root {
   padding:0px;
 } */
+
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+code {
+  font-family: monospace;
+}
+
+p {
+  display: block;
+}
+
+
+h1 {
+  display: block;
+  font-size: 2em;
+  font-weight: bold
+}
+ 
+h2 {
+  display: block;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+h3 {
+  display: block;
+  font-size: 1.17em;
+  font-weight: bold;
+}
+
+
+h4 {
+  display: block;
+  font-size: 1em;
+  font-weight: bold
+}
+h5 {
+  display: block;
+  font-size: .83em;
+  font-weight: bold
+}
+h6 {
+  display: block;
+  font-size: .67em;
+  font-weight: bold
+}
