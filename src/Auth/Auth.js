@@ -26,9 +26,15 @@ export default class Auth {
 
   handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
+      if (authResult && authResult.accessToken && authResult.idToken) {   
+        //Set session
         this.setSession(authResult);
-      } else if (err) {
+
+      }
+
+      //Else go home
+      //If there's an error alert user
+      else if (err) {
         history.replace('/');
         alert(`Error: ${err.error}. Check the console for further details.`);
       }
@@ -47,10 +53,9 @@ export default class Auth {
     return this.user;
   }
 
-  setSession = (authResult) => {
+  setSession = (authResult,path) => {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
-
     // Set the time that the access token will expire at
     let expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
     this.accessToken = authResult.accessToken;
@@ -60,12 +65,14 @@ export default class Auth {
     // Request the challenges or submissions from the api
     axios({
         method: 'get',
-        url: `https://clone-coding-server.herokuapp.com/api/users`,
+        url: `${process.env.REACT_APP_SERVER}/api/users`,
         headers: {
           Authorization: `Bearer ${this.accessToken}`
         }
       })
       .then(response => {
+
+        //Set auth0 user profile
         this.user = response.data;
       })
       .catch(err => {
@@ -73,20 +80,27 @@ export default class Auth {
       });
 
     // Navigate to the home route
-    history.replace('/');
+    if(path==="/callback"){
+      history.replace(`/challenges`);
+    } else {
+      history.replace(`${path}`);
+    }
+    
   }
 
-  renewSession = () => {
+  renewSession = (path) => {
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
+
+        //Set session
+        this.setSession(authResult,path);
 
       } else if (err) {
-        // localStorage.setItem(`err`, JSON.stringify(err))
-        // console.log(err)
         localStorage.clear()
         this.logoutForReal();
 
+        //Occasionally, we were getting this alert endlessly
+        //So we added localStorage.clear();
         alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
       }
     });

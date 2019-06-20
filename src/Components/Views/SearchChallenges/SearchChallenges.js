@@ -20,6 +20,7 @@ const SearchChallenges = (props) => {
     //Get categories on load
     useEffect(() => {
         getCategories();
+        getData({difficulty: '1-100'});
     }, []);
 
     //Get challenges every time the filters are changed
@@ -61,7 +62,7 @@ const SearchChallenges = (props) => {
     }
 
     return (
-        <div>
+        <div className="search-challenges-view">
           <div className='filter-container'>
             <CategoriesFilter categories={categories} setCategory={setCategory}/>
             <DifficultyLevels setDifficulty={setDifficulty}/>

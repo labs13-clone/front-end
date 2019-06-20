@@ -60,6 +60,7 @@ const DropdownMenu = (props) => {
             <div className="dropdown">
                 <ul>
                     <Link className="option" to="/userprofile">Profile</Link>
+                    <Link className="option" to="/leaderboard">Leaderboard</Link>
                     <button className="option" onClick={logout}>Logout</button>
                     <p onClick={(e) => props.toggleClose(e)}>Close</p>
                 </ul>
