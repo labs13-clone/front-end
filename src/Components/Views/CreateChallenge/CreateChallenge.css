@@ -271,3 +271,88 @@
 .submit-button:disabled {
   opacity: 0.5;
 }
+
+/*************** categories dropdown styles *****************/
+.multi-select {
+  height: 30px;
+  border-radius: 5px;
+  margin-top: -2px;
+}
+
+.dropdown {
+  width: 200px !important;
+  border: red 3px solid;
+  height: 25px;
+  font-size: 13px;
+  border-radius: 5px;
+  border: none !important;
+}
+
+.dropdown-heading {
+  border: red 3px solid;
+  height: 25px !important;
+  box-sizing: border-box;
+  border: none !important;
+  width: 200px !important;
+}
+
+.dropdown-heading-value span {
+  display: none !important;
+  position: relative;
+  height: 20px;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.dropdown-content {
+  height: 200px !important;
+}
+
+.dropdown-content::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+.dropdown-content::-webkit-scrollbar-thumb {
+  background: #9AC6C9; 
+  border-radius: 5px;
+
+}
+
+.dropdown-content::-webkit-scrollbar-thumb:hover {
+  background: #2A9FD8; 
+}
+
+.select-panel div {
+  height: 28px;
+  padding: 3px !important;
+}
+
+.select-panel input {
+  height: 25px !important;
+  padding: 5px !important;
+}
+
+.select-item {
+  height: 25px;
+  padding: 0px 10px !important;
+  margin-top: 5px;
+}
+
+.item-renderer {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 19px;
+}
+
+.item-renderer input {
+  height: 13px !important;
+  margin: 0;
+  margin-right: 7px;
+  margin-top: 4px;
+}
+
+.item-renderer span {
+  padding: 0px 5px !important;
+}
