@@ -72,7 +72,7 @@ function CreateChallenge(props) {
         setButtonState(bool);
     }, [tests]);
 
-    useEffect( async () => {
+    useEffect(() => {
         axios({
             method: 'get', 
             url: `${process.env.REACT_APP_SERVER}/api/categories/`,
