@@ -61,6 +61,7 @@ const SearchChallenges = (props) => {
         });
     }
 
+
     return (
         <div className="search-challenges-view">
           <div className='filter-container'>

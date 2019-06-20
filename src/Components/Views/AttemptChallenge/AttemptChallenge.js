@@ -141,6 +141,7 @@ function AttemptChallenge(props) {
                         solution: solution
                       }
         });
+
             return result
         } catch (e) {
             console.log(e)
@@ -168,6 +169,8 @@ function AttemptChallenge(props) {
     function modalCallback(){
         setModalState(!modalState);
     }
+
+    console.log('challenge', challenge, 'userSubmissions', userSubmission)
     
     return (
         <div className="challenge-main">
