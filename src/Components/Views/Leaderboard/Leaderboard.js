@@ -12,7 +12,7 @@ const Leaderboard = (props) => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        return getUsers();
+        getUsers();
     }, [])
 
     
@@ -31,7 +31,6 @@ const Leaderboard = (props) => {
                 return rankedUsers;
             })
             setUsers(rankedUsers)
-            console.log(rankedUsers);
         }).catch(e => {
             console.log(e);
         });
@@ -65,7 +64,7 @@ const Leaderboard = (props) => {
                     <h4>XP Points</h4>
                 </div>
                 <div className="leaderboard-ranks">
-                    {users.map((user, index) => <RankCard user={user} index={index}/>)}
+                    {users.map((user, index) => <RankCard user={user} index={index} key={index}/>)}
                 </div>
             </div>
         </div>

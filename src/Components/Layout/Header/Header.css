@@ -1,25 +1,19 @@
-.header {
+.header-wrapper {
   background: #222840;
-  padding: 10px 0;
   width: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
-  min-height: 5vh;
+  min-height: 7vh;
 }
 
-.header__wrapper {
+.header {
   max-width: 1000px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-}
-
-.left-header {
-  display: flex;
-  justify-content: center;
-  align-content: center;
 }
 
 .logo,
@@ -32,21 +26,19 @@
   font-weight: bold;
 }
 
-.link-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
 .navigation-link,
-.navigation-link a:visited,
-.navigation-link a:active {
+.navigation-link:visited,
+.navigation-link:active {
   color: #c04789;
   text-decoration: none;
   margin-right: 20px;
-  font-weight: 300;
+  font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
+}
+
+.navigation-link:hover {
+  color: #2A9FD8;
 }
 
 .account-button {
@@ -55,9 +47,12 @@
   outline: none;
   cursor: pointer;
   background:  #222840;
-  margin-top: 15px;
   padding: 7px 15px;
   font-weight: bold;
   font-size: .8rem;
   color: whitesmoke;
+}
+
+.account-button:hover {
+  background:  #c04789;
 }
