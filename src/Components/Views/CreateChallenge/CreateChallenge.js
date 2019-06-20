@@ -6,8 +6,6 @@ import React, { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 import worker_script from "../../../Utility/worker";
-import Select from 'react-select'
-import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 
 import Editor from '../../Shared/Editor/Editor';
 import "./CreateChallenge.css";
@@ -191,10 +189,12 @@ function CreateChallenge(props) {
                     data: selectedOptions
                     })
                     .then(categoryRes => {
-                        console.log(categoryRes)
+                        if(categoryRes) {
+                            alert('Challenge created Successfully')
+                        }
                     })
                     .catch(err => {
-                        console.log(err, selectedOptions, selectedCategories)
+                        console.log(err)
                     })
                 
             })
