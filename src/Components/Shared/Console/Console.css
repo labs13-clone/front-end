@@ -6,7 +6,23 @@
     width: 900px;
     height: 350px;
     margin: 0 auto 80px;
-    overflow: scroll;
+    overflow: auto;
+}
+
+.console::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 5px;
+}
+
+/* Handle */
+.console::-webkit-scrollbar-thumb {
+    background: #9AC6C9;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+.console::-webkit-scrollbar-thumb:hover {
+    background: #2A9FD8;
 }
 
 .console-buttons-wrapper {
