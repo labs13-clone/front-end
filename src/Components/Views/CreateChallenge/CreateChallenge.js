@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 import Loader from 'react-loader-spinner';
+import {Link} from 'react-router-dom';
 
 import worker_script from "../../../Utility/worker";
 import Editor from '../../Shared/Editor/Editor';
@@ -130,7 +131,6 @@ function CreateChallenge(props) {
     function handleSolutionInputChange(editor, data, code){
         setjavascriptSolutionInput(code);
         setPayload({...payload, solution:code})
-        setModalState(true);
     }
     
 
@@ -392,8 +392,14 @@ function CreateChallenge(props) {
             <div>
                 <Console runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
             </div>
-            <SharedModal message={(passed ? "Passed All Tests" : "Sorry Not All Tests Passed")} modalCallback={modalCallback} modalState={modalState}/>
-
+            <SharedModal class="create-challenge-modal" message={
+            <div className="modal-text-container">
+                <h1>Success!</h1>
+                <p>Your challenge is submitted for approval</p>
+                <p>See the status in your profile</p>
+                <Link to="/profile"><button>Profile</button></Link>
+            </div>
+            } modalCallback={modalCallback} modalState={modalState}/>
         </div>
     )
 }
