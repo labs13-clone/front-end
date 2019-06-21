@@ -6,7 +6,7 @@ import worker_script from "../../../Utility/worker";
 import { useWorker } from "../../../Utility/WorkerHook";
 import ReactMarkdown from 'react-markdown';
 import SharedModal from "../../Shared/SharedModal/SharedModal";
-
+import Fullscreen from "react-full-screen";
 import './AttemptChallenge.css';
 
 function AttemptChallenge(props) {
@@ -17,6 +17,7 @@ function AttemptChallenge(props) {
     const [output, setOutput] = useState([]);
     const [passed, setPassed] = useState(false);
     const [modalState, setModalState] = useState(false);
+    const [isFull, setIsFull] = useState(false);
 
     const {result,error} = useWorker(worker_script,userMessage);
   
@@ -67,7 +68,7 @@ function AttemptChallenge(props) {
             case "run_tests":
                 const testResult = (result[resLen-1].result.toString()==='true' ? true : false);
                 setPassed(testResult);
-                setModalState(true)
+                setModalState(isFull ? false : true)
                 updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,false)
                 .then()
                 .catch();
@@ -169,7 +170,7 @@ function AttemptChallenge(props) {
     };
 
     function modalCallback(){
-        setModalState(!modalState);
+            setModalState(!modalState);
     }
 
     function submitChallenge(){
@@ -193,12 +194,18 @@ function AttemptChallenge(props) {
             .then(() => window.location.reload()) 
             .catch();
     }
-    
+
+    function goFull(){
+        setIsFull(!isFull)
+    }
+
     return (
-        <div className="challenge-main">
-            <div className="challenge-header-wrapper">
+        
+        <div className="challenge-main ">
+            <div className="challenge-header-wrapper ">
                 <h3 className="challenge-header">{challenge.title}</h3>
                 <div className="category-completed" >
+                    {/* <button onClick={goFull}>{isFull ? "Exit Full Screen" :"Go Fullscreen"}</button> */}
                     <div>
                         {
                             challenge.categories.map(e =>{
@@ -236,12 +243,13 @@ function AttemptChallenge(props) {
                     </div>
                 </div>
                 
-                <SharedModal message={(passed ? "Passed All Tests" : "Sorry Not All Tests Passed")} modalCallback={modalCallback} modalState={modalState}/>
+                <SharedModal message={(passed ? "Passed All Tests" : "Sorry Not All Tests Passed")} modalCallback={modalCallback} modalState={modalState} class="attempt-challenge-modal"/>
                 <br/>
 
                 <Console runCode={runCode} clearConsole={clearConsole} output={output}/>
             </div>
         </div>
+        
     );
 }
 

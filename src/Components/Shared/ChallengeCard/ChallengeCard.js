@@ -5,6 +5,8 @@ import {difficultyToString} from '../../../Utility/difficultyToString';
 import ReactMarkdown from 'react-markdown';
 import './ChallengeCard.css';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 const ChallengeCard = (props) => {
 
     const categories = props
@@ -48,6 +50,11 @@ const ChallengeCard = (props) => {
 
             <div className="card-body">
                 <h1 className="challenge-title">{props.challenge.title}</h1>
+                <div className="card-popularity">
+                    <h3 className="popularity-value">{props.challenge.popularity > 0 ? props.challenge.popularity : ``}</h3>
+                    <h3 className="thumbs-up">{props.challenge.popularity > 0 ? <FontAwesomeIcon icon="thumbs-up" /> : ``}</h3>
+                </div>
+
             </div>
             <div>
                 <ReactMarkdown source={props.challenge.description}/>
