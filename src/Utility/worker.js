@@ -104,7 +104,6 @@ function Testing(params){
     
     const solution = eval(`(${userSolution}\n)`);
     const result = eval(`(solution(${argumentsToPass}))`);
-
     results.push({
         descriptor,
         passed: deepEqual(result, expectedResult)
