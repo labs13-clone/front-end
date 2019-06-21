@@ -63,6 +63,7 @@ const UserProfile = (props) => {
             }
         }).then(response => {
             setChallenges(response.data);
+            
         }).catch(err => {
             console.log(err.message)
         });
