@@ -1,6 +1,7 @@
 .console {
     padding: 10px;
     background: #222840;
+    border-radius: 10px;
     color: white;
     width: 900px;
     height: 350px;
@@ -10,12 +11,15 @@
 .console-buttons-wrapper {
     width: 100%; 
     border-bottom: 3px solid #9ac6c9;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
 }
 
 .console-button {
     cursor: pointer;
     outline: none;
     border: 1px solid #2A9fd8;
+    border-radius: 5px;
     margin: 10px 30px;
     background: #222840; 
     color: #2A9fd8;

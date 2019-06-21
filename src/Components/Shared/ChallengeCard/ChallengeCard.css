@@ -1,15 +1,23 @@
-.challenge-title {
-    font-size: 1.3rem;
-}
-
 .challenge-wrapper {
     background: #232840;
     cursor: pointer;
     margin: 30px auto;
     border-top: 1px dashed rgba(0, 0, 0, 0.4);
     border-bottom: 1px dashed rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
     padding: 15px;
 }
+
+.challenge-wrapper:hover {
+    /* border: 3px solid #2A9FD8;
+    box-sizing: content-box; */
+    box-shadow: 5px 5px #2A9FD8;
+}
+.challenge-title {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+}
+
 
 .card-body {
     display: flex;
@@ -18,6 +26,7 @@
 }
 
 .card-footer {
+    margin-top: 15px;
     display: flex;
     justify-content: space-between;
 }
@@ -27,9 +36,8 @@
     background: rgb(192, 71, 137);
     border: none;
     color: white;
-    border-radius: 2px;
+    border-radius: 5px;
     margin-right: 3px;
-    margin: 5px;
     padding: 4px 7px;
 }
 

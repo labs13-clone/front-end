@@ -6,9 +6,11 @@
 .challenge-header-wrapper {
     width: 100%;
     background: #263238;
-    border-bottom:3px solid #9ac6c9;
+    border-bottom: 3px solid #9ac6c9;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     margin: 30px 0;
-    padding: 0 10px;
+    padding: 5px 10px 0;
 }
 
 .category-completed {
@@ -75,8 +77,9 @@
     justify-content: space-between;
 }
 
-.unneccessary-div {
+.unnecessary-div {
     width:45%;
+    border-radius: 10px;
 }
 
 .challenge-completed {
@@ -106,6 +109,7 @@
     cursor: pointer;
     outline: none;
     border: 1px solid whitesmoke;
+    border-radius: 5px;
     margin: 10px 30px;
     padding: 7px;
 }

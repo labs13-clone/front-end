@@ -1,8 +1,12 @@
 .loading-view {
     font-size: 4rem;
     text-align: center;
-    margin-top: 50px;
-    animation: throb 500ms infinite;
+    animation: throb .5s infinite;
+    height: 85vh;
+}
+
+.loading-animation {
+    margin-top: 300px;
 }
 
 @keyframes throb {
