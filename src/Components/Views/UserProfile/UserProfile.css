@@ -2,7 +2,7 @@
     margin: 0 auto;
     padding: 30px 0;
     max-width: 1000px;
-    height: 90vh;
+    min-height: 88vh;
 
     display: flex;
     justify-content: space-around;
@@ -16,6 +16,7 @@
     background: #232840;
     max-width: 30%;
     padding: 30px;
+    border-radius: 10px;
 }
 
 .sidebar-avatar {
@@ -28,11 +29,16 @@
 }
 
 .sidebar-tab {
+    font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
     border-top: 1px dashed #f1f1f1;
+}
+
+.sidebar-tab:hover {
+    color: #2A9FD8;
 }
 
 .sidebar-tab:last-of-type {
@@ -49,7 +55,6 @@
 
 .tabs-view {
     width: 100%;
-    height: 100%;
     margin: 0 5px;
     overflow-y: auto;
 }
@@ -87,24 +92,24 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    border-radius: 10px;
 }
 
 .user-info-username {
     color: #2A9FD8;
     font-size: 4rem;
+    font-weight: bold;
 }
 
 .user-info-joined {
     font-size: 2rem;
+    font-weight: lighter;
 }
 
 .user-info-experience {
     color: #c04789;
     font-size: 4rem;
-}
-
-.user-info-role {
-    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .logout-button {
@@ -114,8 +119,12 @@
     cursor: pointer;
     background: #222840;
     margin-top: 15px;
-    padding: 7px 15px;
+    padding: 14px 30px;
     font-weight: bold;
-    font-size: 0.8rem;
+    font-size: 1.3rem;
     color: whitesmoke;
+}
+
+.logout-button:hover {
+    background: #c04789;
 }

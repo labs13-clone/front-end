@@ -1,72 +1,91 @@
-// prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+// prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2,
+// prop-types@^15.7.2:
 
-
-
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react';
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 import worker_script from "../../../Utility/worker";
 
 import Editor from '../../Shared/Editor/Editor';
-import "./CreateChallenge.css";
-import Console from "../../Shared/Console/Console";
+import './CreateChallenge.css';
+import Console from '../../Shared/Console/Console';
 import Tabs from './Tabs';
-import { useWorker } from '../../../Utility/WorkerHook';
+import {useWorker} from '../../../Utility/WorkerHook';
 import CategoryDropDown from './Categories';
 import Instructions from './Instructions';
 
 function CreateChallenge(props) {
     const accessToken = props.auth.accessToken;
-    const [payload, setPayload] = useState({})
-    const [markdownInput, setMarkdownInput] = useState('')
-    const [title, setTitle] = useState("")
-    const [difficulty, setDifficulty] = useState(1)
-    const [category, setCategory] = useState("")
-    const [tests, setTests] = useState([{descriptor: "", argumentsToPass: "", expectedResult: ""}])
-    const [buttonState, setButtonState] = useState(true)
-    const [javascriptInput, setJavascriptInput] = useState('')
-    const [javascriptSolutionInput, setjavascriptSolutionInput] = useState('')
-    const [passed, setPassed] = useState(false);
-    const [output, setOutput] = useState([]);
-    const [userMessage, setUserMessage] = useState({});
-    const [selectedCategories, setSelectedCategories] = useState([])
+    const [payload,
+        setPayload] = useState({});
+    const [markdownInput,
+        setMarkdownInput] = useState('');
+    const [title,
+        setTitle] = useState('');
+    const [difficulty,
+        setDifficulty] = useState(1);
+    const [category,
+        setCategory] = useState('');
+    const [tests,
+        setTests] = useState([
+        {
+            descriptor: '',
+            argumentsToPass: '',
+            expectedResult: ''
+        }
+    ]);
+    const [buttonState,
+        setButtonState] = useState(true);
+    const [javascriptInput,
+        setJavascriptInput] = useState('');
+    const [javascriptSolutionInput,
+        setjavascriptSolutionInput] = useState('');
+    const [passed,
+        setPassed] = useState(false);
+    const [output,
+        setOutput] = useState([]);
+    const [userMessage,
+        setUserMessage] = useState({});
+    const [selectedCategories,
+        setSelectedCategories] = useState([]);
 
-    const {result,error} = useWorker(worker_script,userMessage);
+    const {result, error} = useWorker(worker_script, userMessage);
 
     useEffect(() => {
-        if(result.length===0){
+        if (result.length === 0) {
             setOutput([]);
         } else {
             const resLen = result.length;
-            switch (result[resLen-1].msg){
-                case "run_code":
+            switch (result[resLen - 1].msg) {
+                case 'run_code':
                     setOutput(result);
                     break;
-                case "run_tests":
-                    const testResult = (result[resLen-1].result.toString()==='true' ? true : false);
+                case 'run_tests':
+                    const testResult = (result[resLen - 1].result.toString()) === 'true'
+                        ? true
+                        : false;
                     setPassed(testResult);
-                    console.log(testResult)
                     break;
                 default:
                     break;
             };
-        } 
-        },[result]);
+        }
+    }, [result]);
 
     useEffect(() => {
         const myArray = tests.map(e => {
-            if(e.descriptor !== "" && e.expectedResult !== ""){
-                return true
+            if (e.descriptor !== '' && e.expectedResult !== '') {
+                return true;
             } else {
-                return false
-            }	
+                return false;
+            }
         })
-        
+
         const bool = myArray.every(e => {
-            if(e===true){ 
-                return true
+            if (e === true) {
+                return true;
             } else {
-                return false
+                return false;
             }
         });
         setButtonState(bool);
@@ -74,155 +93,161 @@ function CreateChallenge(props) {
 
     useEffect(() => {
         axios({
-            method: 'get', 
+            method: 'get',
             url: `${process.env.REACT_APP_SERVER}/api/categories/`,
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
-            })
-            .then(res => {
-                setCategory(res.data)
-                const categoryOptions = res.data.map(obj => {
-                    return {
-                        label: obj.name,
-                        value: obj.id
-                    }
-                })
-                setCategory(categoryOptions)
-                console.log(res, category, categoryOptions)
-            })
-            .catch(err => {
-                console.log(err, payload, process.env.REACT_APP_SERVER)
-            })
-    }, [])
+        }).then(res => {
+            setCategory(res.data);
+            const categoryOptions = res
+                .data
+                .map(obj => {
+                    return {label: obj.name, value: obj.id}
+                });
+            setCategory(categoryOptions);
+        }).catch(err => {
+            console.log(err, payload, process.env.REACT_APP_SERVER);
+        });
+    }, []);
 
-    function handEditorleInputChange(editor, data, code){
+    function handEditorleInputChange(editor, data, code) {
         setMarkdownInput(code);
-        setPayload({...payload, description:code})
+        setPayload({
+            ...payload,
+            description: code
+        });
     }
 
     function addTest(e) {
         e.preventDefault();
-        const values = [...tests]
-        values.push({descriptor: "", argumentsToPass: "", expectedResult: ""});
-        setTests(values)
+        const values = [...tests];
+        values.push({descriptor: '', argumentsToPass: '', expectedResult: ''});
+        setTests(values);
     }
 
     function removeTest(e) {
         e.preventDefault();
-        const values = [...tests]
+        const values = [...tests];
         values.splice(e.target.id, 1);
-        setTests(values)
+        setTests(values);
     }
 
     function handleChanges(i, e) {
-        const values = [...tests]
+        const values = [...tests];
         values[i][e.target.name] = e.target.value;
-        setTests(values)
-        setPayload({...payload, tests:values})
+        setTests(values);
+        setPayload({
+            ...payload,
+            tests: values
+        });
     }
 
-    function handleInputChange(editor, data, code){
+    function handleInputChange(editor, data, code) {
         setJavascriptInput(code);
-        setPayload({...payload, skeleton_function:code})
+        setPayload({
+            ...payload,
+            skeleton_function: code
+        });
     }
 
-    function handleSolutionInputChange(editor, data, code){
+    function handleSolutionInputChange(editor, data, code) {
         setjavascriptSolutionInput(code);
-        setPayload({...payload, solution:code})
+        setPayload({
+            ...payload,
+            solution: code
+        });
     }
-    
 
     function handleTitleChanges(e) {
-        e.preventDefault()
-        let values = [...title]
+        e.preventDefault();
+        let values = [...title];
         values = e.target.value;
         setTitle(values)
-        setPayload({...payload, title:values})
+        setPayload({
+            ...payload,
+            title: values
+        });
     }
 
     function handleDifficultyChanges(e) {
-        e.preventDefault()
-        setDifficulty(parseInt(e.target.value, 10))
-        setPayload({...payload, difficulty:parseInt(e.target.value, 10)})
+        e.preventDefault();
+        setDifficulty(parseInt(e.target.value, 10));
+        setPayload({
+            ...payload,
+            difficulty: parseInt(e.target.value, 10)
+        });
     }
 
     function handleCategoryChanges(e) {
-        e.preventDefault()
-        let values = [...category]
+        e.preventDefault();
+        let values = [...category];
         values = e.target.value;
-        setCategory(values)
-    }
+        setCategory(values);
+    };
 
     function extractSkeletonFunction() {
-        //this regex is extracting everything between "first space followed by an alphanumeric character" and "{↵"
+        // this regex is extracting everything between "first space followed by an
+        // alphanumeric character" and "{↵"
         const regexp = /\s\w(.*?)\{↵/;
-        payload.skeleton_function = "function" + regexp.exec('function sayHello() {↵ some randome code↵}')[0] + "↵}"
+        payload.skeleton_function = 'function' + regexp.exec('function sayHello() {↵ some random code↵}')[0] + '↵}';
     }
 
     function postForChallengeCreation(event, token, payload) {
         event.preventDefault();
         extractSkeletonFunction();
 
+        axios({
+            method: 'post',
+            url: `${process.env.REACT_APP_SERVER}/api/challenges`,
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            data: payload
+        }).then(challengeRes => {
+            const selectedOptions = selectedCategories.map(int => {
+                return {challenge_id: challengeRes.data.id, categories_id: int}
+            });
             axios({
-                    method: 'post', 
-                    url: `${process.env.REACT_APP_SERVER}/api/challenges`,
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-                    data: payload
-            })
-            .then(challengeRes => {
-                console.log(challengeRes)
-                const selectedOptions = selectedCategories.map(int => {
-                    return {
-                        challenge_id: challengeRes.data.id,
-                        categories_id: int
-                    }
-                })
-                axios({
-                    method: 'post', 
-                    url: `${process.env.REACT_APP_SERVER}/api/categories/challenges`,
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-                    data: selectedOptions
-                    })
-                    .then(categoryRes => {
-                        if(categoryRes) {
-                            alert('Challenge created Successfully')
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-                
-            })
-            .catch(err => {
-                console.log(err, payload)
-            })
+                method: 'post',
+                url: `${process.env.REACT_APP_SERVER}/api/categories/challenges`,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                data: selectedOptions
+            }).then(categoryRes => {
+                if (categoryRes) {
+                    alert('Challenge created Successfully');
+                }
+            }).catch(err => {
+                console.log(err);
+            });
+
+        }).catch(err => {
+            console.log(err, payload);
+        });
     };
 
-    function clearConsole(){
-        setUserMessage("clear_console")
-    };
-    
-    function runCode(){
-        setUserMessage({msg:"run_code",code:javascriptSolutionInput});
+    function clearConsole() {
+        setUserMessage('clear_console');
     };
 
-    function runTests(){
+    function runCode() {
+        setUserMessage({msg: 'run_code', code: javascriptSolutionInput});
+    };
+
+    function runTests() {
         const testArray = tests.map(obj => {
-            if(obj.argumentsToPass === "") {
-                obj.argumentsToPass = "[]"
+            if (obj.argumentsToPass === '') {
+                obj.argumentsToPass = '[]';
             }
             obj.argumentsToPass = eval(obj.argumentsToPass);
             return obj;
         })
-        setUserMessage({msg:"run_tests",code:javascriptSolutionInput,tests:testArray});
+        setUserMessage({msg: 'run_tests', code: javascriptSolutionInput, tests: testArray});
     };
 
-    return(
+    return (
 
         <div className="create-challenge-container">
             <Tabs className="tabs">
@@ -234,32 +259,44 @@ function CreateChallenge(props) {
                 <div label="Meta">
                     <div className="tab-container">
                         <div className="meta-container">
-                        <h3>Basic Information</h3>
-                        <form className="meta-form">
-                            <div>
-                                <h4>Title</h4>
-                                <input className="challenge-info" value={title} onChange={e => handleTitleChanges(e)}/>
-                            </div>
-                            <div>
-                                <h4>Difficulty</h4>
-                                <select style={{'width': '50px'}} className="challenge-info" style={{width:200}} onChange={e => handleDifficultyChanges(e)}>
-                                    <option>Select</option>
-                                    <option value="16">Easy</option>
-                                    <option value="50">Medium</option>
-                                    <option value="75">Hard</option>
-                                </select>
-                            </div>
-                            <div>
-                                <h4>Categories</h4>
-                                <CategoryDropDown 
-                                    options={category} 
-                                    selectedCategories={selectedCategories} 
-                                    setSelectedCategories={selected => {setSelectedCategories(selected)}}
-                                />
-                            </div>
-                        </form>
+                            <h3>Basic Information</h3>
+                            <form className="meta-form">
+                                <div>
+                                    <h4>Title</h4>
+                                    <input
+                                        className="challenge-info"
+                                        value={title}
+                                        onChange={e => handleTitleChanges(e)}/>
+                                </div>
+                                <div>
+                                    <h4>Difficulty</h4>
+                                    <select
+                                        style={{
+                                        'width': '50px'
+                                    }}
+                                        className="challenge-info"
+                                        style={{
+                                        width: 200
+                                    }}
+                                        onChange={e => handleDifficultyChanges(e)}>
+                                        <option>Select</option>
+                                        <option value="16">Easy</option>
+                                        <option value="50">Medium</option>
+                                        <option value="75">Hard</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <h4>Categories</h4>
+                                    <CategoryDropDown
+                                        options={category}
+                                        selectedCategories={selectedCategories}
+                                        setSelectedCategories={selected => {
+                                        setSelectedCategories(selected)
+                                    }}/>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
 
                 </div>
                 <div label="Description">
@@ -272,67 +309,71 @@ function CreateChallenge(props) {
                                         <Editor
                                             code={markdownInput}
                                             mode={'markdown'}
-                                            changeHandler={handEditorleInputChange}
-                                        />
+                                            changeHandler={handEditorleInputChange}/>
                                     </div>
                                 </section>
                             </div>
 
                         </div>
-                        </div>
                     </div>
+                </div>
                 <div label="Preview">
                     <div className="tab-container">
-                        <ReactMarkdown source={markdownInput} className="markdown-render" placeholder="Preview"/>
+                        <ReactMarkdown
+                            source={markdownInput}
+                            className="markdown-render"
+                            placeholder="Preview"/>
                     </div>
                 </div>
                 <div label="Tests">
                     <div className="tab-container">
                         <div className="create-challenge-tests">
-                        <form className="tests-form">
-                            {tests.map((test, index) => {
-                                return (<div>
-                                    <h2 className="test-header">Test {index + 1}</h2>
-                                    <div className="test-container">
-                                        <div>
-                                            <h4>Description</h4>
-                                            <input
-                                                className="tests-input"
-                                                value={tests[index].descriptor}
-                                                name="descriptor"
-                                                onChange={e => handleChanges(index, e)}
-                                                required
-                                            />
+                            <form className="tests-form">
+                                {tests.map((test, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <h2 className="test-header">Test {index + 1}</h2>
+                                            <div className="test-container">
+                                                <div>
+                                                    <h4>Description</h4>
+                                                    <input
+                                                        className="tests-input"
+                                                        value={test.descriptor}
+                                                        name="descriptor"
+                                                        onChange={e => handleChanges(index, e)}
+                                                        required/>
+                                                </div>
+                                                <div>
+                                                    <h4>Arguments</h4>
+                                                    <input
+                                                        className="tests-input"
+                                                        value={test.argumentsToPass}
+                                                        name="argumentsToPass"
+                                                        onChange={e => handleChanges(index, e)}
+                                                        required/>
+                                                </div>
+                                                <div>
+                                                    <h4>Expected Result</h4>
+                                                    <input
+                                                        className="tests-input"
+                                                        value={test.expectedResult}
+                                                        name="expectedResult"
+                                                        onChange={e => handleChanges(index, e)}
+                                                        required/>
+                                                </div>
+                                                <div>
+                                                    <button className="delete-test-button" id={index} onClick={e => removeTest(e)}>X</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h4>Arguments</h4>
-                                            <input
-                                                className="tests-input"
-                                                value={tests[index].argumentsToPass}
-                                                name="argumentsToPass"
-                                                onChange={e => handleChanges(index, e)}
-                                                required
-                                            />
-                                        </div>
-                                        <div>
-                                            <h4>Expected Result</h4>
-                                            <input
-                                                className="tests-input"
-                                                value={tests[index].expectedResult}
-                                                name="expectedResult"
-                                                onChange={e => handleChanges(index, e)}
-                                                required
-                                            />
-                                        </div>
-                                        <div>
-                                            <button className="delete-test-button" id={index} onClick={e => removeTest(e)}>X</button>
-                                        </div>
-                                    </div>
-                                </div>)
-                            })}
-                        <button className="add-test-button" disabled={!buttonState} onClick={(e) => addTest(e)}>Add Test</button>
-                        </form>
-                    </div>
+                                    )
+                                })}
+                                <button
+                                    className="add-test-button"
+                                    disabled={!buttonState}
+                                    onClick={(e) => addTest(e)}>Add Test</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div label="Code">
@@ -344,8 +385,7 @@ function CreateChallenge(props) {
                                     <Editor
                                         code={javascriptSolutionInput}
                                         mode={'javascript'}
-                                        changeHandler={handleSolutionInputChange}
-                                    />
+                                        changeHandler={handleSolutionInputChange}/>
                                 </div>
                             </section>
                         </div>
@@ -353,9 +393,19 @@ function CreateChallenge(props) {
                 </div>
             </Tabs>
             <div>
-                <Console runTests={runTests} runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
+                <Console
+                    runTests={runTests}
+                    runCode={runCode}
+                    clearConsole={clearConsole}
+                    output={output}
+                    style={{
+                    width: "63%"
+                }}/>
                 <div className="submit-button-wrapper">
-                    <button className="submit-button" disabled={!passed} onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit Challenge</button>
+                    <button
+                        className="submit-button"
+                        disabled={!passed}
+                        onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit Challenge</button>
                 </div>
             </div>
         </div>
