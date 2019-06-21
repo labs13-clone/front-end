@@ -12,7 +12,7 @@ const Console = (props) => {
                 {
                 props.output.map( (el,index) => {
                     if(el.msg==="run_code"){
-                        return <pre key={index}>{el.result}</pre>;
+                        return <pre key={index}>{el.result.toString()}</pre>;
                     }
                     })
                 }

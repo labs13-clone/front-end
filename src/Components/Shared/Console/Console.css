@@ -6,6 +6,7 @@
     width: 900px;
     height: 350px;
     margin: 0 auto 80px;
+    overflow: scroll;
 }
 
 .console-buttons-wrapper {
