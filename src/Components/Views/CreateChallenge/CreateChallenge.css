@@ -35,10 +35,6 @@
     padding: 10px;
 }
 
-.markdown-render * {
-  margin: 0px;
-}
-
 .hide-button{
     display: none;
 }
@@ -139,7 +135,6 @@
 }
 
 .tab-list {
-  border-bottom: 1px solid #ccc;
   padding-left: 0;
   display: flex;
   justify-content: center;
@@ -157,10 +152,10 @@
   cursor: pointer;
   height: 50px;
   padding-top: 13px;
+  border-bottom: 2px solid #ccc;
 }
 
 .tab-list-active {
-  /* background-color: #222840; */
   border-bottom: 3px solid #C04789;
 }
 
@@ -216,7 +211,7 @@
   height: 35px;
   background-color: #C04789;
   font-weight: bold;
-  margin-top: 55px;
+  margin-top: 25px;
   cursor: pointer;
   font-size: 15px;
   color: white;
@@ -252,13 +247,31 @@
   margin-top: 50px;
 }
 
-.submit-button-wrapper {
+/* .submit-button-wrapper {
   margin: auto;
   width: 400px;
+} */
+
+.run-tests {
+  border: none;
+  background-color: #2A9FD8;
+  width: 150px;
+  height: 50px;
+  display: block;
+  margin-bottom: 40px;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.run-tests:focus {
+  outline: none;
 }
 
 .submit-button {
-  width: 100%;
+  width: 50%;
   height: 80px;
   border: none;
   border-radius: 10px;
@@ -269,8 +282,8 @@
   color: white;
 }
 
-.submit-button:disabled {
-  opacity: 0.5;
+.submit-button:focus {
+  outline: none;
 }
 
 /*************** categories dropdown styles *****************/
@@ -306,7 +319,7 @@
 }
 
 .dropdown-content {
-  height: 200px !important;
+  height: 150px !important;
 }
 
 .dropdown-content::-webkit-scrollbar {
@@ -332,12 +345,18 @@
 .select-panel input {
   height: 25px !important;
   padding: 5px !important;
+  margin-bottom: -20px;
 }
 
 .select-item {
-  height: 25px;
+  height: 30px;
   padding: 0px 10px !important;
   margin-top: 5px;
+  /* display: none; */
+}
+
+.select-panel label span:nth-of-type(3) { 
+  display: none;
 }
 
 .item-renderer {
@@ -356,4 +375,82 @@
 
 .item-renderer span {
   padding: 0px 5px !important;
+}
+
+/* .select-list {
+  margin-top: -35px !important;
+  background-blend-mode: lighten;
+} */
+
+.submit-button-container{
+  width: 600px;
+  text-align: center;
+  /* margin: 60px auto; */
+}
+
+.submit-button-container h1{
+  font-size: 50px;
+  margin-bottom: 20px;
+  /* color: #C04789; */
+}
+
+.test-button-container{
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hide {
+  display: none;
+}
+
+.tab-container-submit{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* styling for modal */
+.create-challenge-modal {
+  margin: 120px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #343D61;
+  width: 400px;
+  height: 300px;
+  padding: 30px;
+  border-radius: 5px;
+}
+
+.create-challenge-modal:focus {
+  outline: none;
+}
+
+.modal-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 250px;
+  color: white;
+  text-align: center;
+}
+
+.modal-text-container p {
+  font-weight: normal;
+  margin: 10px auto 0;
+}
+.modal-text-container button {
+  border: none;
+  width: 100px;
+  height: 30px;
+  margin-top: 20px;
+  border-radius: 5px;
+  color: #343D61;
+  font-weight: bold;
+  cursor: pointer;
 }

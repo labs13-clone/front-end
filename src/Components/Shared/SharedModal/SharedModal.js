@@ -6,7 +6,7 @@ import "./SharedModal.css"
 const SharedModal = props => {
     return(
     <Modal  onClick={props.modalCallback} open={props.modalState} children={
-        <div  className="attempt-challenge-modal" onClick={props.modalCallback}>
+        <div  className={props.class} onClick={props.modalCallback}>
             <h4>{props.message}</h4>
         </div>}
     />

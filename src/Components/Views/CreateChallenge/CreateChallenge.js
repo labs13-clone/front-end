@@ -1,11 +1,10 @@
-// prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2,
-// prop-types@^15.7.2:
-
 import React, {useState, useEffect} from 'react';
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
-import worker_script from "../../../Utility/worker";
+import Loader from 'react-loader-spinner';
+import {Link} from 'react-router-dom';
 
+import worker_script from "../../../Utility/worker";
 import Editor from '../../Shared/Editor/Editor';
 import './CreateChallenge.css';
 import Console from '../../Shared/Console/Console';
@@ -13,41 +12,25 @@ import Tabs from './Tabs';
 import {useWorker} from '../../../Utility/WorkerHook';
 import CategoryDropDown from './Categories';
 import Instructions from './Instructions';
+import SharedModal from "../../Shared/SharedModal/SharedModal";
 
 function CreateChallenge(props) {
     const accessToken = props.auth.accessToken;
-    const [payload,
-        setPayload] = useState({});
-    const [markdownInput,
-        setMarkdownInput] = useState('');
-    const [title,
-        setTitle] = useState('');
-    const [difficulty,
-        setDifficulty] = useState(1);
-    const [category,
-        setCategory] = useState('');
-    const [tests,
-        setTests] = useState([
-        {
-            descriptor: '',
-            argumentsToPass: '',
-            expectedResult: ''
-        }
-    ]);
-    const [buttonState,
-        setButtonState] = useState(true);
-    const [javascriptInput,
-        setJavascriptInput] = useState('');
-    const [javascriptSolutionInput,
-        setjavascriptSolutionInput] = useState('');
-    const [passed,
-        setPassed] = useState(false);
-    const [output,
-        setOutput] = useState([]);
-    const [userMessage,
-        setUserMessage] = useState({});
-    const [selectedCategories,
-        setSelectedCategories] = useState([]);
+    const [payload, setPayload] = useState({})
+    const [markdownInput, setMarkdownInput] = useState('')
+    const [title, setTitle] = useState("")
+    const [difficulty, setDifficulty] = useState(1)
+    const [category, setCategory] = useState("")
+    const [tests, setTests] = useState([{descriptor: "", argumentsToPass: "", expectedResult: ""}])
+    const [buttonState, setButtonState] = useState(true)
+    const [javascriptInput, setJavascriptInput] = useState('')
+    const [javascriptSolutionInput, setjavascriptSolutionInput] = useState('')
+    const [passed, setPassed] = useState(false);
+    const [output, setOutput] = useState([]);
+    const [userMessage, setUserMessage] = useState({});
+    const [selectedCategories, setSelectedCategories] = useState([])
+    const [modalState, setModalState] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const {result, error} = useWorker(worker_script, userMessage);
 
@@ -98,18 +81,21 @@ function CreateChallenge(props) {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
-        }).then(res => {
-            setCategory(res.data);
-            const categoryOptions = res
-                .data
-                .map(obj => {
-                    return {label: obj.name, value: obj.id}
-                });
-            setCategory(categoryOptions);
-        }).catch(err => {
-            console.log(err, payload, process.env.REACT_APP_SERVER);
-        });
-    }, []);
+            })
+            .then(res => {
+                setCategory(res.data)
+                const categoryOptions = res.data.map(obj => {
+                    return {
+                        label: obj.name,
+                        value: obj.id
+                    }
+                })
+                setCategory(categoryOptions)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
 
     function handEditorleInputChange(editor, data, code) {
         setMarkdownInput(code);
@@ -195,6 +181,7 @@ function CreateChallenge(props) {
 
     function postForChallengeCreation(event, token, payload) {
         event.preventDefault();
+        setLoading(true)
         extractSkeletonFunction();
 
         axios({
@@ -209,24 +196,44 @@ function CreateChallenge(props) {
                 return {challenge_id: challengeRes.data.id, categories_id: int}
             });
             axios({
-                method: 'post',
-                url: `${process.env.REACT_APP_SERVER}/api/categories/challenges`,
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                data: selectedOptions
-            }).then(categoryRes => {
-                if (categoryRes) {
-                    alert('Challenge created Successfully');
-                }
-            }).catch(err => {
-                console.log(err);
-            });
-
-        }).catch(err => {
-            console.log(err, payload);
+                    method: 'post', 
+                    url: `${process.env.REACT_APP_SERVER}/api/challenges`,
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    data: payload
+            })
+            .then(challengeRes => {
+                const selectedOptions = selectedCategories.map(int => {
+                    return {
+                        challenge_id: challengeRes.data.id,
+                        categories_id: int
+                    }
+                })
+                axios({
+                    method: 'post', 
+                    url: `${process.env.REACT_APP_SERVER}/api/categories/challenges`,
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    data: selectedOptions
+                    })
+                    .then(categoryRes => {
+                        if(categoryRes) {
+                            setModalState(true)
+                            setLoading(false)
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+                
+            })
+            .catch(err => {
+                console.log(err, payload)
+            })
         });
-    };
+    }
 
     function clearConsole() {
         setUserMessage('clear_console');
@@ -247,7 +254,12 @@ function CreateChallenge(props) {
         setUserMessage({msg: 'run_tests', code: javascriptSolutionInput, tests: testArray});
     };
 
-    return (
+    function modalCallback(){
+        setModalState(!modalState);
+    }
+
+    return(
+
 
         <div className="create-challenge-container">
             <Tabs className="tabs">
@@ -259,45 +271,36 @@ function CreateChallenge(props) {
                 <div label="Meta">
                     <div className="tab-container">
                         <div className="meta-container">
-                            <h3>Basic Information</h3>
-                            <form className="meta-form">
-                                <div>
-                                    <h4>Title</h4>
-                                    <input
-                                        className="challenge-info"
-                                        value={title}
-                                        onChange={e => handleTitleChanges(e)}/>
-                                </div>
-                                <div>
-                                    <h4>Difficulty</h4>
-                                    <select
-                                        style={{
-                                        'width': '50px'
-                                    }}
-                                        className="challenge-info"
-                                        style={{
-                                        width: 200
-                                    }}
-                                        onChange={e => handleDifficultyChanges(e)}>
-                                        <option>Select</option>
-                                        <option value="16">Easy</option>
-                                        <option value="50">Medium</option>
-                                        <option value="75">Hard</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <h4>Categories</h4>
-                                    <CategoryDropDown
-                                        options={category}
-                                        selectedCategories={selectedCategories}
-                                        setSelectedCategories={selected => {
-                                        setSelectedCategories(selected)
-                                    }}/>
-                                </div>
-                            </form>
+                        <h3>Basic Information</h3>
+                        <br/><br/>
+                        <form className="meta-form">
+                            <div>
+                                <h4>Title</h4>
+                                <br/>
+                                <input className="challenge-info" value={title} onChange={e => handleTitleChanges(e)}/>
+                            </div>
+                            <div>
+                                <h4>Difficulty</h4>
+                                <br/>
+                                <select style={{'width': '50px'}} className="challenge-info" style={{width:200}} onChange={e => handleDifficultyChanges(e)}>
+                                    <option>Select</option>
+                                    <option value="16">Easy</option>
+                                    <option value="50">Medium</option>
+                                    <option value="75">Hard</option>
+                                </select>
+                            </div>
+                            <div>
+                                <h4>Categories</h4>
+                                <br/>
+                                <CategoryDropDown 
+                                    options={category} 
+                                    selectedCategories={selectedCategories} 
+                                    setSelectedCategories={selected => {setSelectedCategories(selected)}}
+                                />
+                            </div>
+                        </form>
                         </div>
                     </div>
-
                 </div>
                 <div label="Description">
                     <div className="tab-container">
@@ -328,45 +331,44 @@ function CreateChallenge(props) {
                 <div label="Tests">
                     <div className="tab-container">
                         <div className="create-challenge-tests">
-                            <form className="tests-form">
-                                {tests.map((test, index) => {
-                                    return (
-                                        <div key={index}>
-                                            <h2 className="test-header">Test {index + 1}</h2>
-                                            <div className="test-container">
-                                                <div>
-                                                    <h4>Description</h4>
-                                                    <input
-                                                        className="tests-input"
-                                                        value={test.descriptor}
-                                                        name="descriptor"
-                                                        onChange={e => handleChanges(index, e)}
-                                                        required/>
-                                                </div>
-                                                <div>
-                                                    <h4>Arguments</h4>
-                                                    <input
-                                                        className="tests-input"
-                                                        value={test.argumentsToPass}
-                                                        name="argumentsToPass"
-                                                        onChange={e => handleChanges(index, e)}
-                                                        required/>
-                                                </div>
-                                                <div>
-                                                    <h4>Expected Result</h4>
-                                                    <input
-                                                        className="tests-input"
-                                                        value={test.expectedResult}
-                                                        name="expectedResult"
-                                                        onChange={e => handleChanges(index, e)}
-                                                        required/>
-                                                </div>
-                                                <div>
-                                                    <button className="delete-test-button" id={index} onClick={e => removeTest(e)}>X</button>
-                                                </div>
-                                            </div>
+                        <form className="tests-form">
+                            {tests.map((test, index) => {
+                                return (<div key={index}>
+                                    <h2 className="test-header">Test {index + 1}</h2> <br/><br/>
+                                    <div className="test-container">
+                                        <div>
+                                            <h4>Description</h4><br/>
+                                            <input
+                                                className="tests-input"
+                                                value={tests[index].descriptor}
+                                                name="descriptor"
+                                                onChange={e => handleChanges(index, e)}
+                                                required
+                                            />
                                         </div>
-                                    )
+                                        <div>
+                                            <h4>Arguments</h4><br/>
+                                            <input
+                                                className="tests-input"
+                                                value={tests[index].argumentsToPass}
+                                                name="argumentsToPass"
+                                                onChange={e => handleChanges(index, e)}
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <h4>Expected Result</h4><br/>
+                                            <input
+                                                className="tests-input"
+                                                value={tests[index].expectedResult}
+                                                name="expectedResult"
+                                                onChange={e => handleChanges(index, e)}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    </div>)
                                 })}
                                 <button
                                     className="add-test-button"
@@ -391,23 +393,44 @@ function CreateChallenge(props) {
                         </div>
                     </div>
                 </div>
+                <div label="Submit">
+                    <div className="tab-container tab-container-submit">
+                        {passed 
+                        ? 
+                        <div className="submit-button-container">
+                            <h1>Booom!!!</h1><br/>
+                            <h4>Your challenge has passed all the tests! You can go ahead and submit it!</h4><br/><br/>
+                            <button disabled={loading} className="submit-button" onClick={event => postForChallengeCreation(event, accessToken, payload)}>
+                            { loading ?             
+                                <Loader
+                                    type="TailSpin"
+                                    color="white"
+                                    height="40"	
+                                    width="40"
+                                /> : 
+                                <p>Submit Challenge</p>}
+                            </button>
+                        </div> 
+                        :
+                        <div className="test-button-container">
+                            <button className="run-tests" onClick={runTests}>Run Tests</button>
+                            <h2>Before the final submission<br/><br/> Let's see if your challenge passes all the tests</h2> 
+                        </div>
+                        }
+                    </div>
+                </div>
             </Tabs>
             <div>
-                <Console
-                    runTests={runTests}
-                    runCode={runCode}
-                    clearConsole={clearConsole}
-                    output={output}
-                    style={{
-                    width: "63%"
-                }}/>
-                <div className="submit-button-wrapper">
-                    <button
-                        className="submit-button"
-                        disabled={!passed}
-                        onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit Challenge</button>
-                </div>
+                <Console runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
             </div>
+            <SharedModal class="create-challenge-modal" message={
+            <div className="modal-text-container">
+                <h1>Success!</h1>
+                <p>Your challenge is submitted for approval</p>
+                <p>See the status in your profile</p>
+                <Link to="/profile"><button>Profile</button></Link>
+            </div>
+            } modalCallback={modalCallback} modalState={modalState}/>
         </div>
     )
 }
