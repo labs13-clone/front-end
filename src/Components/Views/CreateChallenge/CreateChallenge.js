@@ -93,7 +93,7 @@ function CreateChallenge(props) {
                 console.log(res)
             })
             .catch(err => {
-                console.log(err, payload, process.env.REACT_APP_SERVER)
+                console.log(err)
             })
     }, [])
 
@@ -399,7 +399,8 @@ function CreateChallenge(props) {
                 <p>See the status in your profile</p>
                 <Link to="/profile"><button>Profile</button></Link>
             </div>
-            } modalCallback={modalCallback} modalState={modalState}/>
+            } 
+            modalCallback={modalCallback} modalState={modalState}/>
         </div>
     )
 }
