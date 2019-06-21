@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
-import worker_script from "../../../Utility/worker";
+import Loader from 'react-loader-spinner';
 
+import worker_script from "../../../Utility/worker";
 import Editor from '../../Shared/Editor/Editor';
 import "./CreateChallenge.css";
 import Console from "../../Shared/Console/Console";
@@ -28,6 +29,7 @@ function CreateChallenge(props) {
     const [userMessage, setUserMessage] = useState({});
     const [selectedCategories, setSelectedCategories] = useState([])
     const [modalState, setModalState] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const {result,error} = useWorker(worker_script,userMessage);
 
@@ -161,6 +163,7 @@ function CreateChallenge(props) {
 
     function postForChallengeCreation(event, token, payload) {
         event.preventDefault();
+        setLoading(true)
         extractSkeletonFunction();
 
             axios({
@@ -190,6 +193,7 @@ function CreateChallenge(props) {
                     .then(categoryRes => {
                         if(categoryRes) {
                             setModalState(true)
+                            setLoading(false)
                         }
                     })
                     .catch(err => {
@@ -360,12 +364,21 @@ function CreateChallenge(props) {
                 </div>
                 <div label="Submit">
                     <div className="tab-container tab-container-submit">
-                        {passed 
+                        {true 
                         ? 
                         <div className="submit-button-container">
                             <h1>Booom!!!</h1><br/>
                             <h4>Your challenge has passed all the tests! You can go ahead and submit it!</h4><br/><br/>
-                            <button className="submit-button" onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit Challenge</button>
+                            <button disabled={loading} className="submit-button" onClick={event => postForChallengeCreation(event, accessToken, payload)}>
+                            { true ?             
+                                <Loader
+                                    type="TailSpin"
+                                    color="white"
+                                    height="40"	
+                                    width="40"
+                                /> : 
+                                <p>Submit Challenge</p>}
+                            </button>
                         </div> 
                         :
                         <div className="test-button-container">
