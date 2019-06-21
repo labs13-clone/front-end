@@ -364,13 +364,13 @@ function CreateChallenge(props) {
                 </div>
                 <div label="Submit">
                     <div className="tab-container tab-container-submit">
-                        {true 
+                        {passed 
                         ? 
                         <div className="submit-button-container">
                             <h1>Booom!!!</h1><br/>
                             <h4>Your challenge has passed all the tests! You can go ahead and submit it!</h4><br/><br/>
                             <button disabled={loading} className="submit-button" onClick={event => postForChallengeCreation(event, accessToken, payload)}>
-                            { true ?             
+                            { loading ?             
                                 <Loader
                                     type="TailSpin"
                                     color="white"
