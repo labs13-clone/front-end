@@ -232,7 +232,8 @@ function CreateChallenge(props) {
             .catch(err => {
                 console.log(err, payload)
             })
-    };
+        });
+    }
 
     function clearConsole() {
         setUserMessage('clear_console');
@@ -298,6 +299,7 @@ function CreateChallenge(props) {
                                 />
                             </div>
                         </form>
+                        </div>
                     </div>
                 </div>
                 <div label="Description">
@@ -364,7 +366,9 @@ function CreateChallenge(props) {
                                                 required
                                             />
                                         </div>
-                                    )
+                                    </div>
+
+                                    </div>)
                                 })}
                                 <button
                                     className="add-test-button"
