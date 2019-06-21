@@ -191,48 +191,36 @@ function CreateChallenge(props) {
                 Authorization: `Bearer ${token}`
             },
             data: payload
-        }).then(challengeRes => {
+        })
+        .then(challengeRes => {
             const selectedOptions = selectedCategories.map(int => {
-                return {challenge_id: challengeRes.data.id, categories_id: int}
-            });
-            axios({
-                    method: 'post', 
-                    url: `${process.env.REACT_APP_SERVER}/api/challenges`,
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-                    data: payload
+                return {
+                    challenge_id: challengeRes.data.id,
+                    categories_id: int
+                }
             })
-            .then(challengeRes => {
-                const selectedOptions = selectedCategories.map(int => {
-                    return {
-                        challenge_id: challengeRes.data.id,
-                        categories_id: int
+            axios({
+                method: 'post', 
+                url: `${process.env.REACT_APP_SERVER}/api/categories/challenges`,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                data: selectedOptions
+                })
+                .then(categoryRes => {
+                    if(categoryRes) {
+                        setModalState(true)
+                        setLoading(false)
                     }
                 })
-                axios({
-                    method: 'post', 
-                    url: `${process.env.REACT_APP_SERVER}/api/categories/challenges`,
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-                    data: selectedOptions
-                    })
-                    .then(categoryRes => {
-                        if(categoryRes) {
-                            setModalState(true)
-                            setLoading(false)
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-                
+                .catch(err => {
+                    console.log(err)
+                })
+            
             })
             .catch(err => {
                 console.log(err, payload)
             })
-        });
     }
 
     function clearConsole() {
@@ -366,8 +354,10 @@ function CreateChallenge(props) {
                                                 required
                                             />
                                         </div>
+                                        <div>
+                                            <button className="delete-test-button" id={index} onClick={e => removeTest(e)}>X</button>
+                                        </div>
                                     </div>
-
                                     </div>)
                                 })}
                                 <button
