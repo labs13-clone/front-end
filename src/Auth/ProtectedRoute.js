@@ -13,7 +13,9 @@ export default auth => ({
 
         return <Route {...props} render={(props) => <React.Fragment>
             <Header auth={auth} />
-            <Component className="main-view" {...props} auth={auth}/>
+            <div className="main-view">
+                <Component {...props} auth={auth}/>
+            </div>
             <Footer />
         </React.Fragment>}/>
 

@@ -16,7 +16,7 @@
     background: #232840;
     max-width: 30%;
     padding: 30px;
-    border-radius: 3px;
+    border-radius: 10px;
 }
 
 .sidebar-avatar {
@@ -92,7 +92,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    border-radius: 3px;
+    border-radius: 10px;
 }
 
 .user-info-username {
