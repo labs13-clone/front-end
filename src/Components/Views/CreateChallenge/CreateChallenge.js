@@ -87,7 +87,7 @@ function CreateChallenge(props) {
                     }
                 })
                 setCategory(categoryOptions)
-                console.log(res, category, categoryOptions)
+                console.log(res)
             })
             .catch(err => {
                 console.log(err, payload, process.env.REACT_APP_SERVER)
@@ -353,12 +353,26 @@ function CreateChallenge(props) {
                         </div>
                     </div>
                 </div>
+                <div label="Submit">
+                    <div className="tab-container tab-container-submit">
+                        {passed 
+                        ? 
+                        <div className="submit-button-container">
+                            <h1>Booom!!!</h1><br/>
+                            <h4>Your challenge has passed all the tests! You can go ahead and submit it!</h4><br/><br/>
+                            <button className="submit-button" onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit Challenge</button>
+                        </div> 
+                        :
+                        <div className="test-button-container">
+                            <button className="run-tests" onClick={runTests}>Run Tests</button>
+                            <h2>Before the final submission<br/><br/> Let's see if your challenge passes all the tests</h2> 
+                        </div>
+                        }
+                    </div>
+                </div>
             </Tabs>
             <div>
-                <Console runTests={runTests} runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
-                <div className="submit-button-wrapper">
-                    <button className="submit-button" disabled={!passed} onClick={event => postForChallengeCreation(event, accessToken, payload)}>Submit Challenge</button>
-                </div>
+                <Console runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
             </div>
         </div>
     )

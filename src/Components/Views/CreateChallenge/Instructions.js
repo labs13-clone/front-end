@@ -16,7 +16,7 @@ function instructions() {
             </ul> 
             <br/>
             <h4>Descriptions Tab</h4>
-                <p>Provide description for the challenge. This description will tell users what they are expected to do in order to pass the challenge.</p>
+            <p>Provide description for the challenge. This description will tell users what they are expected to do in order to pass the challenge. You need to use mark-down for writing description.</p>
             <br/>
             <h4>Preview Tab</h4>
             <p>This tab is just to preview the description before. You can see how your description will appear to the users attempting this challenge.</p>
