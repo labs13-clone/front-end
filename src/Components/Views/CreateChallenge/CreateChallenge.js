@@ -1,5 +1,3 @@
-// prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
-
 import React, { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
@@ -12,6 +10,7 @@ import Tabs from './Tabs';
 import { useWorker } from '../../../Utility/WorkerHook';
 import CategoryDropDown from './Categories';
 import Instructions from './Instructions';
+import SharedModal from "../../Shared/SharedModal/SharedModal";
 
 function CreateChallenge(props) {
     const accessToken = props.auth.accessToken;
@@ -28,6 +27,7 @@ function CreateChallenge(props) {
     const [output, setOutput] = useState([]);
     const [userMessage, setUserMessage] = useState({});
     const [selectedCategories, setSelectedCategories] = useState([])
+    const [modalState, setModalState] = useState(false);
 
     const {result,error} = useWorker(worker_script,userMessage);
 
@@ -128,6 +128,7 @@ function CreateChallenge(props) {
     function handleSolutionInputChange(editor, data, code){
         setjavascriptSolutionInput(code);
         setPayload({...payload, solution:code})
+        setModalState(true);
     }
     
 
@@ -188,7 +189,7 @@ function CreateChallenge(props) {
                     })
                     .then(categoryRes => {
                         if(categoryRes) {
-                            alert('Challenge created Successfully')
+                            setModalState(true)
                         }
                     })
                     .catch(err => {
@@ -219,6 +220,10 @@ function CreateChallenge(props) {
         })
         setUserMessage({msg:"run_tests",code:javascriptSolutionInput,tests:testArray});
     };
+
+    function modalCallback(){
+        setModalState(!modalState);
+    }
 
     return(
 
@@ -374,6 +379,8 @@ function CreateChallenge(props) {
             <div>
                 <Console runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
             </div>
+            <SharedModal message={(passed ? "Passed All Tests" : "Sorry Not All Tests Passed")} modalCallback={modalCallback} modalState={modalState}/>
+
         </div>
     )
 }

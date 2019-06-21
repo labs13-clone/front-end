@@ -134,7 +134,6 @@
 }
 
 .tab-list {
-  border-bottom: 1px solid #ccc;
   padding-left: 0;
   display: flex;
   justify-content: center;
@@ -152,10 +151,10 @@
   cursor: pointer;
   height: 50px;
   padding-top: 13px;
+  border-bottom: 2px solid #ccc;
 }
 
 .tab-list-active {
-  /* background-color: #222840; */
   border-bottom: 3px solid #C04789;
 }
 
@@ -276,10 +275,6 @@
   cursor: pointer;
   background: #C04789;
   color: white;
-}
-
-.submit-button:disabled {
-  opacity: 0.5;
 }
 
 /*************** categories dropdown styles *****************/
