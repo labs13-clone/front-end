@@ -23,28 +23,35 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
 body {
 	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
 }
 
 blockquote, q {
 	quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
 	content: none;
 }
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
 
 html {
   box-sizing: border-box;
@@ -64,7 +71,6 @@ body {
 * {
   box-sizing: border-box;
 }
-
 
 .react-codemirror2 {
   max-height: 100%;
@@ -95,19 +101,12 @@ pre {
   word-wrap: break-word;
 }
 
-.main-view {
-  /* Lidiia had this changed, possibly it could be talked about */
-  /* max-width: 1000px; */
-  margin: 0 auto;
-  min-height: 90vh;
-}
-
 /* .MuiButtonBase-root {
   padding:0px;
 } */
 
 pre {
-  overflow-x: auto;
+  overflow-y: hidden;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
@@ -119,7 +118,6 @@ code {
 p {
   display: block;
 }
-
 
 h1 {
   display: block;
@@ -139,17 +137,18 @@ h3 {
   font-weight: bold;
 }
 
-
 h4 {
   display: block;
   font-size: 1em;
   font-weight: bold
 }
+
 h5 {
   display: block;
   font-size: .83em;
   font-weight: bold
 }
+
 h6 {
   display: block;
   font-size: .67em;

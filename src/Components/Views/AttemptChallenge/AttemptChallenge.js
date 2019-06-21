@@ -216,7 +216,7 @@ function AttemptChallenge(props) {
             </div>
             <div className="attempt-challenge-wrapper"> 
                 <div className="top-panel">
-                    <div className="unneccessary-div">
+                    <div className="unnecessary-div">
                         <div style={{"background": "#222840","display":"flex","justifyContent":"space-around","alignItems":"center"}}>
                             <button className="console-button" onClick={resetChallenge}>Reset Challenge</button>
                             <button className="console-button" onClick={runTests}>Run Tests</button>

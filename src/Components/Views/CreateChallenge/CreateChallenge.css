@@ -30,6 +30,7 @@
     margin: auto;
     box-sizing: border-box;
     border: solid gray 5px;
+    border-radius: 5px;
     color: white;
     padding: 10px;
 }
@@ -194,7 +195,7 @@
   height: 25px;
   border: none;
   padding: 3px;
-  border-radius: 3px;
+  border-radius: 5px;
   font-weight: bold;
 }
 
@@ -218,7 +219,7 @@
 
 .tests-input{
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   height: 25px;
   padding: 3px;
   font-weight: bold;
@@ -273,7 +274,7 @@
   width: 50%;
   height: 80px;
   border: none;
-  border-radius: 15px;
+  border-radius: 10px;
   font-size: 25px;
   font-weight: bold;
   cursor: pointer;

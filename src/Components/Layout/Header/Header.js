@@ -6,24 +6,21 @@ import './Header.css';
 const Header = (props) => {
 
     return (
-        <nav className="header">
-            <div className="header__wrapper">
-                <div className="link-wrapper">
-                    <div className="left-header">
-                        <Link className="logo" to="/">ChallengeJS</Link>
-                        <Link className="navigation-link" to="/challenges">Challenges</Link>
-                        <Link className="navigation-link" to="/leaderboard">Leaderboard</Link>
-                        <Link className="navigation-link" to="/create-challenge">Add Challenge</Link>
-                    </div>
-
-                    <button
-                        className="account-button"
-                        onClick={_ => history.replace('/profile')}
-                        alt="user-dropdown">
-                        Account
-                    </button>
+        <nav className="header-wrapper">
+            <div className="header">
+                <div>
+                    <Link className="logo" to="/">ChallengeJS</Link>
+                    <Link className="navigation-link" to="/challenges">Challenges</Link>
+                    <Link className="navigation-link" to="/leaderboard">Leaderboard</Link>
+                    <Link className="navigation-link" to="/create-challenge">Add Challenge</Link>
                 </div>
 
+                <button
+                    className="account-button"
+                    onClick={_ => history.replace('/profile')}
+                    alt="user-dropdown">
+                    Account
+                </button>
             </div>
         </nav>
     );

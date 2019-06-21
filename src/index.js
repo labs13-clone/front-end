@@ -4,7 +4,6 @@ import {withRouter, Router, Route, Switch, Redirect} from 'react-router-dom';
 import Auth from './Auth/Auth';
 import history from './history';
 
-
 import './index.css';
 
 import LandingPage from './Components/Views/LandingPage/LandingPageContent';
@@ -15,11 +14,9 @@ import SearchChallenges from './Components/Views/SearchChallenges/SearchChalleng
 import CreateChallenge from './Components/Views/CreateChallenge/CreateChallenge';
 import AttemptChallenge from './Components/Views/AttemptChallenge/AttemptChallenge';
 import Leaderboard from './Components/Views/Leaderboard/Leaderboard';
-import Footer from './Components/Layout/Footer/Footer';
 import Loading from './Components/Views/Loading/Loading';
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faStar, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {faStar, faTrophy} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faStar, faTrophy)
 
@@ -27,9 +24,9 @@ const auth = new Auth();
 
 //Handle callback after login/register
 const handleAuthentication = ({location}) => {
-  if (/access_token|id_token|error/.test(location.hash)) {
-    auth.handleAuthentication();
-  }
+    if (/access_token|id_token|error/.test(location.hash)) {
+        auth.handleAuthentication();
+    }
 }
 
 //Give ProtectedRoute component access to history
@@ -45,30 +42,28 @@ const Root = () => {
             auth.renewSession(pathName);
         }
     }, []);
-    
-    return (<div>    
+
+    return (
         <Router history={history}>
-            <div className="main-view">
-                <Switch>
-                    <Route path="/" exact render={_ => <LandingPage auth={auth} />} />
-                    <Route path="/loading"  component={Loading} />
-                    <ProtectedRoute path="/profile" component={UserProfile}/>
-                    <ProtectedRoute path="/challenges" exact component={SearchChallenges} />
-                    <ProtectedRoute path="/create-challenge" component={CreateChallenge} />
-                    <ProtectedRoute path="/challenges/:id" component={AttemptChallenge} />
-                    <ProtectedRoute path="/leaderboard" component={Leaderboard} />
-                    <Route path="/callback" render={(props) => {
-                        handleAuthentication(props);
-                        return <Callback {...props} />
-                    }}/>
-                    <Redirect to="/" />
-                </Switch>
-            </div>
-            <Footer/>
+            <Switch>
+                <Route path="/" exact render={_ => <LandingPage auth={auth}/>}/>
+                <Route path="/loading" component={Loading}/>
+                <ProtectedRoute path="/profile" component={UserProfile}/>
+                <ProtectedRoute path="/challenges" exact component={SearchChallenges}/>
+                <ProtectedRoute path="/create-challenge" component={CreateChallenge}/>
+                <ProtectedRoute path="/challenges/:id" component={AttemptChallenge}/>
+                <ProtectedRoute path="/leaderboard" component={Leaderboard}/>
+                <Route
+                    path="/callback"
+                    render={(props) => {
+                    handleAuthentication(props);
+                    return <Callback {...props}/>
+                }}/>
+                <Redirect to="/"/>
+            </Switch>
         </Router>
-    </div>);
+    );
 };
 
-
-ReactDOM.render(<Root />, document.getElementById('root'));
-
+ReactDOM.render(
+    <Root/>, document.getElementById('root'));

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react';
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 import Loader from 'react-loader-spinner';
@@ -6,10 +6,10 @@ import {Link} from 'react-router-dom';
 
 import worker_script from "../../../Utility/worker";
 import Editor from '../../Shared/Editor/Editor';
-import "./CreateChallenge.css";
-import Console from "../../Shared/Console/Console";
+import './CreateChallenge.css';
+import Console from '../../Shared/Console/Console';
 import Tabs from './Tabs';
-import { useWorker } from '../../../Utility/WorkerHook';
+import {useWorker} from '../../../Utility/WorkerHook';
 import CategoryDropDown from './Categories';
 import Instructions from './Instructions';
 import SharedModal from "../../Shared/SharedModal/SharedModal";
@@ -32,42 +32,43 @@ function CreateChallenge(props) {
     const [modalState, setModalState] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const {result,error} = useWorker(worker_script,userMessage);
+    const {result, error} = useWorker(worker_script, userMessage);
 
     useEffect(() => {
-        if(result.length===0){
+        if (result.length === 0) {
             setOutput([]);
         } else {
             const resLen = result.length;
-            switch (result[resLen-1].msg){
-                case "run_code":
+            switch (result[resLen - 1].msg) {
+                case 'run_code':
                     setOutput(result);
                     break;
-                case "run_tests":
-                    const testResult = (result[resLen-1].result.toString()==='true' ? true : false);
+                case 'run_tests':
+                    const testResult = (result[resLen - 1].result.toString()) === 'true'
+                        ? true
+                        : false;
                     setPassed(testResult);
-                    console.log(testResult)
                     break;
                 default:
                     break;
             };
-        } 
-        },[result]);
+        }
+    }, [result]);
 
     useEffect(() => {
         const myArray = tests.map(e => {
-            if(e.descriptor !== "" && e.expectedResult !== ""){
-                return true
+            if (e.descriptor !== '' && e.expectedResult !== '') {
+                return true;
             } else {
-                return false
-            }	
+                return false;
+            }
         })
-        
+
         const bool = myArray.every(e => {
-            if(e===true){ 
-                return true
+            if (e === true) {
+                return true;
             } else {
-                return false
+                return false;
             }
         });
         setButtonState(bool);
@@ -75,7 +76,7 @@ function CreateChallenge(props) {
 
     useEffect(() => {
         axios({
-            method: 'get', 
+            method: 'get',
             url: `${process.env.REACT_APP_SERVER}/api/categories/`,
             headers: {
                 Authorization: `Bearer ${accessToken}`
@@ -90,75 +91,92 @@ function CreateChallenge(props) {
                     }
                 })
                 setCategory(categoryOptions)
-                console.log(res)
             })
             .catch(err => {
-                console.log(err, payload, process.env.REACT_APP_SERVER)
+                console.log(err)
             })
     }, [])
 
-    function handEditorleInputChange(editor, data, code){
+    function handEditorleInputChange(editor, data, code) {
         setMarkdownInput(code);
-        setPayload({...payload, description:code})
+        setPayload({
+            ...payload,
+            description: code
+        });
     }
 
     function addTest(e) {
         e.preventDefault();
-        const values = [...tests]
-        values.push({descriptor: "", argumentsToPass: "", expectedResult: ""});
-        setTests(values)
+        const values = [...tests];
+        values.push({descriptor: '', argumentsToPass: '', expectedResult: ''});
+        setTests(values);
     }
 
     function removeTest(e) {
         e.preventDefault();
-        const values = [...tests]
+        const values = [...tests];
         values.splice(e.target.id, 1);
-        setTests(values)
+        setTests(values);
     }
 
     function handleChanges(i, e) {
-        const values = [...tests]
+        const values = [...tests];
         values[i][e.target.name] = e.target.value;
-        setTests(values)
-        setPayload({...payload, tests:values})
+        setTests(values);
+        setPayload({
+            ...payload,
+            tests: values
+        });
     }
 
-    function handleInputChange(editor, data, code){
+    function handleInputChange(editor, data, code) {
         setJavascriptInput(code);
-        setPayload({...payload, skeleton_function:code})
+        setPayload({
+            ...payload,
+            skeleton_function: code
+        });
     }
 
-    function handleSolutionInputChange(editor, data, code){
+    function handleSolutionInputChange(editor, data, code) {
         setjavascriptSolutionInput(code);
-        setPayload({...payload, solution:code})
+        setPayload({
+            ...payload,
+            solution: code
+        });
     }
-    
 
     function handleTitleChanges(e) {
-        e.preventDefault()
-        let values = [...title]
+        e.preventDefault();
+        let values = [...title];
         values = e.target.value;
         setTitle(values)
-        setPayload({...payload, title:values})
+        setPayload({
+            ...payload,
+            title: values
+        });
     }
 
     function handleDifficultyChanges(e) {
-        e.preventDefault()
-        setDifficulty(parseInt(e.target.value, 10))
-        setPayload({...payload, difficulty:parseInt(e.target.value, 10)})
+        e.preventDefault();
+        setDifficulty(parseInt(e.target.value, 10));
+        setPayload({
+            ...payload,
+            difficulty: parseInt(e.target.value, 10)
+        });
     }
 
     function handleCategoryChanges(e) {
-        e.preventDefault()
-        let values = [...category]
+        e.preventDefault();
+        let values = [...category];
         values = e.target.value;
-        setCategory(values)
-    }
+        setCategory(values);
+    };
 
     function extractSkeletonFunction() {
-        //this regex is extracting everything between "first space followed by an alphanumeric character" and "{↵"
+        // this regex is extracting everything between "first space followed by an
+        // alphanumeric character" and "{↵"
         const regexp = /\s\w(.*?)\{↵/;
-        payload.skeleton_function = "function" + regexp.exec('function sayHello() {↵ some randome code↵}')[0] + "↵}"
+        payload.skeleton_function = 'function' + regexp.exec('function sayHello() {↵ some random code↵}')[0] + '↵}';
     }
 
     function postForChallengeCreation(event, token, payload) {
@@ -166,6 +184,17 @@ function CreateChallenge(props) {
         setLoading(true)
         extractSkeletonFunction();
 
+        axios({
+            method: 'post',
+            url: `${process.env.REACT_APP_SERVER}/api/challenges`,
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            data: payload
+        }).then(challengeRes => {
+            const selectedOptions = selectedCategories.map(int => {
+                return {challenge_id: challengeRes.data.id, categories_id: int}
+            });
             axios({
                     method: 'post', 
                     url: `${process.env.REACT_APP_SERVER}/api/challenges`,
@@ -175,7 +204,6 @@ function CreateChallenge(props) {
                     data: payload
             })
             .then(challengeRes => {
-                console.log(challengeRes)
                 const selectedOptions = selectedCategories.map(int => {
                     return {
                         challenge_id: challengeRes.data.id,
@@ -206,23 +234,23 @@ function CreateChallenge(props) {
             })
     };
 
-    function clearConsole(){
-        setUserMessage("clear_console")
-    };
-    
-    function runCode(){
-        setUserMessage({msg:"run_code",code:javascriptSolutionInput});
+    function clearConsole() {
+        setUserMessage('clear_console');
     };
 
-    function runTests(){
+    function runCode() {
+        setUserMessage({msg: 'run_code', code: javascriptSolutionInput});
+    };
+
+    function runTests() {
         const testArray = tests.map(obj => {
-            if(obj.argumentsToPass === "") {
-                obj.argumentsToPass = "[]"
+            if (obj.argumentsToPass === '') {
+                obj.argumentsToPass = '[]';
             }
             obj.argumentsToPass = eval(obj.argumentsToPass);
             return obj;
         })
-        setUserMessage({msg:"run_tests",code:javascriptSolutionInput,tests:testArray});
+        setUserMessage({msg: 'run_tests', code: javascriptSolutionInput, tests: testArray});
     };
 
     function modalCallback(){
@@ -230,6 +258,7 @@ function CreateChallenge(props) {
     }
 
     return(
+
 
         <div className="create-challenge-container">
             <Tabs className="tabs">
@@ -271,8 +300,6 @@ function CreateChallenge(props) {
                         </form>
                     </div>
                 </div>
-
-                </div>
                 <div label="Description">
                     <div className="tab-container">
                         <div className="description-editor-container">
@@ -283,18 +310,20 @@ function CreateChallenge(props) {
                                         <Editor
                                             code={markdownInput}
                                             mode={'markdown'}
-                                            changeHandler={handEditorleInputChange}
-                                        />
+                                            changeHandler={handEditorleInputChange}/>
                                     </div>
                                 </section>
                             </div>
 
                         </div>
-                        </div>
                     </div>
+                </div>
                 <div label="Preview">
                     <div className="tab-container">
-                        <ReactMarkdown source={markdownInput} className="markdown-render" placeholder="Preview"/>
+                        <ReactMarkdown
+                            source={markdownInput}
+                            className="markdown-render"
+                            placeholder="Preview"/>
                     </div>
                 </div>
                 <div label="Tests">
@@ -302,7 +331,7 @@ function CreateChallenge(props) {
                         <div className="create-challenge-tests">
                         <form className="tests-form">
                             {tests.map((test, index) => {
-                                return (<div>
+                                return (<div key={index}>
                                     <h2 className="test-header">Test {index + 1}</h2> <br/><br/>
                                     <div className="test-container">
                                         <div>
@@ -335,15 +364,14 @@ function CreateChallenge(props) {
                                                 required
                                             />
                                         </div>
-                                        <div>
-                                            <button className="delete-test-button" id={index} onClick={e => removeTest(e)}>X</button>
-                                        </div>
-                                    </div>
-                                </div>)
-                            })}
-                        <button className="add-test-button" disabled={!buttonState} onClick={(e) => addTest(e)}>Add Test</button>
-                        </form>
-                    </div>
+                                    )
+                                })}
+                                <button
+                                    className="add-test-button"
+                                    disabled={!buttonState}
+                                    onClick={(e) => addTest(e)}>Add Test</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div label="Code">
@@ -355,8 +383,7 @@ function CreateChallenge(props) {
                                     <Editor
                                         code={javascriptSolutionInput}
                                         mode={'javascript'}
-                                        changeHandler={handleSolutionInputChange}
-                                    />
+                                        changeHandler={handleSolutionInputChange}/>
                                 </div>
                             </section>
                         </div>
