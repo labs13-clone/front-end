@@ -53,3 +53,20 @@
     font-size: .8rem;
     color: whitesmoke;
 }
+
+.card-popularity {
+    display: flex;
+    align-items: center;
+    color: #FFD700;
+
+}
+
+.popularity-value {
+    margin-right: 10px;
+
+}
+
+.thumbs-up {
+    margin-bottom: 4px;
+}
+
