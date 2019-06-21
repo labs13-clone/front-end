@@ -243,7 +243,7 @@ function AttemptChallenge(props) {
                     </div>
                 </div>
                 
-                <SharedModal message={(passed ? "Passed All Tests" : "Sorry Not All Tests Passed")} modalCallback={modalCallback} modalState={modalState}/>
+                <SharedModal message={(passed ? "Passed All Tests" : "Sorry Not All Tests Passed")} modalCallback={modalCallback} modalState={modalState} class="attempt-challenge-modal"/>
                 <br/>
 
                 <Console runCode={runCode} clearConsole={clearConsole} output={output}/>
