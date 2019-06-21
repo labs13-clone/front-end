@@ -13,7 +13,7 @@ import {
       case 'init':
         return initialState;
       case 'result':
-        return { result: [...state.result, action.result], error: null };
+        return { result: [...state.result, {msg:action.result.msg,result:action.result.result.toString()}], error: null };
       case 'clear':
         return { result: [], error: null };
       case 'error':
