@@ -6,6 +6,7 @@ import ChallengesContainer from '../../Shared/ChallengesContainer/ChallengesCont
 import {objToQuery} from '../../../Utility/objToQuery';
 import './SearchChallenges.css';
 
+
 const SearchChallenges = (props) => {
 
     const [challenges,
@@ -60,6 +61,8 @@ const SearchChallenges = (props) => {
             console.log(e);
         });
     }
+
+    console.log('challenges', challenges);
 
 
     return (

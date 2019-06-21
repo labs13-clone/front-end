@@ -16,9 +16,9 @@ import AttemptChallenge from './Components/Views/AttemptChallenge/AttemptChallen
 import Leaderboard from './Components/Views/Leaderboard/Leaderboard';
 import Loading from './Components/Views/Loading/Loading';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faStar, faTrophy} from '@fortawesome/free-solid-svg-icons';
+import {faStar, faTrophy, faThumbsUp} from '@fortawesome/free-solid-svg-icons';
 
-library.add(faStar, faTrophy)
+library.add(faStar, faTrophy, faThumbsUp);
 
 const auth = new Auth();
 
