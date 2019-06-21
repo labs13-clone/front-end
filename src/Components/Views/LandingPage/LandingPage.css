@@ -46,6 +46,10 @@
   font-weight: bold;
   cursor: pointer;
 }
+.topContent button:hover{
+  background: #f5f5f6;
+  color: #c04789;
+}
 
 .topContent-left {
   width: 50%;
