@@ -11,6 +11,7 @@
 .filter {
     color: #222840;
     background:whitesmoke;
+    border-radius: 5px;
     font-size: 1.3rem;
     margin: 5px;
     padding: 5px;
