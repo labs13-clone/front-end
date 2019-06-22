@@ -13,7 +13,9 @@ import {useWorker} from '../../../Utility/WorkerHook';
 import CategoryDropDown from './Categories';
 import Instructions from './Instructions';
 import SharedModal from "../../Shared/SharedModal/SharedModal";
-import Meta from './Meta'
+import MetaForm from './Meta'
+import TestsForm from './TestsForm'
+
 function CreateChallenge(props) {
     const accessToken = props.auth.accessToken;
     const [payload, setPayload] = useState({})
@@ -119,9 +121,9 @@ function CreateChallenge(props) {
         setTests(values);
     }
 
-    function handleChanges(i, e) {
+    function handleChanges(e) {
         const values = [...tests];
-        values[i][e.target.name] = e.target.value;
+        values[e.target.id][e.target.name] = e.target.value;
         setTests(values);
         setPayload({
             ...payload,
@@ -256,7 +258,7 @@ function CreateChallenge(props) {
                 </div>
                 <div label="Meta">
                     <div className="tab-container">
-                        <Meta
+                        <MetaForm
                             handleTitleChanges={e => handleTitleChanges(e)}
                             title={title}
                             handleDifficultyChanges={e => handleDifficultyChanges(e)}
@@ -293,54 +295,13 @@ function CreateChallenge(props) {
                 </div>
                 <div label="Tests">
                     <div className="tab-container">
-                        <div className="create-challenge-tests">
-                        <form className="tests-form">
-                            {tests.map((test, index) => {
-                                return (<div key={index}>
-                                    <h2 className="test-header">Test {index + 1}</h2> <br/><br/>
-                                    <div className="test-container">
-                                        <div>
-                                            <h4>Description</h4><br/>
-                                            <input
-                                                className="tests-input"
-                                                value={tests[index].descriptor}
-                                                name="descriptor"
-                                                onChange={e => handleChanges(index, e)}
-                                                required
-                                            />
-                                        </div>
-                                        <div>
-                                            <h4>Arguments</h4><br/>
-                                            <input
-                                                className="tests-input"
-                                                value={tests[index].argumentsToPass}
-                                                name="argumentsToPass"
-                                                onChange={e => handleChanges(index, e)}
-                                                required
-                                            />
-                                        </div>
-                                        <div>
-                                            <h4>Expected Result</h4><br/>
-                                            <input
-                                                className="tests-input"
-                                                value={tests[index].expectedResult}
-                                                name="expectedResult"
-                                                onChange={e => handleChanges(index, e)}
-                                                required
-                                            />
-                                        </div>
-                                        <div>
-                                            <button className="delete-test-button" id={index} onClick={e => removeTest(e)}>X</button>
-                                        </div>
-                                    </div>
-                                    </div>)
-                                })}
-                                <button
-                                    className="add-test-button"
-                                    disabled={!buttonState}
-                                    onClick={(e) => addTest(e)}>Add Test</button>
-                            </form>
-                        </div>
+                        <TestsForm
+                            tests={tests}
+                            handleChanges={e => handleChanges(e)}
+                            removeTest={e => removeTest(e)}
+                            buttonState={buttonState}
+                            addTest={e => addTest(e)}
+                        />
                     </div>
                 </div>
                 <div label="Code">

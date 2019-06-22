@@ -1,7 +1,7 @@
 import React from 'react'
 import MultiSelect from "@khanacademy/react-multi-select";
 
-export default function Meta(props) {
+export default function MetaForm(props) {
     return(
         <div className="meta-container">
             <h3>Basic Information</h3>
