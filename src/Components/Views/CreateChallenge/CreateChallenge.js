@@ -13,7 +13,7 @@ import {useWorker} from '../../../Utility/WorkerHook';
 import CategoryDropDown from './Categories';
 import Instructions from './Instructions';
 import SharedModal from "../../Shared/SharedModal/SharedModal";
-
+import Meta from './Meta'
 function CreateChallenge(props) {
     const accessToken = props.auth.accessToken;
     const [payload, setPayload] = useState({})
@@ -247,8 +247,6 @@ function CreateChallenge(props) {
     }
 
     return(
-
-
         <div className="create-challenge-container">
             <Tabs className="tabs">
                 <div label="Instructions">
@@ -258,36 +256,14 @@ function CreateChallenge(props) {
                 </div>
                 <div label="Meta">
                     <div className="tab-container">
-                        <div className="meta-container">
-                        <h3>Basic Information</h3>
-                        <br/><br/>
-                        <form className="meta-form">
-                            <div>
-                                <h4>Title</h4>
-                                <br/>
-                                <input className="challenge-info" value={title} onChange={e => handleTitleChanges(e)}/>
-                            </div>
-                            <div>
-                                <h4>Difficulty</h4>
-                                <br/>
-                                <select style={{'width': '50px'}} className="challenge-info" style={{width:200}} onChange={e => handleDifficultyChanges(e)}>
-                                    <option>Select</option>
-                                    <option value="16">Easy</option>
-                                    <option value="50">Medium</option>
-                                    <option value="75">Hard</option>
-                                </select>
-                            </div>
-                            <div>
-                                <h4>Categories</h4>
-                                <br/>
-                                <CategoryDropDown 
-                                    options={category} 
-                                    selectedCategories={selectedCategories} 
-                                    setSelectedCategories={selected => {setSelectedCategories(selected)}}
-                                />
-                            </div>
-                        </form>
-                        </div>
+                        <Meta
+                            handleTitleChanges={e => handleTitleChanges(e)}
+                            title={title}
+                            handleDifficultyChanges={e => handleDifficultyChanges(e)}
+                            category={category} 
+                            selectedCategories={selectedCategories} 
+                            setSelectedCategories={selected => {setSelectedCategories(selected)}}        
+                        />
                     </div>
                 </div>
                 <div label="Description">
@@ -304,7 +280,6 @@ function CreateChallenge(props) {
                                     </div>
                                 </section>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -413,14 +388,13 @@ function CreateChallenge(props) {
             <div>
                 <Console runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
             </div>
-            <SharedModal class="create-challenge-modal" message={
-            <div className="modal-text-container">
+            <SharedModal class="create-challenge-modal" message=
+            {<div className="modal-text-container">
                 <h1>Success!</h1>
                 <p>Your challenge is submitted for approval</p>
                 <p>See the status in your profile</p>
                 <Link to="/profile"><button>Profile</button></Link>
-            </div>
-            } 
+            </div>} 
             modalCallback={modalCallback} modalState={modalState}/>
         </div>
     )
