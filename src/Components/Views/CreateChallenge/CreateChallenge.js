@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
-import Loader from 'react-loader-spinner';
 import {Link} from 'react-router-dom';
 
 import worker_script from "../../../Utility/worker";
@@ -10,14 +9,15 @@ import './CreateChallenge.css';
 import Console from '../../Shared/Console/Console';
 import Tabs from './Tabs';
 import {useWorker} from '../../../Utility/WorkerHook';
-import CategoryDropDown from './Categories';
 import Instructions from './Instructions';
 import SharedModal from "../../Shared/SharedModal/SharedModal";
 import MetaForm from './Meta'
 import TestsForm from './TestsForm'
+import TestAndSubmitChalllenge from './TestAndSubmit';
 
-function CreateChallenge(props) {
+function CreateChallenge(props) {  
     const accessToken = props.auth.accessToken;
+  
     const [payload, setPayload] = useState({})
     const [markdownInput, setMarkdownInput] = useState('')
     const [title, setTitle] = useState("")
@@ -101,10 +101,10 @@ function CreateChallenge(props) {
 
     function handEditorleInputChange(editor, data, code) {
         setMarkdownInput(code);
-        setPayload({
-            ...payload,
-            description: code
-        });
+        // setPayload({
+        //     ...payload,
+        //     description: code
+        // });
     }
 
     function addTest(e) {
@@ -125,26 +125,26 @@ function CreateChallenge(props) {
         const values = [...tests];
         values[e.target.id][e.target.name] = e.target.value;
         setTests(values);
-        setPayload({
-            ...payload,
-            tests: values
-        });
+        // setPayload({
+        //     ...payload,
+        //     tests: values
+        // });
     }
 
     function handleInputChange(editor, data, code) {
         setJavascriptInput(code);
-        setPayload({
-            ...payload,
-            skeleton_function: code
-        });
+        // setPayload({
+        //     ...payload,
+        //     skeleton_function: code
+        // });
     }
 
     function handleSolutionInputChange(editor, data, code) {
         setjavascriptSolutionInput(code);
-        setPayload({
-            ...payload,
-            solution: code
-        });
+        // setPayload({
+        //     ...payload,
+        //     solution: code
+        // });
     }
 
     function handleTitleChanges(e) {
@@ -152,19 +152,19 @@ function CreateChallenge(props) {
         let values = [...title];
         values = e.target.value;
         setTitle(values)
-        setPayload({
-            ...payload,
-            title: values
-        });
+        // setPayload({
+        //     ...payload,
+        //     title: values
+        // });
     }
 
     function handleDifficultyChanges(e) {
         e.preventDefault();
         setDifficulty(parseInt(e.target.value, 10));
-        setPayload({
-            ...payload,
-            difficulty: parseInt(e.target.value, 10)
-        });
+        // setPayload({
+        //     ...payload,
+        //     difficulty: parseInt(e.target.value, 10)
+        // });
     }
 
     function handleCategoryChanges(e) {
@@ -186,43 +186,7 @@ function CreateChallenge(props) {
         setLoading(true)
         extractSkeletonFunction();
 
-        axios({
-            method: 'post',
-            url: `${process.env.REACT_APP_SERVER}/api/challenges`,
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            data: payload
-        })
-        .then(challengeRes => {
-            const selectedOptions = selectedCategories.map(int => {
-                return {
-                    challenge_id: challengeRes.data.id,
-                    categories_id: int
-                }
-            })
-            axios({
-                method: 'post', 
-                url: `${process.env.REACT_APP_SERVER}/api/categories/challenges`,
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                data: selectedOptions
-                })
-                .then(categoryRes => {
-                    if(categoryRes) {
-                        setModalState(true)
-                        setLoading(false)
-                    }
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-            
-            })
-            .catch(err => {
-                console.log(err, payload)
-            })
+        createChallengeRequest(markdownInput, tests, javascriptSolutionInput, title, difficulty, payload.skeleton_function, selectedCategories, accessToken, setModalState, setLoading)
     }
 
     function clearConsole() {
@@ -247,6 +211,7 @@ function CreateChallenge(props) {
     function modalCallback(){
         setModalState(!modalState);
     }
+
 
     return(
         <div className="create-challenge-container">
@@ -321,44 +286,91 @@ function CreateChallenge(props) {
                 </div>
                 <div label="Submit">
                     <div className="tab-container tab-container-submit">
-                        {passed 
-                        ? 
-                        <div className="submit-button-container">
-                            <h1>Booom!!!</h1><br/>
-                            <h4>Your challenge has passed all the tests! You can go ahead and submit it!</h4><br/><br/>
-                            <button disabled={loading} className="submit-button" onClick={event => postForChallengeCreation(event, accessToken, payload)}>
-                            { loading ?             
-                                <Loader
-                                    type="TailSpin"
-                                    color="white"
-                                    height="40"	
-                                    width="40"
-                                /> : 
-                                <p>Submit Challenge</p>}
-                            </button>
-                        </div> 
-                        :
-                        <div className="test-button-container">
-                            <button className="run-tests" onClick={runTests}>Run Tests</button>
-                            <h2>Before the final submission<br/><br/> Let's see if your challenge passes all the tests</h2> 
-                        </div>
-                        }
+                        <TestAndSubmitChalllenge
+                            passed={passed}
+                            loading={loading}
+                            postForChallengeCreation={e => {postForChallengeCreation(e, accessToken, payload)}}
+                            runTests={runTests}
+                        />
                     </div>
                 </div>
             </Tabs>
-            <div>
-                <Console runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
-            </div>
-            <SharedModal class="create-challenge-modal" message=
-            {<div className="modal-text-container">
-                <h1>Success!</h1>
-                <p>Your challenge is submitted for approval</p>
-                <p>See the status in your profile</p>
-                <Link to="/profile"><button>Profile</button></Link>
-            </div>} 
-            modalCallback={modalCallback} modalState={modalState}/>
+            <Console runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
+            <SharedModal 
+                class="create-challenge-modal" 
+                message={<div className="modal-text-container">
+                            <h1>Success!</h1>
+                            <p>Your challenge is submitted for approval</p>
+                            <p>See the status in your profile</p>
+                            <Link to="/profile">
+                                <button>Profile</button>
+                            </Link>
+                        </div>} 
+                modalCallback={modalCallback} 
+                modalState={modalState}
+            />
         </div>
     )
+}
+
+function createPayload(markdownInput, tests, javascriptSolutionInput, title, difficulty, skeletonFunction, selectedCategories) {
+    const payload = {
+        description: markdownInput,
+        tests: tests,
+        solution: javascriptSolutionInput,
+        title: title,
+        difficulty: difficulty,
+        skeleton_function: skeletonFunction
+    }
+
+    return payload;
+}
+
+function createChallengeRequest(markdownInput, tests, javascriptSolutionInput, title, difficulty, skeletonFunction, selectedCategories, token, setModalState, setLoading) {
+    const challengePayload = createPayload(markdownInput, tests, javascriptSolutionInput, title, difficulty, skeletonFunction)
+
+    axios({
+        method: 'post',
+        url: `${process.env.REACT_APP_SERVER}/api/challenges`,
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        data: challengePayload
+    })
+    .then(challengeRes => {
+            console.log(challengeRes)
+            addCategoriesRequest(challengeRes.data, selectedCategories, token, setModalState, setLoading)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+function addCategoriesRequest(challenge, selectedCategories, token, setModalState, setLoading) {
+    const arrayOfselectedCategories = selectedCategories.map(id => {
+        return {
+            challenge_id: challenge.id,
+            categories_id: id
+        }
+    })
+    axios({
+        method: 'post', 
+        url: `${process.env.REACT_APP_SERVER}/api/categories/challenges`,
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        data: arrayOfselectedCategories
+        })
+        .then(categoryRes => {
+            if(categoryRes) {
+                setModalState(true)
+                setLoading(false)
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
 }
 
 export default CreateChallenge;
