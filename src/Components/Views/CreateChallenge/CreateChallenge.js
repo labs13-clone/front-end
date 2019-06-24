@@ -165,7 +165,7 @@ function CreateChallenge(props) {
 
     function addTest(e) {
         e.preventDefault();
-        const values = { ...challenge.tests };
+        const values = [ ...challenge.tests ];
         values.push({descriptor: '', argumentsToPass: '', expectedResult: ''});
         setChallenge({
             ...challenge,
@@ -175,7 +175,7 @@ function CreateChallenge(props) {
 
     function removeTest(e) {
         e.preventDefault();
-        const values = { ...challenge.tests };
+        const values = [ ...challenge.tests ];
         values.splice(e.target.id, 1);
         setChallenge({
             ...challenge,
