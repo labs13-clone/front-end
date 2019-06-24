@@ -10,12 +10,12 @@ export default function MetaForm(props) {
                 <div>
                     <h4>Title</h4>
                     <br/>
-                    <input className="challenge-info" value={props.title} onChange={props.handleTitleChanges}/>
+                    <input name="title" className="challenge-info" value={props.title} onChange={props.handleTitleAndDifficultyChanges}/>
                 </div>
                 <div>
                     <h4>Difficulty</h4>
                     <br/>
-                    <select style={{'width': '50px'}} className="challenge-info" style={{width:200}} onChange={props.handleDifficultyChanges}>
+                    <select name="difficulty" style={{'width': '50px'}} className="challenge-info" style={{width:200}} onChange={props.handleTitleAndDifficultyChanges}>
                         <option>Select</option>
                         <option value="16">Easy</option>
                         <option value="50">Medium</option>

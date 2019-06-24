@@ -28,7 +28,6 @@ function CreateChallenge(props) {
     })
     const [category, setCategory] = useState("")
     const [buttonState, setButtonState] = useState(true)
-    const [javascriptInput, setJavascriptInput] = useState('')
     const [passed, setPassed] = useState(false);
     const [output, setOutput] = useState([]);
     const [userMessage, setUserMessage] = useState({});
@@ -108,39 +107,6 @@ function CreateChallenge(props) {
         });
     }
 
-    function addTest(e) {
-        e.preventDefault();
-        const values = [...challenge.tests];
-        values.push({descriptor: '', argumentsToPass: '', expectedResult: ''});
-        setChallenge({
-            ...challenge,
-            tests: values
-        });
-    }
-
-    function removeTest(e) {
-        e.preventDefault();
-        const values = [...challenge.tests];
-        values.splice(e.target.id, 1);
-        setChallenge({
-            ...challenge,
-            tests: values,
-        });
-    }
-
-    function handleChanges(e) {
-        const values = [...challenge.tests];
-        values[e.target.id][e.target.name] = e.target.value;
-        setChallenge({
-            ...challenge,
-            tests: values,
-        });
-    }
-
-    function handleInputChange(editor, data, code) {
-        setJavascriptInput(code);
-    }
-
     function handleSolutionInputChange(editor, data, code) {
         const regexp = /\s\w(.*?)\{↵/;
         const skeleton_function = 'function' + regexp.exec('function sayHello() {↵ some random code↵}')[0] + '↵}';    
@@ -151,30 +117,48 @@ function CreateChallenge(props) {
         });
     }
 
-    function handleTitleChanges(e) {
-        e.preventDefault();
-        let values = [...challenge.title];
-        values = e.target.value;
-        setChallenge({
-            ...challenge, 
-            title: values
-        })
-    }
-
-    function handleDifficultyChanges(e) {
-        e.preventDefault();
+    function handleChanges(e) {
+        const values = [ ...challenge.tests ];
+        values[e.target.id][e.target.name] = e.target.value;
         setChallenge({
             ...challenge,
-            difficulty: parseInt(e.target.value, 10)
+            tests: values,
         });
     }
 
-    function handleCategoryChanges(e) {
+    function handleTitleAndDifficultyChanges(e) {
         e.preventDefault();
-        let values = [...category];
-        values = e.target.value;
-        setCategory(values);
-    };
+        let values = {
+            title: challenge.title,
+            difficulty: challenge.difficulty,
+        };
+        values[e.target.name] = e.target.value;
+        setChallenge({
+            ...challenge, 
+            title: values.title,
+            difficulty: parseInt(values.difficulty, 10),
+        })
+    }
+
+    function addTest(e) {
+        e.preventDefault();
+        const values = { ...challenge.tests };
+        values.push({descriptor: '', argumentsToPass: '', expectedResult: ''});
+        setChallenge({
+            ...challenge,
+            tests: values
+        });
+    }
+
+    function removeTest(e) {
+        e.preventDefault();
+        const values = { ...challenge.tests };
+        values.splice(e.target.id, 1);
+        setChallenge({
+            ...challenge,
+            tests: values,
+        });
+    }
 
     function postForChallengeCreation(event, token) {
         event.preventDefault();
@@ -205,7 +189,6 @@ function CreateChallenge(props) {
         setModalState(!modalState);
     }
 
-
     return(
         <div className="create-challenge-container">
             <Tabs className="tabs">
@@ -217,9 +200,8 @@ function CreateChallenge(props) {
                 <div label="Meta">
                     <div className="tab-container">
                         <MetaForm
-                            handleTitleChanges={e => handleTitleChanges(e)}
                             title={challenge.title}
-                            handleDifficultyChanges={e => handleDifficultyChanges(e)}
+                            handleTitleAndDifficultyChanges={e => handleTitleAndDifficultyChanges(e)}
                             category={category} 
                             selectedCategories={selectedCategories} 
                             setSelectedCategories={selected => {setSelectedCategories(selected)}}        
@@ -317,11 +299,10 @@ function createChallengeRequest(challenge, selectedCategories, token, setModalSt
         data: challenge
     })
     .then(challengeRes => {
-            console.log(challengeRes)
             addCategoriesRequest(challengeRes.data, selectedCategories, token, setModalState, setLoading)
         })
         .catch(err => {
-            console.log(err)
+            console.log(err.message)
         })
 }
 
@@ -345,9 +326,10 @@ function addCategoriesRequest(challenge, selectedCategories, token, setModalStat
                 setModalState(true)
                 setLoading(false)
             }
+            console.log(categoryRes)
         })
         .catch(err => {
-            console.log(err)
+            console.log(err.message)
         })
 
 }
