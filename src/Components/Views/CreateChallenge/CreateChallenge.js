@@ -179,7 +179,7 @@ function CreateChallenge(props) {
     function postForChallengeCreation(event, token) {
         event.preventDefault();
         setLoading(true)
-        createChallengeRequest(challenge.description, challenge.tests, challenge.solution, challenge.title, challenge.difficulty, challenge.skeleton_function, selectedCategories, accessToken, setModalState, setLoading)
+        createChallengeRequest(challenge, selectedCategories, accessToken, setModalState, setLoading)
     }
 
     function clearConsole() {
@@ -306,22 +306,7 @@ function CreateChallenge(props) {
     )
 }
 
-
-function createPayload(markdownInput, tests, javascriptSolutionInput, title, difficulty, skeletonFunction, selectedCategories) {
-    const payload = {
-        description: markdownInput,
-        tests: tests,
-        solution: javascriptSolutionInput,
-        title: title,
-        difficulty: difficulty,
-        skeleton_function: skeletonFunction
-    }
-
-    return payload;
-}
-
-function createChallengeRequest(markdownInput, tests, javascriptSolutionInput, title, difficulty, skeletonFunction, selectedCategories, token, setModalState, setLoading) {
-    const challengePayload = createPayload(markdownInput, tests, javascriptSolutionInput, title, difficulty, skeletonFunction)
+function createChallengeRequest(challenge, selectedCategories, token, setModalState, setLoading) {
 
     axios({
         method: 'post',
@@ -329,7 +314,7 @@ function createChallengeRequest(markdownInput, tests, javascriptSolutionInput, t
         headers: {
             Authorization: `Bearer ${token}`
         },
-        data: challengePayload
+        data: challenge
     })
     .then(challengeRes => {
             console.log(challengeRes)
