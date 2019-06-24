@@ -173,6 +173,14 @@ function AttemptChallenge(props) {
             setModalState(!modalState);
     }
 
+    function fullscreenOnChange(e){
+        setIsFull(e)
+    }
+
+    function goFull(){
+        setIsFull(!isFull)
+    }
+
     function submitChallenge(){
         // setUserSubmission when the promised is resolved
         if(userSubmission.completed){
@@ -195,17 +203,13 @@ function AttemptChallenge(props) {
             .catch();
     }
 
-    function goFull(){
-        setIsFull(!isFull)
-    }
-
     return (
-        
-        <div className="challenge-main ">
-            <div className="challenge-header-wrapper ">
+        <div className="full-screenable-node">
+            <Fullscreen enabled={isFull} onChange={fullscreenOnChange}>
+            <div className="challenge-header-wrapper">
                 <h3 className="challenge-header">{challenge.title}</h3>
                 <div className="category-completed" >
-                    {/* <button onClick={goFull}>{isFull ? "Exit Full Screen" :"Go Fullscreen"}</button> */}
+                    <button className="fullscreen-button" onClick={goFull}>{isFull ? "Exit Full Screen" :"Go Fullscreen"}</button>
                     <div>
                         {
                             challenge.categories.map(e =>{
@@ -223,7 +227,7 @@ function AttemptChallenge(props) {
             </div>
             <div className="attempt-challenge-wrapper"> 
                 <div className="top-panel">
-                    <div className="unnecessary-div">
+                    <div className={(isFull ? "fullscreen-unnecessary-div":"unnecessary-div")}>
                         <div style={{"background": "#222840","display":"flex","justifyContent":"space-around","alignItems":"center"}}>
                             <button className="console-button" onClick={resetChallenge}>Reset Challenge</button>
                             <button className="console-button" onClick={runTests}>Run Tests</button>
@@ -231,13 +235,13 @@ function AttemptChallenge(props) {
                         </div>
                         {
                             (!userSubmission.completed ? 
-                            <Editor code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"} readOnly={false}/> :
-                            <Editor code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"} readOnly={true}/>
+                            <Editor class={(isFull ? "fullscreen-editor-style" : "editor-style" )} code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"} readOnly={false}/> :
+                            <Editor class={(isFull ? "fullscreen-editor-style" : "editor-style ")} code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"} readOnly={true}/>
                             )
                         }
                         
                     </div>
-                    <div className="attempt-markdown-wrapper">
+                    <div className={(isFull ? "fullscreen-attempt-markdown-wrapper":"attempt-markdown-wrapper")}>
                         <h2 className="challenge-instructions">Instructions</h2>
                         <ReactMarkdown source={challenge.description} />
                     </div>
@@ -245,11 +249,12 @@ function AttemptChallenge(props) {
                 
                 <SharedModal class="attempt-challenge-modal" message={(passed ? "Passed All Tests" : "Sorry Not All Tests Passed")} modalCallback={modalCallback} modalState={modalState} class="attempt-challenge-modal"/>
                 <br/>
-
-                <Console runCode={runCode} clearConsole={clearConsole} output={output}/>
+                <Console runCode={runCode} clearConsole={clearConsole} output={output} class={(isFull ? "fullscreen-console" :"attempt-challenge-console")}/>
+                
             </div>
-        </div>
-        
+            </Fullscreen>
+            
+         </div>
     );
 }
 

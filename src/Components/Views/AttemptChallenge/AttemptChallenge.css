@@ -83,6 +83,12 @@
     border-radius:10px;
 }
 
+.fullscreen-unnecessary-div {
+    width:60%;
+    height:50%;
+    border-radius:10px;
+}
+
 .challenge-completed {
     display: flex;
     align-items: center;
@@ -136,18 +142,38 @@
     overflow: scroll;
 }
 
-/* styling for attempt challenge modal */
-/* styling for modal */
-/* .attempt-challenge-modal {
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #343D61;
-    width: 400px;
-    height: 300px;
-    padding: 30px;
-    border-radius: 5px;
+.fullscreen-attempt-markdown-wrapper {
+    width: 40%;
+    height: 49.5vh;
+    background-color: #1C2938;
+    box-sizing: border-box;
+    border: solid gray 5px;
     color: white;
-  }
-   */
+    padding: 10px;
+    overflow: scroll;
+}
+
+.editor-style {
+    height: 32vh;
+}
+
+.fullscreen-editor-style{
+    height: 45vh;
+}
+
+.fullscreen-button {
+    cursor: pointer;
+    outline: none;
+    border: 1px solid #2A9fd8;
+    border-radius: 5px;
+    background: #222840;
+    color: #2A9fd8;
+    font-weight: bold;
+    padding: 7px;
+}
+
+.fullscreen-button:hover {
+    border-radius: 5px;
+    background: #2A9fd8;
+    color: #222840;
+}
