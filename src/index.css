@@ -188,26 +188,3 @@ ol ol ul, ol ul ul, ul ol ul, ul ul ul {
 
 /*Buttons */
 
-.button-pink {
-  border-radius: 5px;
-  border: 1px solid #c04789;
-  outline: none;
-  cursor: pointer;
-  background:  #222840;
-  font-weight: bold;
-  color: whitesmoke;
-}
-
-.button-pink:hover {
-  background:  #c04789;
-}
-
-.btn-sm {
-  padding: 7px 15px;
-  font-size: .8rem;
-}
-
-.btn-lg {
-  padding: 14px 30px;
-  font-size: 1.3rem;
-}

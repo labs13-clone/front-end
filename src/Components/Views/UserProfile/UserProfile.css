@@ -113,6 +113,18 @@
 }
 
 .logout-button {
+    border-radius: 5px;
+    border: 1px solid #c04789;
+    outline: none;
+    cursor: pointer;
+    background: #222840;
     margin-top: 15px;
+    padding: 14px 30px;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: whitesmoke;
+}
 
+.logout-button:hover {
+    background: #c04789;
 }

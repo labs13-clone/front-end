@@ -10,7 +10,7 @@ const UserInfo = (props) => {
             <div className="user-info-experience">
                 {props.auth.user.xp} XP
             </div>
-            <button className="button-pink btn-lg" onClick={_=>props.auth.logout()}>Logout</button>
+            <button className="logout-button" onClick={_=>props.auth.logout()}>Logout</button>
         </div>
     );
 }
