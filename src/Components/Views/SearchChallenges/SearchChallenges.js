@@ -46,7 +46,8 @@ const SearchChallenges = (props) => {
                 Authorization: `Bearer ${props.auth.accessToken}`
             }
         }).then(result => {
-            setChallenges(result.data);
+            const sorted = result.data.sort((a,b) => (a.popularity > b.popularity) ? -1 : ((b.popularity > a.popularity) ? 1 : 0));
+            setChallenges(sorted);
 
         }).catch(e => {
             console.log(e);
@@ -67,35 +68,30 @@ const SearchChallenges = (props) => {
         });
     }
 
-    //Sort by popularity
-    function filterByPopularity(value) {
+    // //Sort by popularity
+    // function filterByPopularity(value) {
         
-        if (value === 'sortby') {
-            setPopularity('sortby');
+    //     if (value === 'sortby') {
+    //         setPopularity('sortby');
 
-        } else if (value === 'popular') {
-            const sorted1 = challenges.sort((a,b) => (a.popularity > b.popularity) ? -1 : ((b.popularity > a.popularity) ? 1 : 0));
-            setChallenges(sorted1);
-            setPopularity('popular');
-        } else if (value === 'notpopular') {
-            ;
-            const sorted2 = challenges.sort((a,b) => (a.popularity > b.popularity) ? 1 : ((b.popularity > a.popularity) ? -1 : 0));
-            setChallenges(sorted2);
-            setPopularity('notpopular');
+    //     } else if (value === 'popular') {
+    //         const sorted1 = challenges.sort((a,b) => (a.popularity > b.popularity) ? -1 : ((b.popularity > a.popularity) ? 1 : 0));
+    //         setChallenges(sorted1);
+    //         setPopularity('popular');
+    //     } else if (value === 'notpopular') {
+    //         ;
+    //         const sorted2 = challenges.sort((a,b) => (a.popularity > b.popularity) ? 1 : ((b.popularity > a.popularity) ? -1 : 0));
+    //         setChallenges(sorted2);
+    //         setPopularity('notpopular');
             
-        }
-    }
+    //     }
+    // }
 
 
     return (
         <div className="search-challenges-view">
           <div className='filter-container'>
             <CategoriesFilter categories={categories} setCategory={setCategory}/>
-            <select className="filter" onChange={(e) => filterByPopularity(e.target.value)}>
-                <option value="sortby">Sort By</option>
-                <option value="popular">Most Popular First</option>
-                <option value="notpopular">Less Popular First</option>
-            </select>
             <DifficultyLevels setDifficulty={setDifficulty}/>
           </div>
             <ChallengesContainer auth={props.auth} challenges={challenges}/>

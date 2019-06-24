@@ -41,18 +41,3 @@
   color: #2A9FD8;
 }
 
-.account-button {
-  border-radius: 5px;
-  border: 1px solid #c04789;
-  outline: none;
-  cursor: pointer;
-  background:  #222840;
-  padding: 7px 15px;
-  font-weight: bold;
-  font-size: .8rem;
-  color: whitesmoke;
-}
-
-.account-button:hover {
-  background:  #c04789;
-}

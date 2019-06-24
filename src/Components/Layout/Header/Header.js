@@ -16,7 +16,7 @@ const Header = (props) => {
                 </div>
 
                 <button
-                    className="account-button"
+                    className="button-pink btn-sm"
                     onClick={_ => history.replace('/profile')}
                     alt="user-dropdown">
                     Account
