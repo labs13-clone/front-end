@@ -37,46 +37,7 @@ function CreateChallenge(props) {
 
     const {result, error} = useWorker(worker_script, userMessage);
 
-    useEffect(() => {
-        if (result.length === 0) {
-            setOutput([]);
-        } else {
-            const resLen = result.length;
-            switch (result[resLen - 1].msg) {
-                case 'run_code':
-                    setOutput(result);
-                    break;
-                case 'run_tests':
-                    const testResult = (result[resLen - 1].result.toString()) === 'true'
-                        ? true
-                        : false;
-                    setPassed(testResult);
-                    break;
-                default:
-                    break;
-            };
-        }
-    }, [result]);
-
-    useEffect(() => {
-        const myArray = challenge.tests.map(e => {
-            if (e.descriptor !== '' && e.expectedResult !== '') {
-                return true;
-            } else {
-                return false;
-            }
-        })
-
-        const bool = myArray.every(e => {
-            if (e === true) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-        setButtonState(bool);
-    }, [challenge.tests]);
-
+    //getting categories so that user can select out of these 
     useEffect(() => {
         axios({
             method: 'get',
@@ -100,32 +61,68 @@ function CreateChallenge(props) {
             })
     }, [])
 
-    function handEditorleInputChange(editor, data, code) {
-        setChallenge({
-            ...challenge,
-            description: code,
-        });
-    }
+    //code related to running the code in webworker
+    useEffect(() => {
+        if (result.length === 0) {
+            setOutput([]);
+        } else {
+            const resLen = result.length;
+            switch (result[resLen - 1].msg) {
+                case 'run_code':
+                    setOutput(result);
+                    break;
+                case 'run_tests':
+                    const testResult = (result[resLen - 1].result.toString()) === 'true'
+                        ? true
+                        : false;
+                    setPassed(testResult);
+                    break;
+                default:
+                    break;
+            };
+        }
+    }, [result]);
 
-    function handleSolutionInputChange(editor, data, code) {
-        const regexp = /\s\w(.*?)\{↵/;
-        const skeleton_function = 'function' + regexp.exec('function sayHello() {↵ some random code↵}')[0] + '↵}';    
-        setChallenge({
-            ...challenge,
-            solution: code,
-            skeleton_function: skeleton_function,
-        });
-    }
+    function clearConsole() {
+        setUserMessage('clear_console');
+    };
 
-    function handleChanges(e) {
-        const values = [ ...challenge.tests ];
-        values[e.target.id][e.target.name] = e.target.value;
-        setChallenge({
-            ...challenge,
-            tests: values,
-        });
-    }
+    function runCode() {
+        setUserMessage({msg: 'run_code', code: challenge.solution});
+    };
 
+    function runTests() {
+        const testArray = challenge.tests.map(obj => {
+            if (obj.argumentsToPass === '') {
+                obj.argumentsToPass = '[]';
+            }
+            obj.argumentsToPass = eval(obj.argumentsToPass);
+            return obj;
+        })
+        setUserMessage({msg: 'run_tests', code: challenge.solution, tests: testArray});
+    };
+
+    //checking if user has filled all the mandatory fields in tests tab
+    useEffect(() => {
+        const myArray = challenge.tests.map(e => {
+            if (e.descriptor !== '' && e.expectedResult !== '') {
+                return true;
+            } else {
+                return false;
+            }
+        })
+
+        const bool = myArray.every(e => {
+            if (e === true) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        setButtonState(bool);
+    }, [challenge.tests]);
+
+    //change handler functions
     function handleTitleAndDifficultyChanges(e) {
         e.preventDefault();
         let values = {
@@ -138,6 +135,32 @@ function CreateChallenge(props) {
             title: values.title,
             difficulty: parseInt(values.difficulty, 10),
         })
+    }
+
+    function handleDescriptionEditorleChange(editor, data, code) {
+        setChallenge({
+            ...challenge,
+            description: code,
+        });
+    }
+    
+    function handleTestsChanges(e) {
+        const values = [ ...challenge.tests ];
+        values[e.target.id][e.target.name] = e.target.value;
+        setChallenge({
+            ...challenge,
+            tests: values,
+        });
+    }
+
+    function handleSolutionEditorChange(editor, data, code) {
+        const regexp = /\s\w(.*?)\{↵/;
+        const skeleton_function = 'function' + regexp.exec('function sayHello() {↵ some random code↵}')[0] + '↵}';    
+        setChallenge({
+            ...challenge,
+            solution: code,
+            skeleton_function: skeleton_function,
+        });
     }
 
     function addTest(e) {
@@ -165,25 +188,6 @@ function CreateChallenge(props) {
         setLoading(true)
         createChallengeRequest(challenge, selectedCategories, accessToken, setModalState, setLoading)
     }
-
-    function clearConsole() {
-        setUserMessage('clear_console');
-    };
-
-    function runCode() {
-        setUserMessage({msg: 'run_code', code: challenge.solution});
-    };
-
-    function runTests() {
-        const testArray = challenge.tests.map(obj => {
-            if (obj.argumentsToPass === '') {
-                obj.argumentsToPass = '[]';
-            }
-            obj.argumentsToPass = eval(obj.argumentsToPass);
-            return obj;
-        })
-        setUserMessage({msg: 'run_tests', code: challenge.solution, tests: testArray});
-    };
 
     function modalCallback(){
         setModalState(!modalState);
@@ -218,7 +222,7 @@ function CreateChallenge(props) {
                                         <Editor
                                             code={challenge.description}
                                             mode={'markdown'}
-                                            changeHandler={handEditorleInputChange}/>
+                                            changeHandler={handleDescriptionEditorleChange}/>
                                     </div>
                                 </section>
                             </div>
@@ -237,14 +241,14 @@ function CreateChallenge(props) {
                     <div className="tab-container">
                         <TestsForm
                             tests={challenge.tests}
-                            handleChanges={e => handleChanges(e)}
+                            handleChanges={e => handleTestsChanges(e)}
                             removeTest={e => removeTest(e)}
                             buttonState={buttonState}
                             addTest={e => addTest(e)}
                         />
                     </div>
                 </div>
-                <div label="Code">
+                <div label="Solution">
                     <div className="tab-container">
                         <div className="editor">
                             <section className="playground">
@@ -253,7 +257,7 @@ function CreateChallenge(props) {
                                     <Editor
                                         code={challenge.solution}
                                         mode={'javascript'}
-                                        changeHandler={handleSolutionInputChange}/>
+                                        changeHandler={handleSolutionEditorChange}/>
                                 </div>
                             </section>
                         </div>
@@ -299,11 +303,11 @@ function createChallengeRequest(challenge, selectedCategories, token, setModalSt
         data: challenge
     })
     .then(challengeRes => {
-            addCategoriesRequest(challengeRes.data, selectedCategories, token, setModalState, setLoading)
-        })
-        .catch(err => {
-            console.log(err.message)
-        })
+        addCategoriesRequest(challengeRes.data, selectedCategories, token, setModalState, setLoading)
+    })
+    .catch(err => {
+        console.log(err.message)
+    })
 }
 
 function addCategoriesRequest(challenge, selectedCategories, token, setModalState, setLoading) {
@@ -320,17 +324,17 @@ function addCategoriesRequest(challenge, selectedCategories, token, setModalStat
             Authorization: `Bearer ${token}`
         },
         data: arrayOfselectedCategories
-        })
-        .then(categoryRes => {
-            if(categoryRes) {
-                setModalState(true)
-                setLoading(false)
-            }
-            console.log(categoryRes)
-        })
-        .catch(err => {
-            console.log(err.message)
-        })
+    })
+    .then(categoryRes => {
+        if(categoryRes) {
+            setModalState(true)
+            setLoading(false)
+        }
+        console.log(categoryRes)
+    })
+    .catch(err => {
+        console.log(err.message)
+    })
 
 }
 
