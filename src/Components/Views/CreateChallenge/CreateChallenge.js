@@ -18,15 +18,17 @@ import TestAndSubmitChalllenge from './TestAndSubmit';
 function CreateChallenge(props) {  
     const accessToken = props.auth.accessToken;
   
-    const [payload, setPayload] = useState({})
-    const [markdownInput, setMarkdownInput] = useState('')
-    const [title, setTitle] = useState("")
-    const [difficulty, setDifficulty] = useState(1)
+    const [challenge, setChallenge] = useState({
+        title: '',
+        difficulty: 1,
+        tests: [{descriptor: "", argumentsToPass: "", expectedResult: ""}],
+        description: '',
+        solution: '',
+        skeleton_function: ''
+    })
     const [category, setCategory] = useState("")
-    const [tests, setTests] = useState([{descriptor: "", argumentsToPass: "", expectedResult: ""}])
     const [buttonState, setButtonState] = useState(true)
     const [javascriptInput, setJavascriptInput] = useState('')
-    const [javascriptSolutionInput, setjavascriptSolutionInput] = useState('')
     const [passed, setPassed] = useState(false);
     const [output, setOutput] = useState([]);
     const [userMessage, setUserMessage] = useState({});
@@ -58,7 +60,7 @@ function CreateChallenge(props) {
     }, [result]);
 
     useEffect(() => {
-        const myArray = tests.map(e => {
+        const myArray = challenge.tests.map(e => {
             if (e.descriptor !== '' && e.expectedResult !== '') {
                 return true;
             } else {
@@ -74,7 +76,7 @@ function CreateChallenge(props) {
             }
         });
         setButtonState(bool);
-    }, [tests]);
+    }, [challenge.tests]);
 
     useEffect(() => {
         axios({
@@ -100,71 +102,71 @@ function CreateChallenge(props) {
     }, [])
 
     function handEditorleInputChange(editor, data, code) {
-        setMarkdownInput(code);
-        // setPayload({
-        //     ...payload,
-        //     description: code
-        // });
+        setChallenge({
+            ...challenge,
+            description: code,
+        });
     }
 
     function addTest(e) {
         e.preventDefault();
-        const values = [...tests];
+        const values = [...challenge.tests];
         values.push({descriptor: '', argumentsToPass: '', expectedResult: ''});
-        setTests(values);
+        setChallenge({
+            ...challenge,
+            tests: values
+        });
     }
 
     function removeTest(e) {
         e.preventDefault();
-        const values = [...tests];
+        const values = [...challenge.tests];
         values.splice(e.target.id, 1);
-        setTests(values);
+        setChallenge({
+            ...challenge,
+            tests: values,
+        });
     }
 
     function handleChanges(e) {
-        const values = [...tests];
+        const values = [...challenge.tests];
         values[e.target.id][e.target.name] = e.target.value;
-        setTests(values);
-        // setPayload({
-        //     ...payload,
-        //     tests: values
-        // });
+        setChallenge({
+            ...challenge,
+            tests: values,
+        });
     }
 
     function handleInputChange(editor, data, code) {
         setJavascriptInput(code);
-        // setPayload({
-        //     ...payload,
-        //     skeleton_function: code
-        // });
     }
 
     function handleSolutionInputChange(editor, data, code) {
-        setjavascriptSolutionInput(code);
-        // setPayload({
-        //     ...payload,
-        //     solution: code
-        // });
+        const regexp = /\s\w(.*?)\{↵/;
+        const skeleton_function = 'function' + regexp.exec('function sayHello() {↵ some random code↵}')[0] + '↵}';    
+        setChallenge({
+            ...challenge,
+            solution: code,
+            skeleton_function: skeleton_function,
+        });
     }
 
     function handleTitleChanges(e) {
         e.preventDefault();
-        let values = [...title];
+        let values = [...challenge.title];
         values = e.target.value;
-        setTitle(values)
-        // setPayload({
-        //     ...payload,
-        //     title: values
-        // });
+        setChallenge({
+            ...challenge, 
+            title: values
+        })
     }
 
     function handleDifficultyChanges(e) {
         e.preventDefault();
-        setDifficulty(parseInt(e.target.value, 10));
-        // setPayload({
-        //     ...payload,
-        //     difficulty: parseInt(e.target.value, 10)
-        // });
+        setChallenge({
+            ...challenge,
+            difficulty: parseInt(e.target.value, 10)
+        });
     }
 
     function handleCategoryChanges(e) {
@@ -174,19 +176,10 @@ function CreateChallenge(props) {
         setCategory(values);
     };
 
-    function extractSkeletonFunction() {
-        // this regex is extracting everything between "first space followed by an
-        // alphanumeric character" and "{↵"
-        const regexp = /\s\w(.*?)\{↵/;
-        payload.skeleton_function = 'function' + regexp.exec('function sayHello() {↵ some random code↵}')[0] + '↵}';
-    }
-
-    function postForChallengeCreation(event, token, payload) {
+    function postForChallengeCreation(event, token) {
         event.preventDefault();
         setLoading(true)
-        extractSkeletonFunction();
-
-        createChallengeRequest(markdownInput, tests, javascriptSolutionInput, title, difficulty, payload.skeleton_function, selectedCategories, accessToken, setModalState, setLoading)
+        createChallengeRequest(challenge.description, challenge.tests, challenge.solution, challenge.title, challenge.difficulty, challenge.skeleton_function, selectedCategories, accessToken, setModalState, setLoading)
     }
 
     function clearConsole() {
@@ -194,18 +187,18 @@ function CreateChallenge(props) {
     };
 
     function runCode() {
-        setUserMessage({msg: 'run_code', code: javascriptSolutionInput});
+        setUserMessage({msg: 'run_code', code: challenge.solution});
     };
 
     function runTests() {
-        const testArray = tests.map(obj => {
+        const testArray = challenge.tests.map(obj => {
             if (obj.argumentsToPass === '') {
                 obj.argumentsToPass = '[]';
             }
             obj.argumentsToPass = eval(obj.argumentsToPass);
             return obj;
         })
-        setUserMessage({msg: 'run_tests', code: javascriptSolutionInput, tests: testArray});
+        setUserMessage({msg: 'run_tests', code: challenge.solution, tests: testArray});
     };
 
     function modalCallback(){
@@ -225,7 +218,7 @@ function CreateChallenge(props) {
                     <div className="tab-container">
                         <MetaForm
                             handleTitleChanges={e => handleTitleChanges(e)}
-                            title={title}
+                            title={challenge.title}
                             handleDifficultyChanges={e => handleDifficultyChanges(e)}
                             category={category} 
                             selectedCategories={selectedCategories} 
@@ -241,7 +234,7 @@ function CreateChallenge(props) {
                                     <div className="code-editor js-code">
                                         <h2 className="editor-header">Description</h2>
                                         <Editor
-                                            code={markdownInput}
+                                            code={challenge.description}
                                             mode={'markdown'}
                                             changeHandler={handEditorleInputChange}/>
                                     </div>
@@ -253,15 +246,15 @@ function CreateChallenge(props) {
                 <div label="Preview">
                     <div className="tab-container">
                         <ReactMarkdown
-                            source={markdownInput}
+                            source={challenge.description}
                             className="markdown-render"
-                            placeholder="Preview"/>
+                        />
                     </div>
                 </div>
                 <div label="Tests">
                     <div className="tab-container">
                         <TestsForm
-                            tests={tests}
+                            tests={challenge.tests}
                             handleChanges={e => handleChanges(e)}
                             removeTest={e => removeTest(e)}
                             buttonState={buttonState}
@@ -276,7 +269,7 @@ function CreateChallenge(props) {
                                 <div className="code-editor js-code">
                                     <h2 className="editor-header">Solution</h2>
                                     <Editor
-                                        code={javascriptSolutionInput}
+                                        code={challenge.solution}
                                         mode={'javascript'}
                                         changeHandler={handleSolutionInputChange}/>
                                 </div>
@@ -289,7 +282,7 @@ function CreateChallenge(props) {
                         <TestAndSubmitChalllenge
                             passed={passed}
                             loading={loading}
-                            postForChallengeCreation={e => {postForChallengeCreation(e, accessToken, payload)}}
+                            postForChallengeCreation={e => {postForChallengeCreation(e, accessToken)}}
                             runTests={runTests}
                         />
                     </div>
@@ -312,6 +305,7 @@ function CreateChallenge(props) {
         </div>
     )
 }
+
 
 function createPayload(markdownInput, tests, javascriptSolutionInput, title, difficulty, skeletonFunction, selectedCategories) {
     const payload = {
