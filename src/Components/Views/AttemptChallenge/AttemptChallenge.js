@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
+import {getData,getSubmission,postSubmission,updateSubmission} from "./NetworkRequests"
 import Editor from "../../Shared/Editor/Editor";
 import Console from "../../Shared/Console/Console";
 import worker_script from "../../../Utility/worker";
 import { useWorker } from "../../../Utility/WorkerHook";
 import ReactMarkdown from 'react-markdown';
-import SharedModal from "../../Shared/SharedModal/SharedModal";
 import Fullscreen from "react-full-screen";
 import './AttemptChallenge.css';
+import Pulse from "./PulseTest";
 
 function AttemptChallenge(props) {
 
@@ -16,14 +16,14 @@ function AttemptChallenge(props) {
     const [userMessage, setUserMessage] = useState({});
     const [output, setOutput] = useState([]);
     const [passed, setPassed] = useState(false);
-    const [modalState, setModalState] = useState(false);
     const [isFull, setIsFull] = useState(false);
+    const [pulse,setPulse] = useState(false);
 
     const {result,error} = useWorker(worker_script,userMessage);
   
     useEffect(() => {
-        const submissionReq = getSubmission(props.auth.accessToken);
-        const challengeReq = getData(props.auth.accessToken);
+        const submissionReq = getSubmission(props.auth.accessToken,props.match.params.id);
+        const challengeReq = getData(props.auth.accessToken,props.match.params.id);
 
         const attemptChallengeData = Promise.all([submissionReq,challengeReq]);
 
@@ -68,7 +68,7 @@ function AttemptChallenge(props) {
             case "run_tests":
                 const testResult = (result[resLen-1].result.toString()==='true' ? true : false);
                 setPassed(testResult);
-                setModalState(isFull ? false : true)
+                pulseTest()
                 updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,false)
                 .then()
                 .catch();
@@ -80,74 +80,6 @@ function AttemptChallenge(props) {
     } 
     },[result]);
     
-    
-    async function getData(token) {
-        try {
-            const result = await axios({
-                method: 'get', 
-                url: `${process.env.REACT_APP_SERVER}/api/challenges?id=${props.match.params.id}`,
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-        }); 
-            return result;
-        } catch (e) {
-        };
-    };
-
-    async function getSubmission(token) {
-        try {
-            const result = await axios({
-                method: 'get', 
-                url: `${process.env.REACT_APP_SERVER}/api/submissions?challenge_id=${props.match.params.id}`,
-                headers: {
-                            Authorization: `Bearer ${token}`,
-                         }
-        });
-            return result;
-        } catch (e) {
-        };
-    };
-
-    async function postSubmission(token,id,skeletonFunc) {
-        try {
-            const result = await axios({
-                method: 'post', 
-                url: `${process.env.REACT_APP_SERVER}/api/submissions`,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                },
-                data: {
-                        solution:skeletonFunc,
-                        challenge_id:id
-                      }
-        });
-            return result;
-        } catch (e) {
-        };
-    };
-
-    async function updateSubmission(token,solution,subID,pass) {
-        try {
-            const result = await axios({
-                method: 'put', 
-                url: `${process.env.REACT_APP_SERVER}/api/submissions`,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                         },
-                data: {
-                        id: subID,
-                        completed: pass,
-                        solution: solution
-                      }
-        });
-            return result
-        } catch (e) {
-            console.log(e)
-        };
-    };
 
     function handleInputChange(editor,data,userCode){
         if(!userSubmission.completed){
@@ -169,8 +101,12 @@ function AttemptChallenge(props) {
         setUserMessage({msg:"run_tests",code:solution,tests:challenge.tests});
     };
 
-    function modalCallback(){
-            setModalState(!modalState);
+    function fullscreenOnChange(e){
+        setIsFull(e)
+    }
+
+    function goFull(){
+        setIsFull(!isFull)
     }
 
     function submitChallenge(){
@@ -195,61 +131,66 @@ function AttemptChallenge(props) {
             .catch();
     }
 
-    function goFull(){
-        setIsFull(!isFull)
-    }
+    function pulseTest(){
+        setPulse(true);
+        setTimeout(() => {
+            setPulse(false)
+        },2000);
+   }
 
     return (
-        
-        <div className="challenge-main ">
-            <div className="challenge-header-wrapper ">
+        <div className="full-screenable-node">
+            <Fullscreen enabled={isFull} onChange={fullscreenOnChange}>
+            <div className="challenge-header-wrapper">
                 <h3 className="challenge-header">{challenge.title}</h3>
                 <div className="category-completed" >
-                    {/* <button onClick={goFull}>{isFull ? "Exit Full Screen" :"Go Fullscreen"}</button> */}
+                    <button className="fullscreen-button" onClick={goFull}>{isFull ? "Exit Full Screen" :"Go Fullscreen"}</button>
                     <div>
                         {
-                            challenge.categories.map(e =>{
-                                return <span className="categories" key={e.id}>{e.name}</span>
+                            challenge.categories.map((e,index) =>{
+                                if(index>2){
+                                    return null
+                                } else {
+                                    return <span className="categories" key={e.id}>{e.name}</span>
+                                }
+                                
                             })
                         }
                     </div>
                     {
                         (userSubmission.completed ? <span className="completed">Completed</span>  : <span className="uncompleted">Uncompleted</span> )
                     }
-                    {
-                        (passed ? <span className="completed">Tests Passed</span>  : <span className="uncompleted">Not All Tests Passed</span> )
-                    }
+                    <Pulse pulse={pulse} passed={passed}/>
                 </div>
             </div>
             <div className="attempt-challenge-wrapper"> 
                 <div className="top-panel">
-                    <div className="unnecessary-div">
-                        <div style={{"background": "#222840","display":"flex","justifyContent":"space-around","alignItems":"center"}}>
+                    <div className={(isFull ? "fullscreen-unnecessary-div":"unnecessary-div")}>
+                        <div className="action-bar">
                             <button className="console-button" onClick={resetChallenge}>Reset Challenge</button>
-                            <button className="console-button" onClick={runTests}>Run Tests</button>
-                            <button className="sub-button" onClick={submitChallenge} disabled={!passed}>{userSubmission.completed ? "Unsubmit to Edit" : "Submit Solution"}</button>
+                            <button disabled={userSubmission.completed}className="console-button" onClick={runTests}>Run Tests</button>
+                            <button disabled={!passed} className="sub-button" onClick={submitChallenge}>{userSubmission.completed ? "Unsubmit to Edit" : "Submit Solution"}</button>
                         </div>
                         {
                             (!userSubmission.completed ? 
-                            <Editor code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"} readOnly={false}/> :
-                            <Editor code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"} readOnly={true}/>
+                            <Editor class={(isFull ? "fullscreen-editor-style" : "editor-style" )} code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"} readOnly={false}/> :
+                            <Editor class={(isFull ? "fullscreen-editor-style" : "editor-style ")} code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"} readOnly={true}/>
                             )
                         }
                         
                     </div>
-                    <div className="attempt-markdown-wrapper">
+                    <div className={(isFull ? "fullscreen-attempt-markdown-wrapper":"attempt-markdown-wrapper")}>
                         <h2 className="challenge-instructions">Instructions</h2>
                         <ReactMarkdown source={challenge.description} />
                     </div>
                 </div>
                 
-                <SharedModal class="attempt-challenge-modal" message={(passed ? "Passed All Tests" : "Sorry Not All Tests Passed")} modalCallback={modalCallback} modalState={modalState} class="attempt-challenge-modal"/>
-                <br/>
-
-                <Console runCode={runCode} clearConsole={clearConsole} output={output}/>
+                <Console disabled={userSubmission.completed} runCode={runCode} clearConsole={clearConsole} output={output} class={(isFull ? "fullscreen-console" :"attempt-challenge-console")}/>
+                
             </div>
-        </div>
-        
+            </Fullscreen>
+            
+         </div>
     );
 }
 

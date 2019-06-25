@@ -4,10 +4,10 @@ require('./Console.css');
 
 const Console = (props) => {
     return (
-        <div className="console">
+        <div className={props.class}>
             <div className="console-buttons-wrapper">
-                <button className="console-button" onClick={props.runCode}>Run Code</button>
-                <button className="console-button" onClick={props.clearConsole}>Clear Console</button>
+                <button disabled={props.disabled} className="console-button" onClick={props.runCode}>Run Code</button>
+                <button disabled={props.disabled} className="console-button" onClick={props.clearConsole}>Clear Console</button>
             </div>
                 {
                 props.output.map( (el,index) => {

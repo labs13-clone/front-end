@@ -5,7 +5,7 @@ const DifficultyLevels = (props) => {
     return (
         <select
             onChange={(e) => props.setDifficulty(e.target.value)}
-            className="filter"
+            className="custom-select "
         >
             <option value="1-100">All Difficulties</option>
             <option value="1-33">Easy</option>

@@ -17,6 +17,7 @@ import Leaderboard from './Components/Views/Leaderboard/Leaderboard';
 import Loading from './Components/Views/Loading/Loading';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faStar, faTrophy, faThumbsUp} from '@fortawesome/free-solid-svg-icons';
+import NotFound from './Components/Views/NotFound/NotFound';
 
 library.add(faStar, faTrophy, faThumbsUp);
 
@@ -48,6 +49,7 @@ const Root = () => {
             <Switch>
                 <Route path="/" exact render={_ => <LandingPage auth={auth}/>}/>
                 <Route path="/loading" component={Loading}/>
+                <Route path="/404" component={NotFound}/>
                 <ProtectedRoute path="/profile" component={UserProfile}/>
                 <ProtectedRoute path="/challenges" exact component={SearchChallenges}/>
                 <ProtectedRoute path="/create-challenge" component={CreateChallenge}/>
@@ -59,7 +61,7 @@ const Root = () => {
                     handleAuthentication(props);
                     return <Callback {...props}/>
                 }}/>
-                <Redirect to="/"/>
+                <Redirect to="/404"/>
             </Switch>
         </Router>
     );
