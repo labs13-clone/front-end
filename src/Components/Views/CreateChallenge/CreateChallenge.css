@@ -50,9 +50,12 @@
 
 .editor {
   width: 60%;
-  margin: 0 150px 0 10px;
   border-radius: 5px;
   overflow: hidden;
+}
+
+.description-editor {
+  height: 350px;
 }
 
 .playground {

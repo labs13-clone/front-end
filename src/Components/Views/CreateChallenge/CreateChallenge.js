@@ -245,13 +245,6 @@ function CreateChallenge(props) {
                 <div label="Description">
                     <div className="tab-container">
                         <div className="description-editor-container">
-                            <div style={{width: '180px'}}>
-                                <h2>How To:</h2>
-                        <p>Provide description for the challenge.
-                        This description will tell users what they are 
-                        expected to do in order to pass the challenge.
-                        You need to use mark-down for writing description.</p>
-                            </div>
                             <div className="editor">
                                 <section className="playground">
                                     <div className="code-editor js-code">
@@ -265,6 +258,7 @@ function CreateChallenge(props) {
                                             </div>
                                         </div>
                                         <Editor
+                                            class='description-editor'
                                             code={challenge.description}
                                             mode={'markdown'}
                                             changeHandler={handleDescriptionEditorleChange}/>
@@ -300,6 +294,7 @@ function CreateChallenge(props) {
                                 <div className="code-editor js-code">
                                     <h2 className="editor-header">Solution</h2>
                                     <Editor
+                                        class='description-editor'
                                         code={challenge.solution}
                                         mode={'javascript'}
                                         changeHandler={handleSolutionEditorChange}/>

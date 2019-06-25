@@ -50,14 +50,6 @@ export default function MetaForm(props) {
                     />
                 </div>
             </form><br/>
-            <div>
-                <ul>
-                    <li>Please provide title of the challenge in the title input field.</li><br/>
-                    <li>Select level of difficulty of the challenge from the dropdown.</li><br/>
-                    <li>Select category of the challenge from the dropdown. You can select multiple options.</li>
-                </ul> 
-
-            </div>
         </div>
     )
 }
