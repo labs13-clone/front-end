@@ -19,6 +19,7 @@ const SearchChallenges = (props) => {
         setDifficulty] = useState('1-100');
     const [popularity,
         setPopularity] = useState('');
+    
   
 
     //Get categories on load
@@ -68,6 +69,7 @@ const SearchChallenges = (props) => {
         });
     }
 
+
     // //Sort by popularity
     // function filterByPopularity(value) {
         
@@ -94,7 +96,7 @@ const SearchChallenges = (props) => {
             <CategoriesFilter categories={categories} setCategory={setCategory}/>
             <DifficultyLevels setDifficulty={setDifficulty}/>
           </div>
-            <ChallengesContainer auth={props.auth} challenges={challenges}/>
+            <ChallengesContainer auth={props.auth} challenges={challenges} />
         </div>
     )
 }

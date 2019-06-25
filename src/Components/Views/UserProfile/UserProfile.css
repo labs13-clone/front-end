@@ -11,17 +11,21 @@
 .sidebar {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
+    justify-content: space-around;
     background: #232840;
     max-width: 30%;
     padding: 30px;
     border-radius: 10px;
+    height: 700px;
+    position: sticky;
+    top: 20px;
 }
 
 .sidebar-avatar {
     max-width: 100%;
     border-radius: 50%;
+
 }
 
 .sidebar-tabs {
