@@ -25,6 +25,27 @@
     background: #2A9FD8;
 }
 
+.attempt-challenge-console {
+    padding: 10px;
+    background: #222840;
+    border-radius: 10px;
+    color: white;
+    width: 100%;
+    height: 350px;
+    margin: 0 auto 10px;
+    overflow: scroll;
+}
+
+.fullscreen-console {
+    padding: 10px;
+    background: #222840;
+    border-radius: 10px;
+    color: white;
+    width: 100%;
+    height: 38vh;
+    overflow: scroll;
+}
+
 .console-buttons-wrapper {
     width: 100%; 
     border-bottom: 3px solid #9ac6c9;
@@ -42,4 +63,14 @@
     color: #2A9fd8;
     font-weight: bold;
     padding: 7px;
+}
+
+.console-button:disabled {
+    opacity: 0.5;
+}
+
+.console-button:hover:enabled {
+    border-radius: 5px;
+    background: #2A9fd8;
+    color: #222840;
 }
