@@ -65,7 +65,11 @@
     padding: 7px;
 }
 
-.console-button:hover {
+.console-button:disabled {
+    opacity: 0.5;
+}
+
+.console-button:hover:enabled {
     border-radius: 5px;
     background: #2A9fd8;
     color: #222840;

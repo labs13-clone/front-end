@@ -144,7 +144,7 @@
 
 .fullscreen-attempt-markdown-wrapper {
     width: 40%;
-    height: 49.5vh;
+    height: 49vh;
     background-color: #1C2938;
     box-sizing: border-box;
     border: solid gray 5px;
@@ -154,11 +154,11 @@
 }
 
 .editor-style {
-    height: 32vh;
+    height: 300px;
 }
 
 .fullscreen-editor-style{
-    height: 45vh;
+    height: 44vh;
 }
 
 .fullscreen-button {
@@ -176,4 +176,11 @@
     border-radius: 5px;
     background: #2A9fd8;
     color: #222840;
+}
+
+.action-bar {
+    background: #222840;
+    display:"flex";
+    justify-content:"space-around";
+    align-items:"center";
 }
