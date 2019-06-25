@@ -12,9 +12,9 @@ export default function MetaForm(props) {
                         <h4>Title</h4>
                     <br/>
                     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderRadius: '5px', background: 'white'}}>
-                        <div className="help-tip">
+                        {/* <div className="help-tip">
                             <p>This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</p>
-                        </div>
+                        </div> */}
                     <input 
                         name="title" 
                         className="challenge-info" 
