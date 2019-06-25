@@ -35,18 +35,12 @@ function CreateChallenge(props) {
         testRan: false,
     })
     const [category, setCategory] = useState("")
-    // const [buttonState, setButtonState] = useState(true)
-    // const [passed, setPassed] = useState(false);
     const [output, setOutput] = useState([]);
     const [userMessage, setUserMessage] = useState({});
     const [selectedCategories, setSelectedCategories] = useState([])
-    // const [modalState, setModalState] = useState(false);
-    // const [loading, setLoading] = useState(false);
-    const [checkInputs, setCheckInputs] = useState('')
-    const [areInputFieldsFilled, setAreInputFieldsFilled] = useState(false)
-    const [testRan, setTestRan] = useState(false)
 
     const {result, error} = useWorker(worker_script, userMessage);
+
     //getting categories so that user can select out of these 
     useEffect(() => {
         axios({
@@ -125,7 +119,7 @@ function CreateChallenge(props) {
             return obj;
         })
         setUserMessage({msg: 'run_tests', code: challenge.solution, tests: testArray});
-        setTestRan(true)
+        setSubmitChallenge({...submitChallenge, testRan: true})
     };
 
     //checking if user has filled all the mandatory fields in tests tab
@@ -188,8 +182,9 @@ function CreateChallenge(props) {
     }
 
     function handleSolutionEditorChange(editor, data, code) {
-        const regexp = /\s\w(.*?)\{↵/;
-        const skeleton_function = 'function' + regexp.exec('function sayHello() {↵ some random code↵}')[0] + '↵}';    
+        const regexp = /\s\w[^"]*\)\s\{/ 
+        const skeleton_function = 'function' + `${code}`.match(regexp) + '↵↵}'
+
         setChallenge({
             ...challenge,
             solution: code,
@@ -306,7 +301,7 @@ function CreateChallenge(props) {
                             postForChallengeCreation={e => {postForChallengeCreation(e, accessToken)}}
                             runTests={runTests}
                             areInputFieldsFilled={submitChallenge.areInputFieldsFilled}
-                            testRan={testRan}
+                            testRan={submitChallenge.testRan}
                             buttonState={submitChallenge.buttonState}
                         />
                     </div>
