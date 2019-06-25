@@ -1,0 +1,28 @@
+.notfound-wrapper {
+    width: 70%;
+    margin: 80px auto 0 auto;
+    text-align: center;
+}
+
+.notfound-heading {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 2rem;
+}
+
+.notfound-subheading {
+    font-size: 1.3rem;
+    font-weight: 300;
+}
+
+.notfound-link{
+    color: #c04789;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.notfound-err {
+    color: #2A9FD8;
+    font-size: 2.3rem;
+}
