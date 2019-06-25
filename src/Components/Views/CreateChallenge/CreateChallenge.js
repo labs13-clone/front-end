@@ -26,17 +26,27 @@ function CreateChallenge(props) {
         solution: '',
         skeleton_function: ''
     })
+    const [submitChallenge, setSubmitChallenge] = useState({
+        buttonState: true,
+        passed: false,
+        modalState: false,
+        loading: false,
+        areInputFieldsFilled: false,
+        testRan: false,
+    })
     const [category, setCategory] = useState("")
-    const [buttonState, setButtonState] = useState(true)
-    const [passed, setPassed] = useState(false);
+    // const [buttonState, setButtonState] = useState(true)
+    // const [passed, setPassed] = useState(false);
     const [output, setOutput] = useState([]);
     const [userMessage, setUserMessage] = useState({});
     const [selectedCategories, setSelectedCategories] = useState([])
-    const [modalState, setModalState] = useState(false);
-    const [loading, setLoading] = useState(false);
+    // const [modalState, setModalState] = useState(false);
+    // const [loading, setLoading] = useState(false);
+    const [checkInputs, setCheckInputs] = useState('')
+    const [areInputFieldsFilled, setAreInputFieldsFilled] = useState(false)
+    const [testRan, setTestRan] = useState(false)
 
     const {result, error} = useWorker(worker_script, userMessage);
-
     //getting categories so that user can select out of these 
     useEffect(() => {
         axios({
@@ -75,13 +85,27 @@ function CreateChallenge(props) {
                     const testResult = (result[resLen - 1].result.toString()) === 'true'
                         ? true
                         : false;
-                    setPassed(testResult);
+                        setSubmitChallenge({...submitChallenge, passed: testResult});
                     break;
                 default:
                     break;
             };
         }
     }, [result]);
+
+    useEffect(() => {
+            if(challenge.title !== '' && 
+                challenge.description !== '' && 
+                challenge.solution !== '' && 
+                challenge.skeleton_function !== '' &&
+                challenge.difficulty !== 1 &&
+                selectedCategories.length !== 0) {
+    
+                setSubmitChallenge({...submitChallenge, areInputFieldsFilled: true})
+            } else {
+                setSubmitChallenge({...submitChallenge, areInputFieldsFilled: false})
+            }
+    }, [challenge])
 
     function clearConsole() {
         setUserMessage('clear_console');
@@ -91,7 +115,8 @@ function CreateChallenge(props) {
         setUserMessage({msg: 'run_code', code: challenge.solution});
     };
 
-    function runTests() {
+    function runTests(e) {
+        e.preventDefault()
         const testArray = challenge.tests.map(obj => {
             if (obj.argumentsToPass === '') {
                 obj.argumentsToPass = '[]';
@@ -100,6 +125,7 @@ function CreateChallenge(props) {
             return obj;
         })
         setUserMessage({msg: 'run_tests', code: challenge.solution, tests: testArray});
+        setTestRan(true)
     };
 
     //checking if user has filled all the mandatory fields in tests tab
@@ -119,7 +145,10 @@ function CreateChallenge(props) {
                 return false;
             }
         });
-        setButtonState(bool);
+        setSubmitChallenge({
+            ...challenge,
+            buttonState: bool
+        });
     }, [challenge.tests]);
 
     //change handler functions
@@ -137,6 +166,10 @@ function CreateChallenge(props) {
         })
     }
 
+    function handleChangesForSelectedCategories(selected) {
+        setSelectedCategories(selected)
+    }
+
     function handleDescriptionEditorleChange(editor, data, code) {
         setChallenge({
             ...challenge,
@@ -151,6 +184,7 @@ function CreateChallenge(props) {
             ...challenge,
             tests: values,
         });
+        console.log(e.target.value, values, challenge)
     }
 
     function handleSolutionEditorChange(editor, data, code) {
@@ -185,12 +219,12 @@ function CreateChallenge(props) {
 
     function postForChallengeCreation(event, token) {
         event.preventDefault();
-        setLoading(true)
-        createChallengeRequest(challenge, selectedCategories, accessToken, setModalState, setLoading)
+        setSubmitChallenge({...submitChallenge, loading: true})
+        createChallengeRequest(challenge, selectedCategories, accessToken, setSubmitChallenge)
     }
 
     function modalCallback(){
-        setModalState(!modalState);
+        setSubmitChallenge({...submitChallenge, modalState: !submitChallenge.modalState});
     }
 
     return(
@@ -205,10 +239,11 @@ function CreateChallenge(props) {
                     <div className="tab-container">
                         <MetaForm
                             title={challenge.title}
+                            difficulty={challenge.difficulty}
                             handleTitleAndDifficultyChanges={e => handleTitleAndDifficultyChanges(e)}
                             category={category} 
                             selectedCategories={selectedCategories} 
-                            setSelectedCategories={selected => {setSelectedCategories(selected)}}        
+                            setSelectedCategories={selected => {handleChangesForSelectedCategories(selected)}}        
                         />
                     </div>
                 </div>
@@ -243,7 +278,7 @@ function CreateChallenge(props) {
                             tests={challenge.tests}
                             handleChanges={e => handleTestsChanges(e)}
                             removeTest={e => removeTest(e)}
-                            buttonState={buttonState}
+                            buttonState={submitChallenge.buttonState}
                             addTest={e => addTest(e)}
                         />
                     </div>
@@ -266,10 +301,13 @@ function CreateChallenge(props) {
                 <div label="Submit">
                     <div className="tab-container tab-container-submit">
                         <TestAndSubmitChalllenge
-                            passed={passed}
-                            loading={loading}
+                            passed={submitChallenge.passed}
+                            loading={submitChallenge.loading}
                             postForChallengeCreation={e => {postForChallengeCreation(e, accessToken)}}
                             runTests={runTests}
+                            areInputFieldsFilled={submitChallenge.areInputFieldsFilled}
+                            testRan={testRan}
+                            buttonState={submitChallenge.buttonState}
                         />
                     </div>
                 </div>
@@ -286,13 +324,14 @@ function CreateChallenge(props) {
                             </Link>
                         </div>} 
                 modalCallback={modalCallback} 
-                modalState={modalState}
+                modalState={submitChallenge.modalState}
             />
         </div>
     )
 }
 
-function createChallengeRequest(challenge, selectedCategories, token, setModalState, setLoading) {
+
+function createChallengeRequest(challenge, selectedCategories, token, setSubmitChallenge) {
 
     axios({
         method: 'post',
@@ -303,14 +342,15 @@ function createChallengeRequest(challenge, selectedCategories, token, setModalSt
         data: challenge
     })
     .then(challengeRes => {
-        addCategoriesRequest(challengeRes.data, selectedCategories, token, setModalState, setLoading)
+        addCategoriesRequest(challengeRes.data, selectedCategories, token, setSubmitChallenge)
     })
     .catch(err => {
         console.log(err.message)
     })
 }
 
-function addCategoriesRequest(challenge, selectedCategories, token, setModalState, setLoading) {
+
+function addCategoriesRequest(challenge, selectedCategories, token, setSubmitChallenge) {
     const arrayOfselectedCategories = selectedCategories.map(id => {
         return {
             challenge_id: challenge.id,
@@ -327,8 +367,7 @@ function addCategoriesRequest(challenge, selectedCategories, token, setModalStat
     })
     .then(categoryRes => {
         if(categoryRes) {
-            setModalState(true)
-            setLoading(false)
+            setSubmitChallenge({...challenge, modalState: true, loading: false})
         }
         console.log(categoryRes)
     })
@@ -337,5 +376,6 @@ function addCategoriesRequest(challenge, selectedCategories, token, setModalStat
     })
 
 }
+
 
 export default CreateChallenge;

@@ -43,7 +43,7 @@ export default function TestsForm(props) {
                                         />
                                 </div>
                                 <div>
-                                    <button className="delete-test-button" id={index} onClick={props.removeTest}>
+                                    <button disabled={props.tests.length <= 1 ? true : false} className="delete-test-button" id={index} onClick={props.removeTest}>
                                         X
                                     </button>
                                 </div>
@@ -51,7 +51,7 @@ export default function TestsForm(props) {
                         </div>)
                     })}
                 <button className="add-test-button" disabled={!props.buttonState} onClick={props.addTest}>
-                    Add Test
+                    New Test
                 </button>
             </form>
         </div>
