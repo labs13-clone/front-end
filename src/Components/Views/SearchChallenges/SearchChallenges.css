@@ -7,7 +7,7 @@
     display: flex;
     justify-content: space-between;
 }
-
+/* 
 .filter {
     color: #222840;
     background:whitesmoke;
@@ -15,4 +15,33 @@
     font-size: 1.3rem;
     margin: 5px;
     padding: 5px;
+} */
+
+/* Select styling  */
+
+
+
+.custom-select {
+    background: #2A9FD8 !important;
+    color:#FFF;
+    color: whitesmoke;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin: 3px;
+    padding: 5px;
+    border: none;
+    -webkit-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
+    -moz-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
+    box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
+    cursor: pointer;
+    min-width: 25%;
+  }
+
+
+.custom-select option:not(:checked) { 
+    background-color: whitesmoke; 
+    color: #222840;
 }
+
+
+
