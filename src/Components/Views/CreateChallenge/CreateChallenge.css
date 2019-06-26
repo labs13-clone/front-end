@@ -7,7 +7,7 @@
 }
 
 .meta-container{
-    width: 600px;
+    width: 700px;
     margin: 50px auto;
     /* background-color: yellow; */
 }
@@ -50,9 +50,12 @@
 
 .editor {
   width: 60%;
-  margin: 0 auto;
   border-radius: 5px;
   overflow: hidden;
+}
+
+.description-editor {
+  height: 350px;
 }
 
 .playground {
@@ -66,13 +69,16 @@
   width: 100%;
 }
 
-
-
 .editor-header {
+  display: flex;
+  justify-content: space-between;
   margin: 0;
   padding: 10px;
-  font-size: 18px;
   color: #fafafa;
+}
+
+.editor-header h2 {
+  font-size: 18px;
 }
 
 .react-codemirror2 {
@@ -114,14 +120,37 @@
 }
 
 .console-div{
-    width: 63%;
-    height: 250px;
-    background-color: #263238;
+    background-color: #222840;
     margin-left: 250px;
     color: white;
     padding: 10px;
     box-sizing: border-box;
-    margin-top: 15px;
+    border-radius: 10px;
+    color: white;
+    width: 900px;
+    height: 350px;
+    margin: 0 auto 30px;
+    overflow: auto;
+}
+
+.console-div pre {
+  margin: 10px 0px;
+}
+
+.console-div::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+/* Handle */
+.console-div::-webkit-scrollbar-thumb {
+  background: #9AC6C9;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.console-div::-webkit-scrollbar-thumb:hover {
+  background: #2A9FD8;
 }
 
 .console-div p{
@@ -192,11 +221,18 @@
 }
 
 .challenge-info{
+  position: relative;
   height: 25px;
   border: none;
   padding: 3px;
   border-radius: 5px;
   font-weight: bold;
+  color: gray;
+  width: 180px;
+}
+
+.challenge-info:focus {
+  outline: none;
 }
 
 .test-container{
@@ -217,12 +253,32 @@
   color: white;
 }
 
+.delete-test-button:disabled {
+  opacity: 0.6;
+}
+
+.delete-test-button:focus {
+  outline: none;
+}
+
 .tests-input{
   border: none;
   border-radius: 5px;
   height: 25px;
   padding: 3px;
   font-weight: bold;
+  margin-bottom: 20px;
+  color: gray;
+}
+
+.tests-input:focus {
+  outline: none;
+}
+
+.heading-input-container{
+  display: flex;
+  flex-direction: column;
+  height: auto;
 }
 
 .add-test-button{
@@ -270,6 +326,11 @@
   outline: none;
 }
 
+.run-tests:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .submit-button {
   width: 50%;
   height: 80px;
@@ -288,9 +349,8 @@
 
 /*************** categories dropdown styles *****************/
 .multi-select {
-  height: 30px;
+  height: 25px;
   border-radius: 5px;
-  margin-top: -2px;
 }
 
 .dropdown {
@@ -454,4 +514,97 @@
   color: #343D61;
   font-weight: bold;
   cursor: pointer;
+}
+
+/* help tips */
+.help-tip{
+    top: 18px;
+    right: 18px;
+    text-align: center;
+    border: 1px solid white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: default;    
+    margin: 0px 5px;
+}
+
+.help-tip-dark{
+  background: darkgray;
+  width: 17px;
+  height: 17px;
+  font-size: 13px;
+}
+
+.help-tip:before{
+    content:'?';
+    color:white;
+}
+
+.help-tip-dark:before{
+  content:'?';
+  color:white;
+}
+
+.help-tip:hover p {
+    position: relative;
+    right: 220px;
+    display:block;
+    transform-origin: 100% 0%;
+
+    -webkit-animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+    z-index: 20;
+}
+
+.help-tip p{    /* The tooltip */
+    display: none;
+    text-align: left;
+    background-color: #9ac6c9;
+    padding: 20px;
+    width: 250px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    color: #FFF;
+    font-size: 13px;
+    line-height: 1.4;
+    opacity: 1;
+}
+
+.help-tip p:before{ /*The pointer of the tooltip */
+    position: absolute;
+    content: '';
+    width:0;
+    height: 0;
+    border:6px solid transparent;
+    border-bottom-color:#9ac6c9;
+    right:15px; 
+    top: -12px;
+  }
+
+.help-tip p:after{ /* Prevents the tooltip from being hidden */
+    width:100%;
+    height:40px;
+    content:'';
+    top:-40px;
+    left:0;
+}
+
+/* CSS animation */
+
+@-webkit-keyframes fadeIn {
+    0% { 
+        opacity:0; 
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity:100%;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:100%; }
 }
