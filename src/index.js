@@ -16,11 +16,11 @@ import AttemptChallenge from './Components/Views/AttemptChallenge/AttemptChallen
 import Leaderboard from './Components/Views/Leaderboard/Leaderboard';
 import Loading from './Components/Views/Loading/Loading';
 import {library, dom } from '@fortawesome/fontawesome-svg-core';
-import {fas, faStar, faTrophy, faThumbsUp} from '@fortawesome/free-solid-svg-icons';
+import {fas, faStar, faTrophy, faThumbsUp, faChevronDown, faChevronUp} from '@fortawesome/free-solid-svg-icons';
 import { faGithubSquare, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import NotFound from './Components/Views/NotFound/NotFound';
 
-library.add(fas, faStar, faTrophy, faThumbsUp, faGithubSquare, faLinkedin);
+library.add(fas, faStar, faTrophy, faThumbsUp, faGithubSquare, faLinkedin, faChevronDown, faChevronUp);
 dom.watch()
 
 const auth = new Auth();

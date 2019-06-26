@@ -41,8 +41,18 @@
 
 }
 
+.landing-page__start-btn span:hover{
+  background: #f5f5f6;
+  color: #c04789;
+}
+
+.z-index {
+  z-index: -10;
+}
+
 .show {
   opacity: 1;
+  z-index: 10;
 }
 
 
@@ -86,6 +96,7 @@
   font-weight: bold;
   cursor: pointer;
   border: 1px solid whitesmoke;
+  outline: none;
 
 }
 .topContent button:hover{
@@ -208,7 +219,7 @@
   flex: 1 1 30%; */
   width: 30%;
   text-align: center;
-  background: #efefef;
+  background: #9ac6c9;
   margin-bottom: 50px;
   padding: 30px 20px 20px 20px;
   border-radius: 5px;

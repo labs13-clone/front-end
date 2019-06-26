@@ -40,7 +40,7 @@ const LandingPageContent = props => {
             <div className="landingContainer">
                 <div className="topContent">
                     <div className="topContent-left">
-                        <h1>ChallengeJS</h1>
+                        <h1 >ChallengeJS</h1>
                         <h2>Achieve mastery through challenge</h2>
                         <p>
                             ChallengeJS is the best platform to help you enhance your skills, expand your

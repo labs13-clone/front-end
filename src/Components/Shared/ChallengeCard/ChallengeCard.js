@@ -65,7 +65,7 @@ const ChallengeCard = (props) => {
             </div>
             <div>
                 <ReactMarkdown className={toggleOpenChallenge ? 'challenge-description__open' : 'challenge-description'} source={props.challenge.description}/>
-                <button className="challenge-description__btn" onClick={e => toggleOpen(e)}>{toggleOpenChallenge ? 'Minimize' : 'Expand'}</button>
+                <button className="challenge-description__btn" onClick={e => toggleOpen(e)}>{toggleOpenChallenge ? "Minimize"  : "Expand"}</button>
             </div>
             <div className="card-footer">
                 <div>

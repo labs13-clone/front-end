@@ -23,7 +23,7 @@
 .card-body {
     display: flex;
     justify-content: space-between;
-    border-bottom: 3px solid #9ac6c9;
+    border-bottom: 2px solid #343d61;
 }
 
 .card-footer {
@@ -33,10 +33,10 @@
 }
 
 .pill-button {
-    font-size: 1.2rem;
-    background: rgb(192, 71, 137);
+    font-size: 1rem;
     border: none;
-    color: white;
+    background: none;
+    color: rgb(192, 71, 137);;
     border-radius: 5px;
     margin-right: 3px;
     padding: 4px 7px;
@@ -58,7 +58,7 @@
 .card-popularity {
     display: flex;
     align-items: center;
-    color: #FFD700;
+    color: #2A9FD8;
 
 }
 
@@ -75,7 +75,7 @@
     min-height: 180px;
     max-height: 180px;
     overflow: hidden;
-    color: #efefef;
+    color: #9ac6c9;
 
 }
 
@@ -87,19 +87,20 @@
 .challenge-description__btn {
     cursor: pointer;
     outline: none;
-    border: 1px solid #2A9fd8;
-    border-radius: 5px;
+    border: none;
     margin-top: 15px;
     background: #222840;
-    color: #2A9fd8;
+    color: #2A9FD8;
+    border: 1px solid #2A9FD8;
+    border-radius: 5px;
     font-weight: bold;
     padding: 7px;
 }
 
 .challenge-description__btn:hover {
 
-    background: #2A9fd8;
     color: #222840;
+    background: #2A9FD8;
 }
 
 
