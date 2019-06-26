@@ -120,14 +120,37 @@
 }
 
 .console-div{
-    width: 63%;
-    height: 250px;
-    background-color: #263238;
+    background-color: #222840;
     margin-left: 250px;
     color: white;
     padding: 10px;
     box-sizing: border-box;
-    margin-top: 15px;
+    border-radius: 10px;
+    color: white;
+    width: 900px;
+    height: 350px;
+    margin: 0 auto 30px;
+    overflow: auto;
+}
+
+.console-div pre {
+  margin: 10px 0px;
+}
+
+.console-div::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+/* Handle */
+.console-div::-webkit-scrollbar-thumb {
+  background: #9AC6C9;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.console-div::-webkit-scrollbar-thumb:hover {
+  background: #2A9FD8;
 }
 
 .console-div p{

@@ -379,7 +379,7 @@ function CreateChallenge(props) {
                     </div>
                 </div>
             </Tabs>
-            <Console runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
+            <Console class="console-div" runCode={runCode} clearConsole={clearConsole} output={output} style={{width: "63%"}}/>
             <SharedModal 
                 class="create-challenge-modal" 
                 message={<div className="modal-text-container">
