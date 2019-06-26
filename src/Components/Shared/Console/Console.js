@@ -16,7 +16,6 @@ const Console = (props) => {
                     }
                     })
                 }
-            
         </div>
         )
 }
