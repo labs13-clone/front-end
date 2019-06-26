@@ -70,3 +70,35 @@
     margin-bottom: 4px;
 }
 
+.challenge-description {
+    min-height: 180px;
+    max-height: 180px;
+    overflow: hidden;
+}
+
+.challenge-description__open {
+    overflow: visible;
+    min-height: 164px;
+}
+
+.challenge-description__btn {
+    cursor: pointer;
+    outline: none;
+    border: 1px solid #2A9fd8;
+    border-radius: 5px;
+    margin-top: 15px;
+    background: #222840;
+    color: #2A9fd8;
+    font-weight: bold;
+    padding: 7px;
+}
+
+.challenge-description__btn:hover {
+
+    background: #2A9fd8;
+    color: #222840;
+}
+
+
+
+

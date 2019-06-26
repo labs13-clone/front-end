@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import history from '../../../history';
 import axios from 'axios';
 import {difficultyToString} from '../../../Utility/difficultyToString';
@@ -8,6 +8,8 @@ import './ChallengeCard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ChallengeCard = (props) => {
+
+    const [toggleOpenChallenge, setToggleOpenChallenge] = useState(false);
 
     const categories = props
         .challenge
@@ -43,6 +45,11 @@ const ChallengeCard = (props) => {
         ? <button className="approve-challenge-button" onClick={approveChallenge}>Approve Challenge</button>
         : null;
 
+    function toggleOpen(e) {
+        e.stopPropagation();
+        setToggleOpenChallenge(!toggleOpenChallenge)
+    }
+
     return (
         <div
             onClick={_ => history.replace(`/challenges/${props.challenge.id}`)}
@@ -57,7 +64,8 @@ const ChallengeCard = (props) => {
 
             </div>
             <div>
-                <ReactMarkdown source={props.challenge.description}/>
+                <ReactMarkdown className={toggleOpenChallenge ? 'challenge-description__open' : 'challenge-description'} source={props.challenge.description}/>
+                <button className="challenge-description__btn" onClick={e => toggleOpen(e)}>{toggleOpenChallenge ? 'Minimize' : 'Expand'}</button>
             </div>
             <div className="card-footer">
                 <div>

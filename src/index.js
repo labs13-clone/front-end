@@ -15,11 +15,13 @@ import CreateChallenge from './Components/Views/CreateChallenge/CreateChallenge'
 import AttemptChallenge from './Components/Views/AttemptChallenge/AttemptChallenge';
 import Leaderboard from './Components/Views/Leaderboard/Leaderboard';
 import Loading from './Components/Views/Loading/Loading';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {faStar, faTrophy, faThumbsUp} from '@fortawesome/free-solid-svg-icons';
+import {library, dom } from '@fortawesome/fontawesome-svg-core';
+import {fas, faStar, faTrophy, faThumbsUp} from '@fortawesome/free-solid-svg-icons';
+import { faGithubSquare, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import NotFound from './Components/Views/NotFound/NotFound';
 
-library.add(faStar, faTrophy, faThumbsUp);
+library.add(fas, faStar, faTrophy, faThumbsUp, faGithubSquare, faLinkedin);
+dom.watch()
 
 const auth = new Auth();
 

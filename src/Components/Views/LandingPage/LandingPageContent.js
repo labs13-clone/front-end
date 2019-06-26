@@ -5,7 +5,12 @@ import landing3 from '../../../images/landing3.svg';
 import testimonial1 from '../../../images/testimonials1.png';
 import testimonial2 from '../../../images/testimonials2.png';
 import testimonial3 from '../../../images/testimonials3.png';
+import daniel from '../../../images/daniel.PNG';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 require('./LandingPage.css')
+
 
 const LandingPageContent = props => {
 
@@ -90,6 +95,53 @@ const LandingPageContent = props => {
                         </div>
                         <h3>Nedim Omerovic</h3>
                         <p>It is my favorite site to practice problems, learned a lot from it.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="content-cards">
+                <h2 className="about-card__heading">Meet Our Team</h2>
+                <div className="about-cards">
+                    <div className="about-card">
+                        <img src="https://avatars0.githubusercontent.com/u/30749439?s=460&v=4" className="about-card__img"/>
+                        <h3 className="about-card__name">Anubhav Bhambri</h3>
+                        <p className="about-card__title">Web Developer</p>
+                        <a className="about-card__link" href="https://github.com/Anubhav311" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
+                    </div>
+
+                    <div className="about-card">
+                        <img src="https://avatars2.githubusercontent.com/u/43450021?s=460&v=4" className="about-card__img"/>
+                        <h3 className="about-card__name">Chase Fulks</h3>
+                        <p className="about-card__title">Web Developer</p>
+                        <a className="about-card__link" href="https://github.com/chasefulks" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
+                    </div>
+
+                    <div className="about-card">
+                        <img src={daniel} className="about-card__img"/>
+                        <h3 className="about-card__name">Daniel Mendez</h3>
+                        <p className="about-card__title">Web Developer</p>
+                        <a className="about-card__link" href="https://github.com/dan2014" target="_blank"><i class="fab fa-github-square about-card__i"></i></a>
+                    </div>
+
+                    <div className="about-card">
+                        <img src="https://avatars3.githubusercontent.com/u/40373184?s=460&v=4" className="about-card__img"/>
+                        <h3 className="about-card__name">Lidiia Gallagher</h3>
+                        <p className="about-card__title">Web Developer</p>
+                        <a className="about-card__link" href="https://github.com/Lidiia92" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
+                    </div>
+
+                    <div className="about-card">
+                        <img src="https://media.licdn.com/dms/image/C4E03AQF_qtVBli3p2g/profile-displayphoto-shrink_800_800/0?e=1567036800&v=beta&t=MRN4z4JssJGZl2662nbEQ7ROCR0Mcho3nKZXdEkYUsg" className="about-card__img"/>
+                        <h3 className="about-card__name">Sepi Khoshgoftar</h3>
+                        <p className="about-card__title">UX Designer</p>
+                        <a className="about-card__link" href="https://www.linkedin.com/in/sepi-khoshgoftar/" target="_blank"><i class="fab fa-linkedin about-card__linkedin"></i></a>
+                    </div>
+
+                    <div className="about-card">
+                        <img src="https://avatars1.githubusercontent.com/u/43946230?s=460&v=4" className="about-card__img"/>
+                        <h3 className="about-card__name">William Connatser</h3>
+                        <p className="about-card__title">Software Engineer</p>
+                        <a className="about-card__link" href="https://github.com/WilliamConnatser" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
                     </div>
                 </div>
             </div>
