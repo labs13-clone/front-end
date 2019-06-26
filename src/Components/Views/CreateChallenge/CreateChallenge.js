@@ -9,7 +9,6 @@ import './CreateChallenge.css';
 import Console from '../../Shared/Console/Console';
 import Tabs from './Tabs';
 import {useWorker} from '../../../Utility/WorkerHook';
-import Instructions from './Instructions';
 import SharedModal from "../../Shared/SharedModal/SharedModal";
 import MetaForm from './Meta'
 import TestsForm from './TestsForm'
@@ -278,11 +277,6 @@ function CreateChallenge(props) {
     return(
         <div className="create-challenge-container">
             <Tabs className="tabs">
-                <div label="Instructions">
-                    <div className="tab-container">
-                        <Instructions/>
-                    </div>
-                </div>
                 <div label="Meta">
                     <div className="tab-container">
                         <MetaForm
@@ -304,10 +298,10 @@ function CreateChallenge(props) {
                                         <div className="editor-header">
                                             <h2>Description</h2>
                                             <div className="help-tip">
-                                                <p>Provide description for the challenge.
-                                                This description will tell users what they are 
-                                                expected to do in order to pass the challenge.
-                                                You need to use mark-down for writing description.</p>
+                                                <p>Provide description for the challenge. 
+                                                    This description will tell users what they are expected to do 
+                                                    in order to pass the challenge. You need to use mark-down for
+                                                    writing description.</p>
                                             </div>
                                         </div>
                                         <Editor
@@ -322,11 +316,15 @@ function CreateChallenge(props) {
                     </div>
                 </div>
                 <div label="Preview">
-                    <div className="tab-container">
+                    <div className="tab-container" style={{'position': 'relative'}}>
                         <ReactMarkdown
                             source={challenge.description}
                             className="markdown-render"
                         />
+                        <div className="help-tip" style={{'position': 'absolute', 'right': '150px', 'top': '25px'}}>
+                            <p>This tab is just to preview the description. 
+                                You can see how your description will appear to users attempting this challenge.</p>
+                        </div>
                     </div>
                 </div>
                 <div label="Tests">
@@ -349,10 +347,10 @@ function CreateChallenge(props) {
                                         <div className="editor-header">
                                             <h2>Solution</h2>
                                             <div className="help-tip">
-                                                <p>Provide description for the challenge.
-                                                This description will tell users what they are 
-                                                expected to do in order to pass the challenge.
-                                                You need to use mark-down for writing description.</p>
+                                                <p>Please write the solution to the challenge in this code editor.<br/><br/>
+                                                If you want to run the code, make sure to invoke the function 
+                                                and click "run code" button provided below the editor.<br/><br/>
+                                                Note: Arrow functions are not supported.</p>
                                             </div>
                                         </div>
                                         <Editor

@@ -204,6 +204,12 @@
   padding: 3px;
   border-radius: 5px;
   font-weight: bold;
+  color: gray;
+  width: 180px;
+}
+
+.challenge-info:focus {
+  outline: none;
 }
 
 .test-container{
@@ -239,6 +245,7 @@
   padding: 3px;
   font-weight: bold;
   margin-bottom: 20px;
+  color: gray;
 }
 
 .tests-input:focus {
@@ -319,9 +326,8 @@
 
 /*************** categories dropdown styles *****************/
 .multi-select {
-  height: 30px;
+  height: 25px;
   border-radius: 5px;
-  margin-top: -2px;
 }
 
 .dropdown {
@@ -501,9 +507,10 @@
 }
 
 .help-tip-dark{
-  border: 1px solid #222840;
-  width: 15px;
-  height: 15px;
+  background: darkgray;
+  width: 17px;
+  height: 17px;
+  font-size: 13px;
 }
 
 .help-tip:before{
@@ -515,7 +522,7 @@
 .help-tip-dark:before{
   content:'?';
   /* font-weight: bold; */
-  color:#222840;
+  color:white;
 }
 
 .help-tip:hover p {
@@ -543,6 +550,7 @@
     color: #FFF;
     font-size: 13px;
     line-height: 1.4;
+    opacity: 1;
 }
 
 .help-tip p:before{ /*The pointer of the tooltip */

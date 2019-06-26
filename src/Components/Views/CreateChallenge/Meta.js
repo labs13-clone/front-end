@@ -18,8 +18,8 @@ export default function MetaForm(props) {
                         value={props.title} 
                         onChange={props.handleTitleAndDifficultyChanges}
                     />
-                        <div className="help-tip">
-                            <p>This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</p>
+                        <div className="help-tip help-tip-dark">
+                            <p>Provide title of the challenge here. For example: Return reversed string</p>
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,6 @@ export default function MetaForm(props) {
                         <select 
                             name="difficulty" 
                             value={props.difficulty}
-                            style={{'width': '50px'}} 
                             className="challenge-info" 
                             style={{width:200}} 
                             onChange={props.handleTitleAndDifficultyChanges}
@@ -40,8 +39,8 @@ export default function MetaForm(props) {
                             <option value="50">Medium</option>
                             <option value="75">Hard</option>
                         </select>
-                        <div className="help-tip">
-                            <p>This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</p>
+                        <div className="help-tip help-tip-dark">
+                            <p>Select level of difficulty of the challenge from the dropdown. It can be easy, medium or hard</p>
                         </div>
                     </div>
                 </div>
@@ -54,8 +53,8 @@ export default function MetaForm(props) {
                             selected={props.selectedCategories} 
                             onSelectedChanged={props.setSelectedCategories}
                         />
-                        <div className="help-tip">
-                            <p>This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</p>
+                        <div className="help-tip help-tip-dark">
+                            <p>Select category of the challenge from the dropdown. You can select multiple options.</p>
                         </div>
                     </div>
                 </div>

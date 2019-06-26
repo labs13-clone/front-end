@@ -22,7 +22,7 @@ export default function TestsForm(props) {
                                         required
                                         />
                                         <div className="help-tip help-tip-dark">
-                                            <p>This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</p>
+                                            <p>Describe the test in a sentence. For example: "It should return a string"</p>
                                         </div>
                                     </div>
                                 </div>
@@ -39,7 +39,7 @@ export default function TestsForm(props) {
                                             id={index}
                                         />
                                         <div className="help-tip help-tip-dark">
-                                            <p>This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</p>
+                                            <p>pass the arguments in the form of an array. For example: [1, 2, 3]</p>
                                         </div>
                                     </div>
                                 </div>
@@ -56,7 +56,7 @@ export default function TestsForm(props) {
                                             required
                                             />
                                         <div className="help-tip help-tip-dark">
-                                            <p>This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</p>
+                                            <p>Expected output from the function. For example: "Hello World"</p>
                                         </div>
                                     </div>
                                 </div>
