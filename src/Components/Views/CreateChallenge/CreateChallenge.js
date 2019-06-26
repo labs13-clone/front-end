@@ -267,7 +267,7 @@ function CreateChallenge(props) {
     function postForChallengeCreation(event, token) {
         event.preventDefault();
         setSubmitChallenge({...submitChallenge, loading: true})
-        createChallengeRequest(challenge, selectedCategories, accessToken, setSubmitChallenge)
+        createChallengeRequest(challenge, selectedCategories, accessToken, setSubmitChallenge, setChallenge)
     }
 
     function modalCallback(){
@@ -384,7 +384,7 @@ function CreateChallenge(props) {
                 class="create-challenge-modal" 
                 message={<div className="modal-text-container">
                             <h1>Success!</h1>
-                            <p>Your challenge is submitted for approval</p>
+                            <p>Your challenge is submitted for "APPROVAL"</p>
                             <p>See the status in your profile</p>
                             <Link to="/profile">
                                 <button>Profile</button>
@@ -398,7 +398,7 @@ function CreateChallenge(props) {
 }
 
 
-function createChallengeRequest(challenge, selectedCategories, token, setSubmitChallenge) {
+function createChallengeRequest(challenge, selectedCategories, token, setSubmitChallenge, setChallenge) {
 
     axios({
         method: 'post',
@@ -409,7 +409,7 @@ function createChallengeRequest(challenge, selectedCategories, token, setSubmitC
         data: challenge
     })
     .then(challengeRes => {
-        addCategoriesRequest(challengeRes.data, selectedCategories, token, setSubmitChallenge)
+        addCategoriesRequest(challengeRes.data, selectedCategories, token, setSubmitChallenge, setChallenge)
     })
     .catch(err => {
         console.log(err.message)
@@ -417,7 +417,7 @@ function createChallengeRequest(challenge, selectedCategories, token, setSubmitC
 }
 
 
-function addCategoriesRequest(challenge, selectedCategories, token, setSubmitChallenge) {
+function addCategoriesRequest(challenge, selectedCategories, token, setSubmitChallenge, setChallenge) {
     const arrayOfselectedCategories = selectedCategories.map(id => {
         return {
             challenge_id: challenge.id,
@@ -434,6 +434,14 @@ function addCategoriesRequest(challenge, selectedCategories, token, setSubmitCha
     })
     .then(categoryRes => {
         if(categoryRes) {
+            setChallenge({
+                title: '',
+                difficulty: 1,
+                tests: [{descriptor: "", argumentsToPass: '', expectedResult: ""}],
+                description: '',
+                solution: '',
+                skeleton_function: ''
+            })
             setSubmitChallenge({...challenge, modalState: true, loading: false})
         }
         console.log(categoryRes)
