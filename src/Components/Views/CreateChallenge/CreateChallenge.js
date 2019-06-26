@@ -21,7 +21,7 @@ function CreateChallenge(props) {
     const [challenge, setChallenge] = useState({
         title: '',
         difficulty: 1,
-        tests: [{descriptor: "", argumentsToPass: "", expectedResult: ""}],
+        tests: [{descriptor: "", argumentsToPass: '', expectedResult: ""}],
         description: '',
         solution: '',
         skeleton_function: ''
@@ -109,16 +109,63 @@ function CreateChallenge(props) {
         setUserMessage({msg: 'run_code', code: challenge.solution});
     };
 
+    function validateTests(userChallenge, callbackFn) {
+        const arrayReg = RegExp(/\[.*\]/);
+        const objectReg = RegExp(/\{.*\}/);
+        const stringReg = RegExp(/^\'|^\"|^\`.*$\'|$\"|$\`/);
+        const specialReg = RegExp(/Infinity|NaN/);
+
+        const testArray = userChallenge.tests.map(obj => {
+            const newObj = Object.assign({}, obj)
+
+            try{
+                if(specialReg.test(newObj.argumentsToPass)) {
+                    console.log('Infinity and NaN are not supported by JSON')
+                } else {
+                    newObj.argumentsToPass = JSON.parse(`[${newObj.argumentsToPass}]`);
+                    console.log(typeof newObj.argumentsToPass, newObj.argumentsToPass)
+                }
+            } catch(e) {
+                console.log(e)
+            }
+            if(arrayReg.test(newObj.expectedResult) || objectReg.test(newObj.expectedResult)){
+                try{
+                    newObj.expectedResult = JSON.parse(newObj.expectedResult);
+                    console.log(newObj.expectedResult);
+                } catch(e){
+                    console.log("Not Valid JSON");
+                    //setErrorMsg("Not Valid JSON");
+                }
+            } else if(stringReg.test(newObj.expectedResult)) {
+                try{
+                    newObj.expectedResult = eval(`${newObj.expectedResult}`);
+                } catch(e) {
+                    console.log("Error with string regex")
+                }
+                  //setErrorMsg("Please Use Double Brackets for strings or JSON");
+            } else {
+                try{
+                    newObj.expectedResult = eval(newObj.expectedResult);
+                    console.log(typeof newObj.expectedResult, newObj.expectedResult);
+                }catch(e){
+                    console.log("Invalid Syntax for expected result");
+                    //setErrorMsg("Invalid Syntax for expected result");
+                }
+            };
+
+            return newObj;
+        })
+        callbackFn(userChallenge, testArray)
+    }
+
     function runTests(e) {
         e.preventDefault()
-        const testArray = challenge.tests.map(obj => {
-            if (obj.argumentsToPass === '') {
-                obj.argumentsToPass = '[]';
-            }
-            obj.argumentsToPass = eval(obj.argumentsToPass);
-            return obj;
+
+        validateTests(challenge, (a, e) => {
+            setUserMessage({msg: 'run_tests', code: a.solution, tests: e});
         })
-        setUserMessage({msg: 'run_tests', code: challenge.solution, tests: testArray});
+        // setUserMessage({msg: 'run_tests', code: challenge.solution, tests: testArray});
+        // setUserMessage({msg: 'run_tests', code: challenge.solution, tests: [{descriptor:"a",argumentsToPass:[[1,2,3]],expectedResult:3}]});
         setSubmitChallenge({...submitChallenge, testRan: true})
     };
 
@@ -173,7 +220,13 @@ function CreateChallenge(props) {
     
     function handleTestsChanges(e) {
         const values = [ ...challenge.tests ];
-        values[e.target.id][e.target.name] = e.target.value;
+        const reg = RegExp(/\[.*\]/);
+        // if (e.target.name === 'argumentsToPass' && !reg.test(e.target.value)) {
+        //     // values[e.target.id][e.target.name] = [e.target.value];
+        // } else {
+            values[e.target.id][e.target.name] = e.target.value;
+        // }
+
         setChallenge({
             ...challenge,
             tests: values,
@@ -289,17 +342,28 @@ function CreateChallenge(props) {
                 </div>
                 <div label="Solution">
                     <div className="tab-container">
-                        <div className="editor">
-                            <section className="playground">
-                                <div className="code-editor js-code">
-                                    <h2 className="editor-header">Solution</h2>
-                                    <Editor
-                                        class='description-editor'
-                                        code={challenge.solution}
-                                        mode={'javascript'}
-                                        changeHandler={handleSolutionEditorChange}/>
-                                </div>
-                            </section>
+                        <div className="description-editor-container">
+                            <div className="editor">
+                                <section className="playground">
+                                    <div className="code-editor js-code">
+                                        <div className="editor-header">
+                                            <h2>Solution</h2>
+                                            <div className="help-tip">
+                                                <p>Provide description for the challenge.
+                                                This description will tell users what they are 
+                                                expected to do in order to pass the challenge.
+                                                You need to use mark-down for writing description.</p>
+                                            </div>
+                                        </div>
+                                        <Editor
+                                            class='description-editor'
+                                            code={challenge.solution}
+                                            mode={'javascript'}
+                                            changeHandler={handleSolutionEditorChange}
+                                        />
+                                    </div>
+                                </section>
+                            </div>
                         </div>
                     </div>
                 </div>

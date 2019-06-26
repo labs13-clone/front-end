@@ -238,6 +238,17 @@
   height: 25px;
   padding: 3px;
   font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.tests-input:focus {
+  outline: none;
+}
+
+.heading-input-container{
+  display: flex;
+  flex-direction: column;
+  height: auto;
 }
 
 .add-test-button{
@@ -489,10 +500,22 @@
     margin: 0px 5px;
 }
 
+.help-tip-dark{
+  border: 1px solid #222840;
+  width: 15px;
+  height: 15px;
+}
+
 .help-tip:before{
     content:'?';
-    font-weight: bold;
+    /* font-weight: bold; */
     color:white;
+}
+
+.help-tip-dark:before{
+  content:'?';
+  /* font-weight: bold; */
+  color:#222840;
 }
 
 .help-tip:hover p {
