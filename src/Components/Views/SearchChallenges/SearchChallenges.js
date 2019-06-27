@@ -24,7 +24,7 @@ const SearchChallenges = (props) => {
 
     function scrollFunction() {
         var y = window.scrollY;
-        if (y >= 500) {
+        if (y >= 200) {
             setClasses('landing-page__start-btn show')
         } else {
             setClasses('landing-page__start-btn z-index')

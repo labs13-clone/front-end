@@ -19,7 +19,7 @@
 .logo,
 .logo:visited,
 .logo:active {
-  color: #2A9FD8;
+  color: #9ac6c9;;
   font-size: 1.5rem;
   text-decoration: none;
   margin-right: 30px;
@@ -38,7 +38,7 @@
 }
 
 .navigation-link:hover {
-  color: #2A9FD8;
+  color: #9ac6c9;;
 }
 
 .account-button {

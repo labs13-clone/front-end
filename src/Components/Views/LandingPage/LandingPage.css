@@ -18,7 +18,6 @@
 
 .landing-page__start-btn {
   position: fixed;
-  background: rgba(35,	40,	64, .6);
   top: 0;
   min-width: 1000px;
   margin-bottom: 50px;
@@ -66,20 +65,20 @@
 }
 
 .topContent h1 {
-  color: #2A9FD8;
+  color: #c04789;
   font-size: 2.2rem;
   font-weight: bold;
 }
 
 .topContent h2 {
   font-size: 1.5rem;
-  color: #c04789;
   margin-top: 30px;
   margin-bottom: 15px;
   font-weight: bold;
 }
 
 .topContent p {
+  color: #f5f5f6;
   width: 70%;
   font-size: 1.2rem;
   line-height: 1.5;
@@ -194,7 +193,7 @@
   width: 90%;
   margin: 0px auto 30px auto;
   text-align: justify;
-  border-top: 2px solid #2A9FD8;
+  border-top: 2px solid #9ac6c9;
   padding-top: 30px;
   line-height: normal;
 }
@@ -264,9 +263,4 @@
 .about-card__i {
   font-size: 2.2rem;
   color: #1b1f23;
-}
-
-.about-card__linkedin {
-  font-size: 2.2rem;
-  color: #0077b5;
 }

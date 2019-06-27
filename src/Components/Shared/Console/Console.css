@@ -22,7 +22,7 @@
 
 /* Handle on hover */
 .console::-webkit-scrollbar-thumb:hover {
-    background: #2A9FD8;
+    background: #9ac6c9;;
 }
 
 .attempt-challenge-console {
@@ -59,11 +59,11 @@
 .console-button {
     cursor: pointer;
     outline: none;
-    border: 1px solid #2A9fd8;
+    border: 1px solid #9ac6c9;;
     border-radius: 5px;
     margin: 10px 30px;
     background: #222840; 
-    color: #2A9fd8;
+    color: #9ac6c9;;
     font-weight: bold;
     padding: 7px;
 }
@@ -74,6 +74,6 @@
 
 .console-button:hover:enabled {
     border-radius: 5px;
-    background: #2A9fd8;
+    background: #9ac6c9;;
     color: #222840;
 }

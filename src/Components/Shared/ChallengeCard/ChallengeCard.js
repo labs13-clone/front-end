@@ -5,11 +5,12 @@ import {difficultyToString} from '../../../Utility/difficultyToString';
 import ReactMarkdown from 'react-markdown';
 import './ChallengeCard.css';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 const ChallengeCard = (props) => {
 
-    const [toggleOpenChallenge, setToggleOpenChallenge] = useState(false);
+    const [toggleOpenChallenge,
+        setToggleOpenChallenge] = useState(false);
 
     const categories = props
         .challenge
@@ -55,25 +56,43 @@ const ChallengeCard = (props) => {
             onClick={_ => history.replace(`/challenges/${props.challenge.id}`)}
             className="challenge-wrapper">
 
-            <div className="card-body">
-                <h1 className="challenge-title">{props.challenge.title}</h1>
-                <div className="card-popularity">
-                    <h3 className="popularity-value">{props.challenge.popularity > 0 ? props.challenge.popularity : ``}</h3>
-                    <h3 className="thumbs-up">{props.challenge.popularity > 0 ? <FontAwesomeIcon icon="thumbs-up" /> : ``}</h3>
-                </div>
-
-            </div>
-            <div>
-                <ReactMarkdown className={toggleOpenChallenge ? 'challenge-description__open' : 'challenge-description'} source={props.challenge.description}/>
-                <button className="challenge-description__btn" onClick={e => toggleOpen(e)}>{toggleOpenChallenge ? "Minimize"  : "Expand"}</button>
-            </div>
-            <div className="card-footer">
+            <div className="card-header">
                 <div>
+                    <h1 className="challenge-title">{props.challenge.title}</h1>
+
                     {categories}
                 </div>
-                <div className="pill-button">{difficultyToString(props.challenge.difficulty)}</div>
+                <div className="right-header">
+                    <h3 className="popularity">
+                        <span className="popularity-num">
+                            {props.challenge.popularity > 0
+                                ? props.challenge.popularity
+                                : ``}
+                        </span>
+                        <span className="thumbs-up">{props.challenge.popularity > 0
+                                ? <FontAwesomeIcon icon="thumbs-up"/>
+                                : ``}
+                        </span>
+                    </h3>
+                    <span className="difficulty">
+                        {difficultyToString(props.challenge.difficulty)}
+                    </span>
+
+                </div>
             </div>
-            {approveButton}
+            <div className="card-body">
+                <ReactMarkdown
+                    className={toggleOpenChallenge
+                    ? 'challenge-description__open'
+                    : 'challenge-description'}
+                    source={props.challenge.description}/>
+            </div>
+            <div className="card-footer">
+                <button className="challenge-description__btn" onClick={e => toggleOpen(e)}>{toggleOpenChallenge
+                        ? "Minimize"
+                        : "Expand"}</button>
+                {approveButton}
+            </div>
         </div>
     );
 }

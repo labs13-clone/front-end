@@ -150,7 +150,7 @@
 
 /* Handle on hover */
 .console-div::-webkit-scrollbar-thumb:hover {
-  background: #2A9FD8;
+  background: #9ac6c9;;
 }
 
 .console-div p{
@@ -217,7 +217,7 @@
 
 /* Handle on hover */
 .tab-container::-webkit-scrollbar-thumb:hover {
-  background: #2A9FD8; 
+  background: #9ac6c9;; 
 }
 
 .challenge-info{
@@ -287,7 +287,7 @@
   width: 130px;
   height: 40px;
   font-weight: bold;
-  background-color: #2A9FD8;
+  background-color: #9ac6c9;;
   cursor: pointer;
   margin-top: 20px;
   font-size: 15px;
@@ -310,7 +310,7 @@
 
 .run-tests {
   border: none;
-  background-color: #2A9FD8;
+  background-color: #9ac6c9;;
   width: 150px;
   height: 50px;
   display: block;
@@ -394,7 +394,7 @@
 }
 
 .dropdown-content::-webkit-scrollbar-thumb:hover {
-  background: #2A9FD8; 
+  background: #9ac6c9;; 
 }
 
 .select-panel div {

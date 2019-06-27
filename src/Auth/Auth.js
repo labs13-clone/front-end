@@ -29,7 +29,6 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         //Set session
         this.setSession(authResult);
-
       }
 
       //Else go home
@@ -54,6 +53,7 @@ export default class Auth {
   }
 
   setSession = (authResult, path) => {
+    
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
     
@@ -62,6 +62,8 @@ export default class Auth {
     this.accessToken = authResult.accessToken;
     this.idToken = authResult.idToken;
     this.expiresAt = expiresAt;
+    
+    if (process.env.NODE_ENV !== 'production') console.log('Your auth0 access token', this.accessToken);
 
     // Request the challenges or submissions from the api
     axios({
