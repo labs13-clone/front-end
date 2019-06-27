@@ -4,49 +4,50 @@
 }
 
 .challenge-header-wrapper {
+    display:flex;
+    align-items: center;
     width: 100%;
-    background: #263238;
-    border-bottom: 3px solid #9ac6c9;
+    justify-content: space-between;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin: 10px 0 0;
-    padding: 5px 10px 0;
+    padding: 5px 0;
 }
 
-.category-completed {
+.fullscreen-challenge-header-wrapper {
     display:flex;
-    justify-content: space-between;
+    background:#343d61;
     align-items: center;
-    margin-bottom: 10px;
+    width: 100%;
+    justify-content: space-between;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 5px 10px;
+    height:5vh;
 }
+
 
 .challenge-header {
     font-size: 1.5rem;
-    width: 100%;
-    margin: 10px 0 20px 0;
+    margin: 0px 15px 0px 0px;
 }
 
-/* {"display":"flex","justifyContent":"space-between","alignItems":"center","width":"900px", "margin":"0 auto"}} */
-/* style={{"color":"black","marginBottom":"5px"}} */
-
-
-
 .categories {
-    background: grey;
-    color: white;
-    margin: 5px;
+    background: #343d61;
+    color: #c04789;
+    margin: 0px 10px;
     border-radius: 5px;
-    padding: 5px;
-    font-size: 12px;
+    font-size: 16px;
+    font-weight:bold;
 }
 
 .completed {
-    color: #7e7;
+    color: #9ac6c9;
     font-weight: bold;
 }
 
 .uncompleted {
-    color: palevioletred;
+    color: #c04789;
     font-weight: bold;
 }
 
@@ -79,7 +80,6 @@
 
 .unnecessary-div {
     width:50%;
-    height:50%;
     border-radius:10px;
 }
 
@@ -94,10 +94,18 @@
     align-items: center;
 }
 
-.challenge-instructions {
+/* .challenge-instructions {
     color: white;
     margin-top: 0px;
     margin-bottom: 0px;
+} */
+
+.challenge-instructions {
+    color: #1C2938;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #1C2938;
 }
 
 
@@ -125,19 +133,14 @@
     opacity: 0.5;
 }
 
-
-/* .sub-button-wrapper {
-    margin: 10px auto 50px;
-} */
-
 .attempt-markdown-wrapper {
     width: 50%;
-    height: 350px;
-    background-color: #1C2938;
+    height: 396px;
+    background-color: #f7f7f7;
+    border-left: 5px solid #343d61;
     margin: auto;
     box-sizing: border-box;
-    border: solid gray 5px;
-    color: white;
+    color: #1C2938;
     padding: 10px;
     overflow: scroll;
 }
@@ -145,32 +148,22 @@
 .fullscreen-attempt-markdown-wrapper {
     width: 40%;
     height: 49vh;
-    background-color: #1C2938;
-    box-sizing: border-box;
-    border: solid gray 5px;
-    color: white;
+    background-color: #f7f7f7;
+    border-left: 5px solid #343d61;
+    color: black;
     padding: 10px;
     overflow: scroll;
 }
 
 .editor-style {
-    height: 300px;
+    height: 350px;
 }
 
 .fullscreen-editor-style{
     height: 44vh;
 }
 
-.fullscreen-button {
-    cursor: pointer;
-    outline: none;
-    border: 1px solid #2A9fd8;
-    border-radius: 5px;
-    background: #222840;
-    color: #2A9fd8;
-    font-weight: bold;
-    padding: 7px;
-}
+
 
 .fullscreen-button:hover {
     border-radius: 5px;
@@ -178,9 +171,57 @@
     color: #222840;
 }
 
+.fullsreen-action-bar {
+    height: 5vh;
+}
+
 .action-bar {
+    padding:5px 10px;
     background: #222840;
-    display:"flex";
-    justify-content:"space-around";
-    align-items:"center";
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.fullscreen-action-bar{
+    padding:5px 10px;
+    background: #222840;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    height:5vh;
+}
+
+.category-wrapper{
+    display:flex;
+    /* width: 50%; */
+    /* justify-content: flex-end; */
+    align-items: center;
+}
+
+.pulse-wrapper {
+    width: 33%;
+    display: flex;
+    justify-content: center;
+}
+
+.icon-wrapper {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.challenge-sub-header-wrapper {
+    width: 50%;
+    display: flex;
+}
+
+.xp-wrapper {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.xp-points {
+    margin-left: 5px;
 }

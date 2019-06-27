@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import {getData,getSubmission,postSubmission,updateSubmission} from "./NetworkRequests"
+import {getData,getSubmission,postSubmission,updateSubmission, resetSubmission} from "./NetworkRequests"
 import Editor from "../../Shared/Editor/Editor";
 import Console from "../../Shared/Console/Console";
 import worker_script from "../../../Utility/worker";
 import { useWorker } from "../../../Utility/WorkerHook";
 import ReactMarkdown from 'react-markdown';
-import Fullscreen from "react-full-screen";
+import FullScreen from "react-full-screen";
 import './AttemptChallenge.css';
 import Pulse from "./PulseTest";
+import {Button,Menu,MenuItem} from "@material-ui/core";
+import {Fullscreen as FullscreenIcon, FullscreenExit as FullscreenExitIcon, Star} from "@material-ui/icons";
 
 function AttemptChallenge(props) {
 
     const [challenge, setChallenge] = useState({id:null,difficulty:null,skeleton_function:"",tests:[],title:"",categories:[]});
-    const [userSubmission, setUserSubmission] = useState({id:null,attempts:null,challenge_id:null,completed:false,solution:""});
+    const [userSubmission, setUserSubmission] = useState({id:null,challenge_id:null,total_attempts:null,code_execs:null,total_code_execs:null,test_execs:null,total_test_execs:null,completed:false,solution:""});
     const [userMessage, setUserMessage] = useState({});
     const [output, setOutput] = useState([]);
     const [passed, setPassed] = useState(false);
     const [isFull, setIsFull] = useState(false);
     const [pulse,setPulse] = useState(false);
+    const [isSubmitting,setIsSubmitting] = useState(false);
+    const [dropDownState, setDropDownState] = React.useState(null);
+    const [testCounter, setTestCounter] = React.useState(0);
 
     const {result,error} = useWorker(worker_script,userMessage);
   
@@ -27,21 +32,23 @@ function AttemptChallenge(props) {
 
         const attemptChallengeData = Promise.all([submissionReq,challengeReq]);
 
+        
         attemptChallengeData
         .then(res => {
-                const [{data:{0:submissionRes}}, {data:{0:challengeRes}}] = res; // destructuring to unpack response data to an object. Res is an array with two responses from axios. The final result is a an object for each request by destructuring res to two variables that are objects. The objects have properties named "data". Data is an array with a single element. The first index "0" is destructured to retreive an object. 
+            const [{data:{0:submissionRes}}, {data:{0:challengeRes}}] = res; // destructuring to unpack response data to an object. Res is an array with two responses from axios. The final result is a an object for each request by destructuring res to two variables that are objects. The objects have properties named "data". Data is an array with a single element. The first index "0" is destructured to retreive an object. 
             
             if(challengeRes===undefined){
-                props.history.replace("/challenges")
+                props.history.replace("/404")
             } else {
                 setChallenge(challengeRes);
 
             if (submissionRes===undefined){
-                postSubmission(props.auth.accessToken,challengeRes.id,challengeRes.skeleton_function)
+                postSubmission(props.auth.accessToken,challengeRes.id)
                 .then(res => {
                     const newSubmissionRes = res.data;
                     setUserSubmission(newSubmissionRes);
-                });
+                })
+                .catch();
             } else {
                 setUserSubmission(submissionRes);
                 if(submissionRes.completed ){
@@ -50,7 +57,8 @@ function AttemptChallenge(props) {
             }
             }
             
-        });
+        })
+        .catch(err => console.log(err, "error"));
     }, []);
 
     useEffect(() => {
@@ -61,18 +69,29 @@ function AttemptChallenge(props) {
         switch (result[resLen-1].msg){
             case "run_code":
                 setOutput(result);
-                updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,passed)
-                .then()
+                updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,"/exec")
+                .then(res => setUserSubmission({...res.data}))
                 .catch();
                 break;
             case "run_tests":
                 const testResult = (result[resLen-1].result.toString()==='true' ? true : false);
                 setPassed(testResult);
-                pulseTest()
-                updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,false)
-                .then()
-                .catch();
-                
+                setTestCounter(testCounter + 1)
+                if(isSubmitting && testResult){
+                    updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,"/attempt")
+                    .then(res => {
+                        setUserSubmission({...res.data});
+                        setIsSubmitting(false);
+                    })
+                    .catch();
+                } else {
+                    updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,"/test")
+                    .then(res => {
+                        setUserSubmission({...res.data});
+                        setIsSubmitting(false);
+                    })
+                    .catch();
+                }
                 break;
             default:
                 break;
@@ -97,6 +116,8 @@ function AttemptChallenge(props) {
     };
 
     function runTests(){
+        setPulse(true);
+        setDropDownState(null);
         const solution = userSubmission.solution;
         setUserMessage({msg:"run_tests",code:solution,tests:challenge.tests});
     };
@@ -110,66 +131,73 @@ function AttemptChallenge(props) {
     }
 
     function submitChallenge(){
-        // setUserSubmission when the promised is resolved
-        if(userSubmission.completed){
-            setUserSubmission({...userSubmission,completed:false});
-            updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,false)
-                .then()
-                .catch();
-        } else if(passed===true){
-            setUserSubmission({...userSubmission,completed:true});
-            updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,true)
-                .then()
-                .catch();
-            // Do network request to submit passed and completed state
-        }
+        setDropDownState(null);
+        setIsSubmitting(true);
+        setUserMessage({msg:"run_tests",code:userSubmission.solution,tests:challenge.tests});
     }
 
     function resetChallenge(){
-         updateSubmission(props.auth.accessToken,challenge.skeleton_function,userSubmission.id,false)
-            .then(() => window.location.reload()) 
-            .catch();
+        setDropDownState(null);
+        resetSubmission(props.auth.accessToken,userSubmission.id)
+        .then(() => window.location.reload()) 
+        .catch();
     }
 
-    function pulseTest(){
-        setPulse(true);
-        setTimeout(() => {
-            setPulse(false)
-        },2000);
-   }
+   function handleClick(event) {
+    setDropDownState(event.currentTarget);
+  }
+
+  function handleClose() {
+    setDropDownState(null);
+  }
 
     return (
         <div className="full-screenable-node">
-            <Fullscreen enabled={isFull} onChange={fullscreenOnChange}>
-            <div className="challenge-header-wrapper">
-                <h3 className="challenge-header">{challenge.title}</h3>
-                <div className="category-completed" >
-                    <button className="fullscreen-button" onClick={goFull}>{isFull ? "Exit Full Screen" :"Go Fullscreen"}</button>
-                    <div>
-                        {
-                            challenge.categories.map((e,index) =>{
-                                if(index>2){
-                                    return null
-                                } else {
-                                    return <span className="categories" key={e.id}>{e.name}</span>
-                                }
-                                
-                            })
-                        }
+            <FullScreen enabled={isFull} onChange={fullscreenOnChange}>
+            <div className={isFull ? "fullscreen-challenge-header-wrapper ": "challenge-header-wrapper"}>
+                <div className="challenge-sub-header-wrapper">
+                    <h3 className="challenge-header">{challenge.title}</h3>
+                    <div className="xp-wrapper">
+                        <Star style={{ fontSize: 16 }}/>
+                        <h4 className="xp-points">{challenge.difficulty}</h4>
                     </div>
-                    {
-                        (userSubmission.completed ? <span className="completed">Completed</span>  : <span className="uncompleted">Uncompleted</span> )
-                    }
-                    <Pulse pulse={pulse} passed={passed}/>
                 </div>
+
+                {
+                    (isFull ?
+                                <FullscreenExitIcon aria-label="Exit Full Screen" style={{"cursor": 'pointer'}} fontSize="large" onClick={goFull}/>
+                            :
+                                 
+                                <FullscreenIcon aria-label="Enter Full Screen" style={{"cursor": 'pointer'}} fontSize="large" onClick={goFull}/>
+                                    
+                                
+                    )
+                }
+                    
             </div>
+            
             <div className="attempt-challenge-wrapper"> 
                 <div className="top-panel">
                     <div className={(isFull ? "fullscreen-unnecessary-div":"unnecessary-div")}>
-                        <div className="action-bar">
-                            <button className="console-button" onClick={resetChallenge}>Reset Challenge</button>
-                            <button disabled={userSubmission.completed}className="console-button" onClick={runTests}>Run Tests</button>
-                            <button disabled={!passed} className="sub-button" onClick={submitChallenge}>{userSubmission.completed ? "Unsubmit to Edit" : "Submit Solution"}</button>
+
+                        <div className={(isFull ? "fullscreen-action-bar" : "action-bar" )}>
+                        <Pulse pulse={pulse} counter={testCounter} completed={userSubmission.completed} passed={passed}/>
+
+                        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} style={{color:"whitesmoke"}}>
+                            Open Menu
+                        </Button>
+                        <Menu
+                            id="simple-menu"
+                            anchorEl={dropDownState}
+                            keepMounted
+                            open={Boolean(dropDownState)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={resetChallenge}>Reset Challenge</MenuItem>
+                            <MenuItem disabled={userSubmission.completed} onClick={runTests}>Run Tests</MenuItem>
+                            <MenuItem disabled={!passed || userSubmission.completed} onClick={submitChallenge}>{"Submit Solution"}</MenuItem>
+                        </Menu>
+
                         </div>
                         {
                             (!userSubmission.completed ? 
@@ -188,18 +216,10 @@ function AttemptChallenge(props) {
                 <Console disabled={userSubmission.completed} runCode={runCode} clearConsole={clearConsole} output={output} class={(isFull ? "fullscreen-console" :"attempt-challenge-console")}/>
                 
             </div>
-            </Fullscreen>
+            </FullScreen>
             
          </div>
     );
 }
 
 export default AttemptChallenge;
-
-
-// console.log(submissionRes);
-// console.log(challengeRes);
-// const {id,difficulty,skeleton_function,tests,title,categories} = challengeRes.data[0];
-// const {attempts,challenge_id,id:submID,completed,solution:userSolution} = submissionRes.data[0];
-// console.log({id},{difficulty},{skeleton_function},{tests},{title},{categories});
-// console.log({attempts},{challenge_id},{submID},{completed},{userSolution});

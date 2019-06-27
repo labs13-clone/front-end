@@ -28,7 +28,7 @@ export async function getSubmission(token,id) {
     };
 };
 
-export async function postSubmission(token,id,skeletonFunc) {
+export async function postSubmission(token,id) {
     try {
         const result = await axios({
             method: 'post', 
@@ -38,7 +38,6 @@ export async function postSubmission(token,id,skeletonFunc) {
                 "Content-Type": "application/json"
             },
             data: {
-                    solution:skeletonFunc,
                     challenge_id:id
                   }
     });
@@ -47,19 +46,37 @@ export async function postSubmission(token,id,skeletonFunc) {
     };
 };
 
-export async function updateSubmission(token,solution,subID,pass) {
+export async function updateSubmission(token,solution,subID,path="") {
     try {
         const result = await axios({
             method: 'put', 
-            url: `${process.env.REACT_APP_SERVER}/api/submissions`,
+            url: `${process.env.REACT_APP_SERVER}/api/submissions${path}`,
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
                      },
             data: {
                     id: subID,
-                    completed: pass,
                     solution: solution
+                  }
+    });
+        return result
+    } catch (e) {
+        console.log(e)
+    };
+};
+
+export async function resetSubmission(token,subID) {
+    try {
+        const result = await axios({
+            method: 'put', 
+            url: `${process.env.REACT_APP_SERVER}/api/submissions/reset`,
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+                     },
+            data: {
+                    id: subID
                   }
     });
         return result
