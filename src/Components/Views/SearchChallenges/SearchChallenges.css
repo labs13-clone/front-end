@@ -22,11 +22,11 @@
 
 
 .custom-select {
-    background: #2A9FD8 !important;
-    color:#FFF;
-    color: whitesmoke;
+    background: #9ac6c9 !important;
+    color:#222840;
     border-radius: 5px;
     font-size: 1rem;
+    font-weight: bold;
     margin: 3px;
     padding: 10px;
     border: none;
@@ -35,6 +35,7 @@
     box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
     cursor: pointer;
     min-width: 25%;
+    outline: none;
   }
 
 .custom-select option:checked { 

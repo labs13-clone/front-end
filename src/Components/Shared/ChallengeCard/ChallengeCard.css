@@ -10,36 +10,69 @@
 }
 
 .challenge-wrapper:hover {
-    /* border: 3px solid #2A9FD8;
-    box-sizing: content-box; */
-    box-shadow: 5px 5px #2A9FD8;
-}
-.challenge-title {
-    font-size: 1.6rem;
-    margin-bottom: 15px;
+    box-shadow: 5px 5px #9ac6c9;
 }
 
-
-.card-body {
+.card-header {
     display: flex;
     justify-content: space-between;
     border-bottom: 2px solid #343d61;
+    padding-bottom: 5px;
 }
 
-.card-footer {
-    margin-top: 15px;
-    display: flex;
-    justify-content: space-between;
+.challenge-title {
+    font-size: 1.7rem;
+    margin-bottom: 15px;
 }
 
 .pill-button {
     font-size: 1rem;
     border: none;
     background: none;
-    color: rgb(192, 71, 137);;
+    color: whitesmoke;
+    background: #c04789;
     border-radius: 5px;
-    margin-right: 3px;
-    padding: 4px 7px;
+    padding: 5px 10px;
+}
+
+.right-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    color: #c04789;
+    margin-right: 10px;
+}
+
+.popularity {
+    display: flex;
+    align-items: flex-end;
+    margin-left: 5px;
+}
+
+.popularity-num {
+    margin-right: 10px;
+    font-weight: lighter;
+}
+
+.thumbs-up {
+    margin-bottom: 2px;
+}
+
+.difficulty {
+    color: #c04789;
+    font-weight: lighter;
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .approve-challenge-button {
@@ -55,25 +88,8 @@
     color: whitesmoke;
 }
 
-.card-popularity {
-    display: flex;
-    align-items: center;
-    color: #2A9FD8;
-
-}
-
-.popularity-value {
-    margin-right: 10px;
-
-}
-
-.thumbs-up {
-    margin-bottom: 4px;
-}
-
 .challenge-description {
-    min-height: 180px;
-    max-height: 180px;
+    height: 120px;
     overflow: hidden;
     color: #9ac6c9;
 
@@ -90,19 +106,17 @@
     border: none;
     margin-top: 15px;
     background: #222840;
-    color: #2A9FD8;
-    border: 1px solid #2A9FD8;
+    color: #9ac6c9;
+    ;
+    border: 1px solid #9ac6c9;
+    ;
     border-radius: 5px;
     font-weight: bold;
     padding: 7px;
 }
 
 .challenge-description__btn:hover {
-
     color: #222840;
-    background: #2A9FD8;
+    background: #9ac6c9;
+    ;
 }
-
-
-
-

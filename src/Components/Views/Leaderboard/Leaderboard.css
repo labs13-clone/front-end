@@ -22,7 +22,7 @@
 .leaderboard-header h3 {
     color: whitesmoke;
     text-transform: uppercase;
-    font-size: 1.7rem;
+    font-size: 2.5rem;
 }
 
 .stars-left {
@@ -34,7 +34,7 @@
 }
 
 .star {
-    color: 	#2A9FD8;
+    color: 	#FFD700;
     font-size: 2rem;
 }
 
@@ -59,32 +59,27 @@
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
-
-
 }
-
 
 .second-place {
     background-color: #cc6ba0;
-    padding: 10px 20px;
+    padding: 20px;
     display: flex;
     display: flex;
     justify-content: space-between;
-
 }
 
 .third-place {
     background-color: #d990b8;
-    padding: 10px 20px;
+    padding: 20px;
     display: flex;
     display: flex;
     justify-content: space-between;
-    
 }
 
 .rank-card {
     background-color: #f5f5f6;
-    padding: 10px 20px;
+    padding: 20px;
     display: flex;
     display: flex;
     justify-content: space-between;
@@ -100,18 +95,21 @@
 }
 
 .first-cup {
-    color: #242a43;
+    color: whitesmoke;
     font-size: 1.6rem;
+    opacity: .8;
 }
 
 .second-cup {
-    color: #29304d;
+    color: whitesmoke;
     font-size: 1.6rem;
+    opacity: .7;
 }
 
 .third-cup {
-    color: #2e3657;
+    color: whitesmoke;
     font-size: 1.6rem;
+    opacity: .5;
 }
 
 .rank-card__avatar {
@@ -123,7 +121,7 @@
 .rank-card__left {
     display: flex;
     align-items: center;
-    width: 49%;
+    width: 50%;
     justify-content: space-around;
     text-align: center;
 }
@@ -131,7 +129,7 @@
 .rank-card__right {
     display: flex;
     align-items: center;
-    width: 49%;
+    width: 50%;
     justify-content: space-around;
     text-align: center;
 }
@@ -143,61 +141,54 @@
     justify-content: space-between;
 }
 
-.leaderboard-subheading div {
-    display: flex;
-    justify-content: space-around;
-    width: 25%;
-}
-
 .rank-card__column1 {
-    width: 15%;
+    width: 10%;
     font-size: 1.2rem;
 }
 
 .rank-card__column2 {
-    width: 25%;
+    width: 20%;
 }
 
 .rank-card__column3 {
-    width: 60%;
-    font-size: 1.2rem;
+    width: 30%;
+    font-size: 1.25rem;
 }
 
 .rank-card__column4 {
-    width: 50%
+    width: 50%;
+    text-align: center;
 }
 
 .rank-card__column5 {
   width: 50%;
+  font-size: 1.2rem;
 }
 
 .leaderboard-table__heading {
     color: whitesmoke;
-    display: flex;
     padding: 10px 20px;
     font-size: 1.1rem;
-    justify-content: space-between;
-}
-
-.bc {
     background: #d990b8;
-}
-
-.leaderboard-table__heading div {
-    display: flex;
-    justify-content: flex-start;
-    width: 62%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
 }
 
 .leaderboard-table__heading1 {
-    width: 50%;
-    
+    display: inline-block;
+    text-align: center;
+    width: 12%;
 }
 
 .leaderboard-table__heading2 {
-   width: 50%;
+    display: inline-block;
+    text-align: right;
+    width: 29%;
 }
 
 .leaderboard-table__heading3 {
-    width: 38%;
+    display: inline-block;
+    text-align: right;
+    width: 24%;
 }

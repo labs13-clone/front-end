@@ -41,13 +41,13 @@ const LandingPageContent = props => {
                 <div className="topContent">
                     <div className="topContent-left">
                         <h1 >ChallengeJS</h1>
-                        <h2>Achieve mastery through challenge</h2>
+                        <h2>Achieve mastery by challenge</h2>
                         <p>
                             ChallengeJS is the best platform to help you enhance your skills, expand your
                             knowledge, and prepare for technical interviews.
                         </p>
                     </div>
-                    <button onClick={login}>Challenge Yourself</button>
+                    <button onClick={login}>Come Challenge Yourself</button>
                 </div>
                 <div className="content-cards">
                     <div className="card">
@@ -99,20 +99,15 @@ const LandingPageContent = props => {
                                 <img src={testimonial3}/>
                             </div>
                             <h3>Kai Lovingfoss</h3>
-                            <p>I am a teacher and I believe coding is an excellent way to teach critical
-                                thinking and problem-solving skills. Use this site as a homework, a center, or
-                                in a lab setting. Activities are self-paced, so differentiation is easy.
-                                However, it is still a good idea, if possible, to seat a more experienced
-                                computer user with one who is less experienced. Explain to students that coding
-                                is a critical skill in today's world filled with technology and will also be a
-                                valuable skill in the other job market.</p>
+                            <p>Coding is a critical skill in today's world filled with technology, and will also be a
+                                valuable skill in the other job market. ChallengeJS is by far the best way to improve your skills!</p>
                         </div>
                         <div className="testimonial-card card-sm">
                             <div>
                                 <img src={testimonial2}/>
                             </div>
                             <h3>Nedim Omerovic</h3>
-                            <p>It is my favorite site to practice problems, learned a lot from it.</p>
+                            <p>ChallengeJS is my favorite site to practice coding challenges. I have learned a lot from completing them.</p>
                         </div>
                     </div>
                 </div>
@@ -152,7 +147,7 @@ const LandingPageContent = props => {
                             <img src="https://media.licdn.com/dms/image/C4E03AQF_qtVBli3p2g/profile-displayphoto-shrink_800_800/0?e=1567036800&v=beta&t=MRN4z4JssJGZl2662nbEQ7ROCR0Mcho3nKZXdEkYUsg" className="about-card__img"/>
                             <h3 className="about-card__name">Sepi Khoshgoftar</h3>
                             <p className="about-card__title">UX Designer</p>
-                            <a className="about-card__link" href="https://www.linkedin.com/in/sepi-khoshgoftar/" target="_blank"><i class="fab fa-linkedin about-card__linkedin"></i></a>
+                            <a className="about-card__link" href="https://www.linkedin.com/in/sepi-khoshgoftar/" target="_blank"><i class="fab fa-linkedin about-card__i"></i></a>
                         </div>
 
                         <div className="about-card">

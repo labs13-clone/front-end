@@ -7,24 +7,24 @@ import './UserProfile.css';
 const TabsView = (props) => {
 
     let propsToPass;
-    let Banana;
+    let CurrentComponent;
 
     switch (props.tab) {
         case 'user-info':
-            Banana = UserInfo;
+            CurrentComponent = UserInfo;
             propsToPass = {
                 auth: props.auth
             }
             break;
         default:
             if (props.challenges.length > 0) {
-                Banana = ChallengesContainer;
+                CurrentComponent = ChallengesContainer;
                 propsToPass = {
                     challenges: props.challenges,
                     auth: props.auth
                 }
             } else {
-                Banana = None;
+                CurrentComponent = None;
                 propsToPass = {
                     tab: props.tab,
                     auth: props.auth
@@ -34,7 +34,7 @@ const TabsView = (props) => {
 
     return (
         <div className="tabs-view">
-            <Banana {...propsToPass}/>
+            <CurrentComponent {...propsToPass}/>
         </div>
     );
 }
