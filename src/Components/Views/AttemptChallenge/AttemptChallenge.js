@@ -164,18 +164,13 @@ function AttemptChallenge(props) {
                 </div>
 
                 {
-                    (isFull ? (
-                            <div>
+                    (isFull ?
                                 <FullscreenExitIcon aria-label="Exit Full Screen" style={{"cursor": 'pointer'}} fontSize="large" onClick={goFull}/>
-                                <h5>Fullscreen</h5>
-                            </div>
-                        ):
-                                (
-                                    <div>
-                                        <FullscreenIcon aria-label="Enter Full Screen" style={{"cursor": 'pointer'}} fontSize="large" onClick={goFull}/>
-                                        <h5>Exit Fullscreen</h5>
-                                    </div>
-                                    )
+                            :
+                                 
+                                <FullscreenIcon aria-label="Enter Full Screen" style={{"cursor": 'pointer'}} fontSize="large" onClick={goFull}/>
+                                    
+                                
                     )
                 }
                     
