@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import landing1 from '../../../images/landing1.svg';
 import landing2 from '../../../images/landing2.svg';
 import landing3 from '../../../images/landing3.svg';
@@ -6,7 +6,7 @@ import testimonial1 from '../../../images/testimonials1.png';
 import testimonial2 from '../../../images/testimonials2.png';
 import testimonial3 from '../../../images/testimonials3.png';
 import daniel from '../../../images/daniel.PNG';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 
 require('./LandingPage.css')
@@ -14,134 +14,153 @@ require('./LandingPage.css')
 
 const LandingPageContent = props => {
 
+    const [classes, setClasses] = useState('landing-page__start-btn')
+
     const login = () => props
         .auth
         .login();
 
+    function scrollFunction() {
+        var y = window.scrollY;
+        if (y >= 300) {
+            setClasses('landing-page__start-btn show')
+        } else {
+            setClasses('landing-page__start-btn')
+        }
+        };
+        
+    window.addEventListener("scroll", scrollFunction);
+
     return (
-        <div className="landingContainer">
-            <div className="topContent">
-                <div className="topContent-left">
-                    <h1>ChallengeJS</h1>
-                    <h2>Achieve mastery through challenge</h2>
-                    <p>
-                        ChallengeJS is the best platform to help you enhance your skills, expand your
-                        knowledge, and prepare for technical interviews.
-                    </p>
-                </div>
-                <button onClick={login}>Challenge Yourself</button>
+        <div>
+
+            <div className="landing-page__start">
+                <h3 className={classes}><span onClick={login}>Challenge Yourself</span></h3>
             </div>
-            <div className="content-cards">
-                <div className="card">
-                    <div>
-                        <h2>Take Code Challenges</h2>
+            <div className="landingContainer">
+                <div className="topContent">
+                    <div className="topContent-left">
+                        <h1 >ChallengeJS</h1>
+                        <h2>Achieve mastery through challenge</h2>
                         <p>
-                            Improve your Javascript skills by challenging yourself with our diverse set of
-                            code challenges! We have numerous challenges searchable by difficulty and
-                            topics.
+                            ChallengeJS is the best platform to help you enhance your skills, expand your
+                            knowledge, and prepare for technical interviews.
                         </p>
                     </div>
-                    <img src={landing1}/>
+                    <button onClick={login}>Challenge Yourself</button>
                 </div>
-                <div className="card">
-                    <img src={landing2}/>
-                    <div>
-                        <h2>Create Your Own Challenges</h2>
-                        <p>
-                            Challenge others by writing your own Javascript challenges. Our easy to use
-                            interface makes it simple to create new challenges, and share them with your
-                            friends.
-                        </p>
-                    </div>
-                </div>
-                <div className="card">
-                    <div>
-                        <h2>Gain Experience Points</h2>
-                        <p>
-                            Track your progress by earning experience points, challenge yourself by
-                            competing with others, and show off your ranking to your peers.
-                        </p>
-                    </div>
-                    <img src={landing3}/>
-                </div>
-            </div>
-            <div className="landingContent">
-                <h3 className="testimonials-header">Testimonials</h3>
-                <div className="cta testimonials">
-                    <div className="testimonial-card card-sm">
+                <div className="content-cards">
+                    <div className="card">
                         <div>
-                            <img src={testimonial1}/>
+                            <h2>Take Code Challenges</h2>
+                            <p>
+                                Improve your Javascript skills by challenging yourself with our diverse set of
+                                code challenges! We have numerous challenges searchable by difficulty and
+                                topics.
+                            </p>
                         </div>
-                        <h3>Eileen Cuevas</h3>
-                        <p>ChallengeJS goes beyond teaching basic syntax and instead teaches its users
-                            how to think like programmers. Great start I love the look and content thus far.</p>
+                        <img src={landing1}/>
                     </div>
-                    <div className="testimonial-card">
+                    <div className="card">
+                        <img src={landing2}/>
                         <div>
-                            <img src={testimonial3}/>
+                            <h2>Create Your Own Challenges</h2>
+                            <p>
+                                Challenge others by writing your own Javascript challenges. Our easy to use
+                                interface makes it simple to create new challenges, and share them with your
+                                friends.
+                            </p>
                         </div>
-                        <h3>Kai Lovingfoss</h3>
-                        <p>I am a teacher and I believe coding is an excellent way to teach critical
-                            thinking and problem-solving skills. Use this site as a homework, a center, or
-                            in a lab setting. Activities are self-paced, so differentiation is easy.
-                            However, it is still a good idea, if possible, to seat a more experienced
-                            computer user with one who is less experienced. Explain to students that coding
-                            is a critical skill in today's world filled with technology and will also be a
-                            valuable skill in the other job market.</p>
                     </div>
-                    <div className="testimonial-card card-sm">
+                    <div className="card">
                         <div>
-                            <img src={testimonial2}/>
+                            <h2>Gain Experience Points</h2>
+                            <p>
+                                Track your progress by earning experience points, challenge yourself by
+                                competing with others, and show off your ranking to your peers.
+                            </p>
                         </div>
-                        <h3>Nedim Omerovic</h3>
-                        <p>It is my favorite site to practice problems, learned a lot from it.</p>
+                        <img src={landing3}/>
                     </div>
                 </div>
-            </div>
-
-            <div className="content-cards">
-                <h2 className="about-card__heading">Meet Our Team</h2>
-                <div className="about-cards">
-                    <div className="about-card">
-                        <img src="https://avatars0.githubusercontent.com/u/30749439?s=460&v=4" className="about-card__img"/>
-                        <h3 className="about-card__name">Anubhav Bhambri</h3>
-                        <p className="about-card__title">Web Developer</p>
-                        <a className="about-card__link" href="https://github.com/Anubhav311" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
+                <div className="landingContent">
+                    <h3 className="testimonials-header">Testimonials</h3>
+                    <div className="cta testimonials">
+                        <div className="testimonial-card card-sm">
+                            <div>
+                                <img src={testimonial1}/>
+                            </div>
+                            <h3>Eileen Cuevas</h3>
+                            <p>ChallengeJS goes beyond teaching basic syntax and instead teaches its users
+                                how to think like programmers. Great start I love the look and content thus far.</p>
+                        </div>
+                        <div className="testimonial-card">
+                            <div>
+                                <img src={testimonial3}/>
+                            </div>
+                            <h3>Kai Lovingfoss</h3>
+                            <p>I am a teacher and I believe coding is an excellent way to teach critical
+                                thinking and problem-solving skills. Use this site as a homework, a center, or
+                                in a lab setting. Activities are self-paced, so differentiation is easy.
+                                However, it is still a good idea, if possible, to seat a more experienced
+                                computer user with one who is less experienced. Explain to students that coding
+                                is a critical skill in today's world filled with technology and will also be a
+                                valuable skill in the other job market.</p>
+                        </div>
+                        <div className="testimonial-card card-sm">
+                            <div>
+                                <img src={testimonial2}/>
+                            </div>
+                            <h3>Nedim Omerovic</h3>
+                            <p>It is my favorite site to practice problems, learned a lot from it.</p>
+                        </div>
                     </div>
+                </div>
 
-                    <div className="about-card">
-                        <img src="https://avatars2.githubusercontent.com/u/43450021?s=460&v=4" className="about-card__img"/>
-                        <h3 className="about-card__name">Chase Fulks</h3>
-                        <p className="about-card__title">Web Developer</p>
-                        <a className="about-card__link" href="https://github.com/chasefulks" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
-                    </div>
+                <div className="content-cards">
+                    <h2 className="about-card__heading">Meet Our Team</h2>
+                    <div className="about-cards">
+                        <div className="about-card">
+                            <img src="https://avatars0.githubusercontent.com/u/30749439?s=460&v=4" className="about-card__img"/>
+                            <h3 className="about-card__name">Anubhav Bhambri</h3>
+                            <p className="about-card__title">Web Developer</p>
+                            <a className="about-card__link" href="https://github.com/Anubhav311" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
+                        </div>
 
-                    <div className="about-card">
-                        <img src={daniel} className="about-card__img"/>
-                        <h3 className="about-card__name">Daniel Mendez</h3>
-                        <p className="about-card__title">Web Developer</p>
-                        <a className="about-card__link" href="https://github.com/dan2014" target="_blank"><i class="fab fa-github-square about-card__i"></i></a>
-                    </div>
+                        <div className="about-card">
+                            <img src="https://avatars2.githubusercontent.com/u/43450021?s=460&v=4" className="about-card__img"/>
+                            <h3 className="about-card__name">Chase Fulks</h3>
+                            <p className="about-card__title">Web Developer</p>
+                            <a className="about-card__link" href="https://github.com/chasefulks" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
+                        </div>
 
-                    <div className="about-card">
-                        <img src="https://avatars3.githubusercontent.com/u/40373184?s=460&v=4" className="about-card__img"/>
-                        <h3 className="about-card__name">Lidiia Gallagher</h3>
-                        <p className="about-card__title">Web Developer</p>
-                        <a className="about-card__link" href="https://github.com/Lidiia92" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
-                    </div>
+                        <div className="about-card">
+                            <img src={daniel} className="about-card__img"/>
+                            <h3 className="about-card__name">Daniel Mendez</h3>
+                            <p className="about-card__title">Web Developer</p>
+                            <a className="about-card__link" href="https://github.com/dan2014" target="_blank"><i class="fab fa-github-square about-card__i"></i></a>
+                        </div>
 
-                    <div className="about-card">
-                        <img src="https://media.licdn.com/dms/image/C4E03AQF_qtVBli3p2g/profile-displayphoto-shrink_800_800/0?e=1567036800&v=beta&t=MRN4z4JssJGZl2662nbEQ7ROCR0Mcho3nKZXdEkYUsg" className="about-card__img"/>
-                        <h3 className="about-card__name">Sepi Khoshgoftar</h3>
-                        <p className="about-card__title">UX Designer</p>
-                        <a className="about-card__link" href="https://www.linkedin.com/in/sepi-khoshgoftar/" target="_blank"><i class="fab fa-linkedin about-card__linkedin"></i></a>
-                    </div>
+                        <div className="about-card">
+                            <img src="https://avatars3.githubusercontent.com/u/40373184?s=460&v=4" className="about-card__img"/>
+                            <h3 className="about-card__name">Lidiia Gallagher</h3>
+                            <p className="about-card__title">Web Developer</p>
+                            <a className="about-card__link" href="https://github.com/Lidiia92" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
+                        </div>
 
-                    <div className="about-card">
-                        <img src="https://avatars1.githubusercontent.com/u/43946230?s=460&v=4" className="about-card__img"/>
-                        <h3 className="about-card__name">William Connatser</h3>
-                        <p className="about-card__title">Software Engineer</p>
-                        <a className="about-card__link" href="https://github.com/WilliamConnatser" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
+                        <div className="about-card">
+                            <img src="https://media.licdn.com/dms/image/C4E03AQF_qtVBli3p2g/profile-displayphoto-shrink_800_800/0?e=1567036800&v=beta&t=MRN4z4JssJGZl2662nbEQ7ROCR0Mcho3nKZXdEkYUsg" className="about-card__img"/>
+                            <h3 className="about-card__name">Sepi Khoshgoftar</h3>
+                            <p className="about-card__title">UX Designer</p>
+                            <a className="about-card__link" href="https://www.linkedin.com/in/sepi-khoshgoftar/" target="_blank"><i class="fab fa-linkedin about-card__linkedin"></i></a>
+                        </div>
+
+                        <div className="about-card">
+                            <img src="https://avatars1.githubusercontent.com/u/43946230?s=460&v=4" className="about-card__img"/>
+                            <h3 className="about-card__name">William Connatser</h3>
+                            <p className="about-card__title">Software Engineer</p>
+                            <a className="about-card__link" href="https://github.com/WilliamConnatser" target="_blank"><i className="fab fa-github-square about-card__i"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>

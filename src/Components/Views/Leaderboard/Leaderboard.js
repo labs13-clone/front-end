@@ -56,7 +56,15 @@ const Leaderboard = (props) => {
                     </div>
                 </div>
 
-                <div className="leaderboard-ranks">
+                <div className="leaderboard-ranks bc">
+                     <div className="leaderboard-table__heading">
+                        <div>
+                            <h4 className="leaderboard-table__heading1">Place</h4>
+                            <h4 className="leaderboard-table__heading2">User</h4> 
+                        </div>
+                        <h4 className="leaderboard-table__heading3">XP</h4>
+
+                    </div>
                     {users.map((user, index) => <RankCard user={user} index={index} key={index}/>)}
                 </div>
             </div>

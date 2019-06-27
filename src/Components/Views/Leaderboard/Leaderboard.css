@@ -20,10 +20,9 @@
 }
 
 .leaderboard-header h3 {
-    color: #2A9FD8;
+    color: whitesmoke;
     text-transform: uppercase;
     font-size: 1.7rem;
-    letter-spacing: .15rem;
 }
 
 .stars-left {
@@ -35,7 +34,7 @@
 }
 
 .star {
-    color: 	#FFD700;
+    color: 	#2A9FD8;
     font-size: 2rem;
 }
 
@@ -60,8 +59,8 @@
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+
+
 }
 
 
@@ -71,6 +70,7 @@
     display: flex;
     display: flex;
     justify-content: space-between;
+
 }
 
 .third-place {
@@ -79,6 +79,7 @@
     display: flex;
     display: flex;
     justify-content: space-between;
+    
 }
 
 .rank-card {
@@ -90,7 +91,7 @@
 }
 
 .rank-card:not(:last-child) {
-    border-bottom: 1px dashed #2A9FD8;
+    border-bottom: 1px dashed #343d61;
 }
 
 .rank-card:last-child {
@@ -99,17 +100,17 @@
 }
 
 .first-cup {
-    color: #FFD700;
+    color: #242a43;
     font-size: 1.6rem;
 }
 
 .second-cup {
-    color: #C0C0C0;
+    color: #29304d;
     font-size: 1.6rem;
 }
 
 .third-cup {
-    color: #cd7f32;
+    color: #2e3657;
     font-size: 1.6rem;
 }
 
@@ -150,6 +151,7 @@
 
 .rank-card__column1 {
     width: 15%;
+    font-size: 1.2rem;
 }
 
 .rank-card__column2 {
@@ -158,6 +160,7 @@
 
 .rank-card__column3 {
     width: 60%;
+    font-size: 1.2rem;
 }
 
 .rank-card__column4 {
@@ -166,4 +169,35 @@
 
 .rank-card__column5 {
   width: 50%;
+}
+
+.leaderboard-table__heading {
+    color: whitesmoke;
+    display: flex;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    justify-content: space-between;
+}
+
+.bc {
+    background: #d990b8;
+}
+
+.leaderboard-table__heading div {
+    display: flex;
+    justify-content: flex-start;
+    width: 62%;
+}
+
+.leaderboard-table__heading1 {
+    width: 50%;
+    
+}
+
+.leaderboard-table__heading2 {
+   width: 50%;
+}
+
+.leaderboard-table__heading3 {
+    width: 38%;
 }

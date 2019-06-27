@@ -20,6 +20,27 @@ const SearchChallenges = (props) => {
     const [popularity,
         setPopularity] = useState('');
     
+    const [classes, setClasses] = useState('landing-page__start-btn z-index');
+
+    function scrollFunction() {
+        var y = window.scrollY;
+        if (y >= 500) {
+            setClasses('landing-page__start-btn show')
+        } else {
+            setClasses('landing-page__start-btn z-index')
+        }
+        };
+        
+    window.addEventListener("scroll", scrollFunction);
+
+    function scrollBack() {
+        window.scroll({
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth'
+        });
+    }
+    
   
 
     //Get categories on load
@@ -92,6 +113,9 @@ const SearchChallenges = (props) => {
 
     return (
         <div className="search-challenges-view">
+          <div className="landing-page__start">
+            <h3 className={classes}><span onClick={scrollBack}>To The Top</span></h3>
+          </div> 
           <div className='filter-container'>
             <CategoriesFilter categories={categories} setCategory={setCategory}/>
             <DifficultyLevels setDifficulty={setDifficulty}/>
