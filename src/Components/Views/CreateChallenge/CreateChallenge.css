@@ -105,18 +105,7 @@
 }
 
 .create-challenge-tests{
-    margin: 50px auto;
-    width: 680px;
-}
-
-.create-challenge-tests input{
-    margin-right: 10px;
-    margin-bottom: 15px;
-    
-}
-
-.create-challenge-tests button{
-  margin-right: 10px;
+    margin: 0px auto;
 }
 
 .console-div{
@@ -235,21 +224,38 @@
   outline: none;
 }
 
-.test-container{
+.test-container {
+  margin-top: 25px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.test-columns {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.test-input-container{
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .delete-test-button{
   border: none;
   border-radius: 50%;
-  width: 35px;
-  height: 35px;
+  width: 50px;
+  height: 50px;
   background-color: #C04789;
   font-weight: bold;
-  margin-top: 25px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 1.25rem;
   color: white;
 }
 
@@ -261,13 +267,41 @@
   outline: none;
 }
 
+.test-main-heading {
+  margin-bottom: 15px;
+}
+
+.heading-input-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.tests-input-heading {
+  width: 30%;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.text-input-container {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  background: white;
+  height: 35px;
+}
+
 .tests-input{
+  width: 100%;
   border: none;
   border-radius: 5px;
-  height: 25px;
+  height: 35px;
   padding: 3px;
+  margin: 0px;
   font-weight: bold;
-  margin-bottom: 20px;
   color: gray;
 }
 
@@ -275,32 +309,26 @@
   outline: none;
 }
 
-.heading-input-container{
-  display: flex;
-  flex-direction: column;
-  height: auto;
+.add-test-button-container {
+  margin-top: 20px;
+  text-align: center;
 }
 
 .add-test-button{
   border: none;
   border-radius: 5px;
+  outline: none;
   width: 130px;
   height: 40px;
   font-weight: bold;
   background-color: #9ac6c9;;
   cursor: pointer;
-  margin-top: 20px;
   font-size: 15px;
   color: white;
 }
 
 .add-test-button:disabled {
   opacity: 0.5;
-}
-
-.test-header{
-  margin-bottom: 0px;
-  margin-top: 50px;
 }
 
 /* .submit-button-wrapper {
