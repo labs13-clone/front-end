@@ -3,7 +3,6 @@
     padding: 30px 0;
     max-width: 1000px;
     height: 88vh;
-
     display: flex;
     justify-content: space-around;
 }
@@ -31,6 +30,7 @@
 }
 
 .sidebar-tab {
+    text-align:center;
     font-weight: bold;
     display: flex;
     justify-content: center;
@@ -74,7 +74,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    min-height: 100%;
     border-radius: 10px;
 }
 
