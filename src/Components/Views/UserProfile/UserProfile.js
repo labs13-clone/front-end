@@ -30,23 +30,12 @@ const UserProfile = (props) => {
 
             case "created":
                 filter.approved = 1;
-                filter.created_by = props.auth.user.id;
-
-                //If the user is not an admin Then only return their challenges
-                if (props.auth.user.role !== 'admin') {
-                    filter.created_by = props.auth.user.id;
-                }
+                filter.created = true;
 
                 break;
 
             case "unapproved":
-
                 filter.approved = 0;
-
-                //If the user is not an admin Then only return their challenges
-                if (props.auth.user.role !== 'admin') {
-                    filter.created_by = props.auth.user.id;
-                }
 
                 break;
 

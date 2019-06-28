@@ -119,10 +119,10 @@ function CreateChallenge(props) {
 
             try{
                 if(specialReg.test(newObj.argumentsToPass)) {
-                    console.log('Infinity and NaN are not supported by JSON')
+                    //console.log('Infinity and NaN are not supported by JSON')
                 } else {
                     newObj.argumentsToPass = JSON.parse(`[${newObj.argumentsToPass}]`);
-                    console.log(typeof newObj.argumentsToPass, newObj.argumentsToPass)
+                    //console.log(typeof newObj.argumentsToPass, newObj.argumentsToPass)
                 }
             } catch(e) {
                 console.log(e)
@@ -130,7 +130,7 @@ function CreateChallenge(props) {
             if(arrayReg.test(newObj.expectedResult) || objectReg.test(newObj.expectedResult)){
                 try{
                     newObj.expectedResult = JSON.parse(newObj.expectedResult);
-                    console.log(newObj.expectedResult);
+                    //console.log(newObj.expectedResult);
                 } catch(e){
                     console.log("Not Valid JSON");
                     //setErrorMsg("Not Valid JSON");
@@ -145,7 +145,7 @@ function CreateChallenge(props) {
             } else {
                 try{
                     newObj.expectedResult = eval(newObj.expectedResult);
-                    console.log(typeof newObj.expectedResult, newObj.expectedResult);
+                    //console.log(typeof newObj.expectedResult, newObj.expectedResult);
                 }catch(e){
                     console.log("Invalid Syntax for expected result");
                     //setErrorMsg("Invalid Syntax for expected result");
@@ -186,7 +186,7 @@ function CreateChallenge(props) {
             }
         });
         setSubmitChallenge({
-            ...challenge,
+            ...submitChallenge,
             buttonState: bool
         });
     }, [challenge.tests]);
@@ -219,18 +219,12 @@ function CreateChallenge(props) {
     
     function handleTestsChanges(e) {
         const values = [ ...challenge.tests ];
-        const reg = RegExp(/\[.*\]/);
-        // if (e.target.name === 'argumentsToPass' && !reg.test(e.target.value)) {
-        //     // values[e.target.id][e.target.name] = [e.target.value];
-        // } else {
-            values[e.target.id][e.target.name] = e.target.value;
-        // }
+        values[e.target.id][e.target.name] = e.target.value;
 
         setChallenge({
             ...challenge,
             tests: values,
         });
-        console.log(e.target.value, values, challenge)
     }
 
     function handleSolutionEditorChange(editor, data, code) {
@@ -450,7 +444,6 @@ function addCategoriesRequest(challenge, selectedCategories, token, setSubmitCha
             })
             setSubmitChallenge({...challenge, modalState: true, loading: false})
         }
-        console.log(categoryRes)
     })
     .catch(err => {
         console.log(err.message)

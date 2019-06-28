@@ -18,11 +18,11 @@ export default function Preparedness(props) {
             <div className="preparedness-table">
                 <div className="preparedness-row preparedness-header">
                     <span className="preparedness-column preparedness-column-big">Category</span>
-                    <span className="preparedness-column preparedness-column-small">Percent Challenges Completed</span>
-                    <span className="preparedness-column preparedness-column-small">Percent Experience Obtained</span>
+                    <span className="preparedness-column preparedness-column-small">Challenges Completed</span>
+                    <span className="preparedness-column preparedness-column-small">Experience Obtained</span>
                 </div>
                 <div className="preparedness-body">
-                    {categoryStats.map(data => <div className="preparedness-row">
+                    {categoryStats.map((data,index) => <div key={index} className="preparedness-row">
                         <span className="preparedness-column preparedness-column-big">{data.name}</span>
                         <span className="preparedness-column preparedness-column-small">{parseInt(data.challengeCompleted, 10)}%</span>
                         <span className="preparedness-column preparedness-column-small">{parseInt(data.experienceCompleted, 10)}%</span>
