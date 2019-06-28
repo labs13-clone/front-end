@@ -8,7 +8,6 @@ const CategoriesFilter = (props) => {
 
         <select className="custom-select"
             onChange={(e) => props.setCategory(e.target.value === "null" ? null : Number(e.target.value))}
-            
         >
             <option value={false}>All Categories</option>
             {props

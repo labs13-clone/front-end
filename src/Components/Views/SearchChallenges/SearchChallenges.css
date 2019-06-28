@@ -11,20 +11,29 @@
 
 .custom-select {
     background: whitesmoke;
-    color:#222840;
+    color: #222840;
     border-radius: 5px;
     font-size: 1rem;
     font-weight: bold;
     margin: 3px;
     padding: 10px;
     border: none;
-    -webkit-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
-    -moz-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
-    box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
     cursor: pointer;
     min-width: 25%;
     outline: none;
-  }
+}
 
-
-
+.search {
+    border-radius: 10px;
+    outline: none;
+    background: whitesmoke;
+    color: #222840;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 3px;
+    padding: 10px;
+    border: none;
+    min-width: 25%;
+    outline: none;
+}
