@@ -7,9 +7,9 @@ import { useWorker } from "../../../Utility/WorkerHook";
 import ReactMarkdown from 'react-markdown';
 import FullScreen from "react-full-screen";
 import './AttemptChallenge.css';
-import Pulse from "./PulseTest";
-import {Button,Menu,MenuItem} from "@material-ui/core";
 import {Fullscreen as FullscreenIcon, FullscreenExit as FullscreenExitIcon, Star} from "@material-ui/icons";
+import MenuBar from "./FullscreenMenuBar";
+import SharedModal from "../../Shared/SharedModal/SharedModal"
 
 function AttemptChallenge(props) {
 
@@ -21,10 +21,9 @@ function AttemptChallenge(props) {
     const [isFull, setIsFull] = useState(false);
     const [pulse,setPulse] = useState(false);
     const [isSubmitting,setIsSubmitting] = useState(false);
-    const [dropDownState, setDropDownState] = React.useState(null);
     const [testCounter, setTestCounter] = React.useState(0);
-
     const {result,error} = useWorker(worker_script,userMessage);
+    const [appError,setAppError] = React.useState(null);
   
     useEffect(() => {
         const submissionReq = getSubmission(props.auth.accessToken,props.match.params.id);
@@ -32,7 +31,6 @@ function AttemptChallenge(props) {
 
         const attemptChallengeData = Promise.all([submissionReq,challengeReq]);
 
-        
         attemptChallengeData
         .then(res => {
             const [{data:{0:submissionRes}}, {data:{0:challengeRes}}] = res; // destructuring to unpack response data to an object. Res is an array with two responses from axios. The final result is a an object for each request by destructuring res to two variables that are objects. The objects have properties named "data". Data is an array with a single element. The first index "0" is destructured to retreive an object. 
@@ -48,7 +46,9 @@ function AttemptChallenge(props) {
                     const newSubmissionRes = res.data;
                     setUserSubmission(newSubmissionRes);
                 })
-                .catch();
+                .catch((err) => {
+                    setAppError(err);
+                })
             } else {
                 setUserSubmission(submissionRes);
                 if(submissionRes.completed ){
@@ -58,7 +58,9 @@ function AttemptChallenge(props) {
             }
             
         })
-        .catch(err => console.log(err, "error"));
+        .catch((err) => {
+            setAppError(err);
+        })
     }, []);
 
     useEffect(() => {
@@ -71,26 +73,37 @@ function AttemptChallenge(props) {
                 setOutput(result);
                 updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,"/exec")
                 .then(res => setUserSubmission({...res.data}))
-                .catch();
+                .catch((err) => {
+                    setAppError(err);
+                });
                 break;
             case "run_tests":
                 const testResult = (result[resLen-1].result.toString()==='true' ? true : false);
                 setPassed(testResult);
+                setPulse(true);
+                setTimeout(()=>{
+                    setPulse(false);
+                },1000);
                 setTestCounter(testCounter + 1)
                 if(isSubmitting && testResult){
                     updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,"/attempt")
                     .then(res => {
-                        setUserSubmission({...res.data});
                         setIsSubmitting(false);
+                        setUserSubmission({...res.data});
                     })
-                    .catch();
+                    .catch((err) => {
+                        setIsSubmitting(false);
+                        setAppError(err);
+                    });
                 } else {
                     updateSubmission(props.auth.accessToken,userSubmission.solution,userSubmission.id,"/test")
                     .then(res => {
-                        setUserSubmission({...res.data});
                         setIsSubmitting(false);
-                    })
-                    .catch();
+                        setUserSubmission({...res.data});
+                    }).catch((err) => {
+                        setIsSubmitting(false);
+                        setAppError(err);
+                    });
                 }
                 break;
             default:
@@ -98,6 +111,12 @@ function AttemptChallenge(props) {
         };
     } 
     },[result]);
+
+    useEffect(() => {
+        if(isFull){
+            setIsFull(false);
+        }
+    },[appError])
     
 
     function handleInputChange(editor,data,userCode){
@@ -117,39 +136,37 @@ function AttemptChallenge(props) {
 
     function runTests(){
         setPulse(true);
-        setDropDownState(null);
         const solution = userSubmission.solution;
         setUserMessage({msg:"run_tests",code:solution,tests:challenge.tests});
     };
 
     function fullscreenOnChange(e){
-        setIsFull(e)
-    }
+        setIsFull(e);
+    };
 
     function goFull(){
-        setIsFull(!isFull)
-    }
+        setIsFull(!isFull);
+    };
 
     function submitChallenge(){
-        setDropDownState(null);
         setIsSubmitting(true);
         setUserMessage({msg:"run_tests",code:userSubmission.solution,tests:challenge.tests});
-    }
+    };
 
     function resetChallenge(){
-        setDropDownState(null);
         resetSubmission(props.auth.accessToken,userSubmission.id)
-        .then(() => window.location.reload()) 
-        .catch();
-    }
+        .then(() => {
+            window.location.reload()
+        }) 
+        .catch((err) => {
+            setAppError(err);
+        }
+        );
+    };
 
-   function handleClick(event) {
-    setDropDownState(event.currentTarget);
-  }
-
-  function handleClose() {
-    setDropDownState(null);
-  }
+    function modalCallback(){
+        setAppError(null);
+    };
 
     return (
         <div className="full-screenable-node">
@@ -167,10 +184,7 @@ function AttemptChallenge(props) {
                     (isFull ?
                                 <FullscreenExitIcon aria-label="Exit Full Screen" style={{"cursor": 'pointer'}} fontSize="large" onClick={goFull}/>
                             :
-                                 
                                 <FullscreenIcon aria-label="Enter Full Screen" style={{"cursor": 'pointer'}} fontSize="large" onClick={goFull}/>
-                                    
-                                
                     )
                 }
                     
@@ -179,26 +193,7 @@ function AttemptChallenge(props) {
             <div className="attempt-challenge-wrapper"> 
                 <div className="top-panel">
                     <div className={(isFull ? "fullscreen-unnecessary-div":"unnecessary-div")}>
-
-                        <div className={(isFull ? "fullscreen-action-bar" : "action-bar" )}>
-                        <Pulse pulse={pulse} counter={testCounter} completed={userSubmission.completed} passed={passed}/>
-
-                        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} style={{color:"whitesmoke"}}>
-                            Open Menu
-                        </Button>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={dropDownState}
-                            keepMounted
-                            open={Boolean(dropDownState)}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onClick={resetChallenge}>Reset Challenge</MenuItem>
-                            <MenuItem disabled={userSubmission.completed} onClick={runTests}>Run Tests</MenuItem>
-                            <MenuItem disabled={!passed || userSubmission.completed} onClick={submitChallenge}>{"Submit Solution"}</MenuItem>
-                        </Menu>
-
-                        </div>
+                        <MenuBar testCounter={testCounter} pulse={pulse} completed={userSubmission.completed} passed={passed} isFull={isFull} resetChallenge={resetChallenge} submitChallenge={submitChallenge} runTests={runTests}/>
                         {
                             (!userSubmission.completed ? 
                             <Editor class={(isFull ? "fullscreen-editor-style" : "editor-style" )} code={userSubmission.solution} changeHandler={handleInputChange} mode={"javascript"} readOnly={false}/> :
@@ -217,9 +212,20 @@ function AttemptChallenge(props) {
                 
             </div>
             </FullScreen>
-            
+
+            <SharedModal 
+                class="create-challenge-modal" 
+                message={<div className="modal-text-container">
+                            <h1>App Error</h1>
+                            <h3>Cannot connect to server</h3>
+                        </div>} 
+                modalCallback={modalCallback} 
+                modalState={!!appError}
+            />
          </div>
+
     );
-}
+
+};
 
 export default AttemptChallenge;

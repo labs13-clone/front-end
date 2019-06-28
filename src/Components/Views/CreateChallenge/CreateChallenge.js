@@ -234,8 +234,12 @@ function CreateChallenge(props) {
     }
 
     function handleSolutionEditorChange(editor, data, code) {
-        const regexp = /\s\w[^"]*\)\s\{/ 
-        const skeleton_function = 'function' + `${code}`.match(regexp) + '↵↵}'
+        const skelRegexp = /\s*function\s\w+\s*\(.*\)\s*\{/;
+        const spaceRemovingReg = /\s*/;
+        const skeleton_function = (!code.match(skelRegexp) ? "" : 
+        `${code.match(skelRegexp)[0].replace(spaceRemovingReg,"")}
+    
+}`);
 
         setChallenge({
             ...challenge,
@@ -267,7 +271,9 @@ function CreateChallenge(props) {
     function postForChallengeCreation(event, token) {
         event.preventDefault();
         setSubmitChallenge({...submitChallenge, loading: true})
-        createChallengeRequest(challenge, selectedCategories, accessToken, setSubmitChallenge, setChallenge)
+        validateTests(challenge,(a,e) => {
+            createChallengeRequest({...challenge,tests:e}, selectedCategories, accessToken, setSubmitChallenge, setChallenge)
+        })
     }
 
     function modalCallback(){

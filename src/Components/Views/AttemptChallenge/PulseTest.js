@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import {Check, Clear} from "@material-ui/icons";
 import "./PulseTest.css"
 
 const useStyles = makeStyles(theme => ({
@@ -16,21 +15,11 @@ const Pulse = (props) => {
     } else{
 
         if(props.completed){
-            return <span className="completed">Completed Challenge</span>
+            return <span className="test-passed">Completed</span>
             } else if(props.passed){
-                return(
-                    // <React.Fragment >
-                    //     <Check color="secondary" />
-                        <span className="test-passed">Tests Passed</span>
-                    // </React.Fragment>
-                );
+                return <span className={props.pulse? "test-passed icon-shake" : "test-passed"}>Tests Passed</span>;
             } else {
-                return (
-                // <React.Fragment>
-                //     <Clear color="secondary" />
-                    <span className="uncompleted">Tests Failed</span>
-                // </React.Fragment>
-                )
+                return <span className={props.pulse? "test-failed icon-shake" : "test-failed"}>Tests Failed</span>
             } 
     }
 }
