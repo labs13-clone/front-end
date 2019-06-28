@@ -1,5 +1,4 @@
 .create-challenge-container {
-  /* background-color: #222840; */
   width: 1000px;
   margin: 50px auto;
   padding-bottom: 10px;
@@ -9,7 +8,6 @@
 .meta-container{
     width: 700px;
     margin: 50px auto;
-    /* background-color: yellow; */
 }
 
 .meta-form{
@@ -51,11 +49,10 @@
 .editor {
   width: 60%;
   border-radius: 5px;
-  overflow: hidden;
 }
 
 .description-editor {
-  height: 350px;
+  height: 270px;
 }
 
 .playground {
@@ -63,8 +60,6 @@
 }
 
 .code-editor {
-  height: 300px;
-  overflow: hidden;
   position: relative;
   width: 100%;
 }
