@@ -6,48 +6,34 @@
 .filter-container {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 30px;
 }
-/* 
-.filter {
-    color: #222840;
-    background:whitesmoke;
-    border-radius: 5px;
-    font-size: 1.3rem;
-    margin: 5px;
-    padding: 5px;
-} */
-
-/* Select styling  */
-
-
 
 .custom-select {
-    background: #9ac6c9 !important;
-    color:#222840;
+    background: whitesmoke;
+    color: #222840;
     border-radius: 5px;
     font-size: 1rem;
     font-weight: bold;
     margin: 3px;
     padding: 10px;
     border: none;
-    -webkit-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
-    -moz-box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
-    box-shadow: 6px 14px 49px -15px rgba(0,0,0,0.75);
     cursor: pointer;
     min-width: 25%;
     outline: none;
-  }
-
-.custom-select option:checked { 
-    background-color: whitesmoke; 
-    color: #222840;
 }
 
-
-.custom-select option:not(:checked) { 
-    background-color: whitesmoke; 
+.search {
+    border-radius: 10px;
+    outline: none;
+    background: whitesmoke;
     color: #222840;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 3px;
+    padding: 10px;
+    border: none;
+    min-width: 25%;
+    outline: none;
 }
-
-
-

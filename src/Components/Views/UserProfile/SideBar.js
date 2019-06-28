@@ -17,6 +17,12 @@ export default function SideBar(props) {
                     : 'sidebar-tab sidebar-tab-inactive'}
                     onClick={props.toggleTab}>User Info</div>
                 <div
+                    id="preparedness"
+                    className={props.tab === 'preparedness'
+                    ? 'sidebar-tab sidebar-tab-active'
+                    : 'sidebar-tab sidebar-tab-inactive'}
+                    onClick={props.toggleTab}>Preparedness</div>
+                <div
                     id="started"
                     className={props.tab === 'started'
                     ? 'sidebar-tab sidebar-tab-active'

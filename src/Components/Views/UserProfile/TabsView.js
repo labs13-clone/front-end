@@ -3,6 +3,7 @@ import ChallengesContainer from '../../Shared/ChallengesContainer/ChallengesCont
 import UserInfo from './UserInfo';
 import None from './None'
 import './UserProfile.css';
+import Preparedness from './Preparedness';
 
 const TabsView = (props) => {
 
@@ -12,6 +13,12 @@ const TabsView = (props) => {
     switch (props.tab) {
         case 'user-info':
             CurrentComponent = UserInfo;
+            propsToPass = {
+                auth: props.auth
+            }
+            break;
+        case 'preparedness':
+            CurrentComponent = Preparedness;
             propsToPass = {
                 auth: props.auth
             }
