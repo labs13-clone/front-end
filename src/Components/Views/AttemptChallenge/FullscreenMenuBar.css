@@ -1,0 +1,67 @@
+
+.item-style {
+    animation-name: slideout;
+    animation-duration: 0.3s;
+    opacity:1;
+    cursor:pointer;
+    color:#C04789;
+    padding:5px 5px;
+    border-radius:10px;
+    font-weight:bold;
+    background:#1C2938;
+    border: 2px solid #1C2938;
+}
+
+.item-style:hover {
+    border: 2px solid #C04789;
+    outline: none;
+}
+
+
+.item-style:focus {
+    outline:0;
+}
+
+.item-style-disabled {
+    animation-name: slideoutDis;
+    animation-duration: 0.3s;
+    opacity:0.5;
+    color:#C04789;
+    padding:5px 5px;
+    border-radius:10px;
+    font-weight:bold;
+    background:#1C2938;
+    border: 2px solid #1C2938;
+}
+
+.menu-wrapper {
+    width:75%;
+    display:flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.menu-item-wrapper {
+    width:97.5%;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+@keyframes slideout {
+from {
+    opacity:0;
+}
+to {
+    opacity:1;
+}
+}
+
+@keyframes slideoutDis {
+from {
+    opacity:0;
+}
+to {
+    opacity:0.5;
+}
+}

@@ -11,6 +11,7 @@ export async function getData(token,id) {
     }); 
         return result;
     } catch (e) {
+        throw e
     };
 };
 
@@ -25,6 +26,7 @@ export async function getSubmission(token,id) {
     });
         return result;
     } catch (e) {
+        throw e;
     };
 };
 
@@ -43,6 +45,7 @@ export async function postSubmission(token,id) {
     });
         return result;
     } catch (e) {
+        throw e;
     };
 };
 
@@ -62,7 +65,7 @@ export async function updateSubmission(token,solution,subID,path="") {
     });
         return result
     } catch (e) {
-        console.log(e)
+        throw e;
     };
 };
 
@@ -81,6 +84,6 @@ export async function resetSubmission(token,subID) {
     });
         return result
     } catch (e) {
-        console.log(e)
+        throw e;
     };
 };
