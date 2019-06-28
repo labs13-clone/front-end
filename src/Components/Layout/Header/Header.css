@@ -29,12 +29,14 @@
 .navigation-link,
 .navigation-link:visited,
 .navigation-link:active {
+  font-weight: normal;
   color: #c04789;
   margin-right: 20px;
 }
 
 .navigation-link:hover {
-  color: #9ac6c9;
+  color: whitesmoke;
+  font-weight: bold;
 }
 
 .account-button {

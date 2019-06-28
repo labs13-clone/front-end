@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import history from '../../../history';
 import './Header.css';
 
@@ -10,9 +10,27 @@ const Header = (props) => {
             <div className="header">
                 <div>
                     <Link className="logo" to="/">ChallengeJS</Link>
-                    <Link className="navigation-link" to="/challenges">Challenges</Link>
-                    <Link className="navigation-link" to="/leaderboard">Leaderboard</Link>
-                    <Link className="navigation-link" to="/create-challenge">Add Challenge</Link>
+                    <NavLink
+                        className="navigation-link"
+                        to="/challenges"
+                        activeStyle={{
+                        fontWeight: "bold",
+                        color: "whitesmoke"
+                    }}>Challenges</NavLink>
+                    <NavLink
+                        className="navigation-link"
+                        to="/leaderboard"
+                        activeStyle={{
+                        fontWeight: "bold",
+                        color: "whitesmoke"
+                    }}>Leaderboard</NavLink>
+                    <NavLink
+                        className="navigation-link"
+                        to="/create-challenge"
+                        activeStyle={{
+                        fontWeight: "bold",
+                        color: "whitesmoke"
+                    }}>Add Challenge</NavLink>
                 </div>
 
                 <button
