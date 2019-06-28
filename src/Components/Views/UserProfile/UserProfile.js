@@ -63,12 +63,16 @@ const UserProfile = (props) => {
             }
         }).then(response => {
             setChallenges(response.data);
-            
+
         }).catch(err => {
             console.log(err.message)
         });
 
     }, [tab]);
+
+    useEffect(() => {
+        props.auth.getUserInfo();
+    }, []);
 
     //Toggle the current tab
     const toggleTab = (event) => {
@@ -76,15 +80,15 @@ const UserProfile = (props) => {
     }
 
     return (
-      <div className="user-profile">
-        { 
-            props.auth.user !== undefined &&
-                (<React.Fragment>
+        <div className="user-profile">
+            {props.auth.user !== undefined && (
+                <React.Fragment>
                     <SideBar auth={props.auth} toggleTab={toggleTab} tab={tab}/>
                     <TabsView auth={props.auth} tab={tab} challenges={challenges}/>
-                </React.Fragment>)
-        }
-      </div>
+                </React.Fragment>
+            )
+}
+        </div>
     );
 }
 

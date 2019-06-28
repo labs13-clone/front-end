@@ -62,29 +62,6 @@
     border-radius: 10px;
 }
 
-/* width */
-.tabs-view::-webkit-scrollbar {
-    width: 10px;
-    border-radius: 5px;
-}
-
-/* Track */
-.tabs-view::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 5px;
-}
-
-/* Handle */
-.tabs-view::-webkit-scrollbar-thumb {
-    background: #9AC6C9;
-    border-radius: 5px;
-}
-
-/* Handle on hover */
-.tabs-view::-webkit-scrollbar-thumb:hover {
-    background: #9ac6c9;;
-}
-
 .user-info * {
     margin: 15px 0;
 }

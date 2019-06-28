@@ -94,7 +94,7 @@ const LandingPageContent = props => {
                             <p>ChallengeJS goes beyond teaching basic syntax and instead teaches its users
                                 how to think like programmers. Great start I love the look and content thus far.</p>
                         </div>
-                        <div className="testimonial-card">
+                        <div className="testimonial-card card-sm">
                             <div>
                                 <img src={testimonial3}/>
                             </div>

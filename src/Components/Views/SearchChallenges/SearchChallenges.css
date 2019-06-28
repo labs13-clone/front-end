@@ -6,23 +6,11 @@
 .filter-container {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 30px;
 }
-/* 
-.filter {
-    color: #222840;
-    background:whitesmoke;
-    border-radius: 5px;
-    font-size: 1.3rem;
-    margin: 5px;
-    padding: 5px;
-} */
-
-/* Select styling  */
-
-
 
 .custom-select {
-    background: #9ac6c9 !important;
+    background: whitesmoke;
     color:#222840;
     border-radius: 5px;
     font-size: 1rem;
@@ -37,17 +25,6 @@
     min-width: 25%;
     outline: none;
   }
-
-.custom-select option:checked { 
-    background-color: whitesmoke; 
-    color: #222840;
-}
-
-
-.custom-select option:not(:checked) { 
-    background-color: whitesmoke; 
-    color: #222840;
-}
 
 
 

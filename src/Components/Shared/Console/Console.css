@@ -9,22 +9,6 @@
     overflow: auto;
 }
 
-.console::-webkit-scrollbar {
-    width: 10px;
-    border-radius: 5px;
-}
-
-/* Handle */
-.console::-webkit-scrollbar-thumb {
-    background: #9AC6C9;
-    border-radius: 5px;
-}
-
-/* Handle on hover */
-.console::-webkit-scrollbar-thumb:hover {
-    background: #9ac6c9;;
-}
-
 .attempt-challenge-console {
     padding: 10px;
     background: #222840;
@@ -34,7 +18,7 @@
     width: 100%;
     height: 350px;
     margin: 0px auto;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .fullscreen-console {
@@ -44,7 +28,7 @@
     color: white;
     width: 100%;
     height: 46vh;
-    overflow: scroll;
+    overflow: auto;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }

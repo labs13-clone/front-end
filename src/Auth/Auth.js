@@ -53,33 +53,20 @@ export default class Auth {
   }
 
   setSession = (authResult, path) => {
-    
+
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
-    
+
     // Set the time that the access token will expire at
     let expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
     this.accessToken = authResult.accessToken;
     this.idToken = authResult.idToken;
     this.expiresAt = expiresAt;
-    
+
     if (process.env.NODE_ENV !== 'production') console.log('Your auth0 access token', this.accessToken);
 
-    // Request the challenges or submissions from the api
-    axios({
-        method: 'get',
-        url: `${process.env.REACT_APP_SERVER}/api/users`,
-        headers: {
-          Authorization: `Bearer ${this.accessToken}`
-        }
-      })
-      .then(response => {
-        //Set auth0 user profile
-        this.user = response.data;
-      })
-      .catch(err => {
-        console.log(err.message)
-      });
+    // Request the user information from the backend
+    this.getUserInfo();
 
     /*
 
@@ -88,14 +75,14 @@ export default class Auth {
     path is forwarded into the Auth module via renewSession then setSession
 
     */
-    
+
     //Most of the time after going through the auth0 lock screen from the landing page
     //The path will be "/callback" so we navigate to the challenges page
     if (path === "/callback" ||
-    // || (path=== undefined && localStorage.getItem('isLoggedIn')) was added to stop occasional bug
-    // When you clicked on the call to action on landing page you would sometimes be redirected back to landing
-    // Even after successful authorization. Turns out path was occasionally undefined.
-    (path=== undefined && localStorage.getItem('isLoggedIn'))) {
+      // || (path=== undefined && localStorage.getItem('isLoggedIn')) was added to stop occasional bug
+      // When you clicked on the call to action on landing page you would sometimes be redirected back to landing
+      // Even after successful authorization. Turns out path was occasionally undefined.
+      (path === undefined && localStorage.getItem('isLoggedIn'))) {
       history.replace(`/challenges`);
     } else {
       history.replace(`${path}`);
@@ -153,5 +140,22 @@ export default class Auth {
     } else {
       this.auth0.logout();
     }
+  }
+
+  getUserInfo = () => {
+    axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_SERVER}/api/users`,
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`
+        }
+      })
+      .then(response => {
+        //Set auth0 user profile
+        this.user = response.data;
+      })
+      .catch(err => {
+        console.log(err.message)
+      });
   }
 }

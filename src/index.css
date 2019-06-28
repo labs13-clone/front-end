@@ -183,7 +183,6 @@ a:visited,
 a:active {
   color: #c04789;
   text-decoration: none;
-  margin-right: 20px;
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
@@ -191,4 +190,27 @@ a:active {
 
 a:hover {
   color: #9ac6c9;;
+}
+
+/* width */
+*::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+/* Track */
+*::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb {
+  background: #9AC6C9;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover {
+  background: #9ac6c9;;
 }

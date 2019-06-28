@@ -421,7 +421,7 @@ function addCategoriesRequest(challenge, selectedCategories, token, setSubmitCha
     const arrayOfselectedCategories = selectedCategories.map(id => {
         return {
             challenge_id: challenge.id,
-            categories_id: id
+            category_id: id
         }
     })
     axios({
