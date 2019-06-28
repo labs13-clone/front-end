@@ -40,7 +40,8 @@
 }
 
 .sidebar-tab:hover {
-    color: #9ac6c9;;
+    color: #9ac6c9;
+    ;
 }
 
 .sidebar-tab:last-of-type {
@@ -52,7 +53,8 @@
 }
 
 .sidebar-tab-active {
-    color: #9ac6c9;;
+    color: #9ac6c9;
+    ;
 }
 
 .tabs-view {
@@ -77,7 +79,8 @@
 }
 
 .user-info-username {
-    color: #9ac6c9;;
+    color: #9ac6c9;
+    ;
     font-size: 4rem;
     font-weight: bold;
 }
@@ -108,4 +111,66 @@
 
 .logout-button:hover {
     background: #c04789;
+}
+
+.preparedness-tab {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.preparedness-toggle .preparedness-btn {
+    border-radius: 5px;
+    border: 1px solid #c04789;
+    outline: none;
+    cursor: pointer;
+    background: #222840;
+    margin: 15px;
+    padding: 14px 30px;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: whitesmoke;
+}
+
+.preparedness-toggle .preparedness-btn__active {
+    border: 1px solid #c04789;
+    background: #c04789;
+    color: whitesmoke;
+}
+
+.preparedness-table {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.preparedness-row {
+    margin: 20px;
+}
+
+.preparedness-header {
+    font-size: 1.5rem;
+    color: #c04789;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.preparedness-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.preparedness-column {
+    display: inline-block;
+}
+
+.preparedness-column-big {
+    font-size: 1.4rem;
+    width: 40%;
+}
+
+.preparedness-column-small {
+    width: 20%;
+    font-weight: bold;
+    font-size: 1.3rem;
 }
