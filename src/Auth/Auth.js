@@ -135,7 +135,7 @@ export default class Auth {
   logoutForReal = () => {
     if (process.env.NODE_ENV === 'production') {
       this.auth0.logout({
-        returnTo: 'https://clone-coding-client.herokuapp.com'
+        returnTo: 'https://challengeJS.com'
       });
     } else {
       this.auth0.logout();
