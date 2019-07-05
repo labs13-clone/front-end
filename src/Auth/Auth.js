@@ -98,12 +98,12 @@ export default class Auth {
         this.setSession(authResult, path);
 
       } else if (err) {
-        localStorage.clear()
         this.logoutForReal();
 
         //Todo: Possible bug?
         //Occasionally, we were getting this alert endlessly
         //So we added localStorage.clear();
+        localStorage.clear();
         alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
       }
     });
