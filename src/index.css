@@ -212,5 +212,32 @@ a:hover {
 
 /* Handle on hover */
 *::-webkit-scrollbar-thumb:hover {
-  background: #9ac6c9;;
+  background: #9ac6c9;
+}
+
+.mobile-device-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: #343d61;
+}
+
+.mobile-device-modal-text {
+  text-align: center;
+  margin: 10px;
+  color: #f1f1f1;
+}
+
+.mobile-device-modal-text h1 {
+  color: #c04789;
+}
+
+.mobile-device-modal-text h3 {
+  font-size: 1.5rem;
+  color:  #9ac6c9;
+}
+
+.mobile-device-modal-text div {
+  color: #c04789;
 }
