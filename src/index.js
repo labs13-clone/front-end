@@ -63,7 +63,7 @@ const Root = () => {
     const [screenWidth,
         setScreenWidth] = useState(window.innerWidth);
     window.addEventListener("resize", () => setScreenWidth(window.innerWidth));
-    let modal = null;
+
     useEffect(() => {
         if (window.innerWidth < 600) {
             setAppError(true);
@@ -95,7 +95,8 @@ const Root = () => {
                         </div>
                     </div>}
                 modalCallback={modalCallback}
-                modalState={!!appError}/>
+                modalState={!!appError}
+            />
             <Router history={history}>
                 <Switch>
                     <Route path="/" exact render={_ => <LandingPage auth={auth}/>}/>
