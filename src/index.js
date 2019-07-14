@@ -65,7 +65,7 @@ const Root = () => {
     window.addEventListener("resize", () => setScreenWidth(window.innerWidth));
 
     useEffect(() => {
-        if (window.innerWidth < 600) {
+        if (window.innerWidth < 600 && window.location.pathname !== '/') {
             setAppError(true);
         } else {
             setAppError(null);
