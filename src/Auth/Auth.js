@@ -76,6 +76,8 @@ export default class Auth {
 
     */
 
+    console.log("path: " + path)
+
     //Most of the time after going through the auth0 lock screen from the landing page
     //The path will be "/callback" so we navigate to the challenges page
     if (path === "/callback" ||
