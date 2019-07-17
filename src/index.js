@@ -17,6 +17,10 @@ import Leaderboard from './Components/Views/Leaderboard/Leaderboard';
 import Loading from './Components/Views/Loading/Loading';
 import NotFound from './Components/Views/NotFound/NotFound';
 
+import {
+    AUTH_CONFIG
+  } from './Auth/auth0-variables';
+
 import {library, dom} from '@fortawesome/fontawesome-svg-core';
 import {
     fas,
@@ -53,6 +57,7 @@ const Root = () => {
     // Renew auth0 session after the component mounts And if the user thinks they've
     // already logged in
     useEffect(() => {
+        console.log(AUTH_CONFIG)
         if (localStorage.getItem('isLoggedIn') === 'true') {
             auth.renewSession(pathName);
         }

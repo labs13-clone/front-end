@@ -76,6 +76,8 @@ export default class Auth {
 
     */
 
+    console.log("path: " + path)
+
     //Most of the time after going through the auth0 lock screen from the landing page
     //The path will be "/callback" so we navigate to the challenges page
     if (path === "/callback" ||
@@ -99,7 +101,10 @@ export default class Auth {
 
       } else if (err) {
         localStorage.clear()
-        this.logoutForReal();
+        //this.logoutForReal();
+        this.auth0.logout({
+          returnTo: AUTH_CONFIG.returnTo
+        });
 
         //Todo: Possible bug?
         //Occasionally, we were getting this alert endlessly
@@ -119,8 +124,9 @@ export default class Auth {
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
 
-    this.logoutForReal();
-
+    this.auth0.logout({
+      returnTo: AUTH_CONFIG.returnTo
+    });
   }
 
   isAuthenticated = () => {
@@ -135,7 +141,7 @@ export default class Auth {
   logoutForReal = () => {
     if (process.env.NODE_ENV === 'production') {
       this.auth0.logout({
-        returnTo: 'https://clone-coding-client.herokuapp.com'
+        returnTo: 'https://challengejs.com'
       });
     } else {
       this.auth0.logout();
