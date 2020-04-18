@@ -141,7 +141,7 @@ export default class Auth {
   logoutForReal = () => {
     // if (process.env.NODE_ENV === 'production') {
     this.auth0.logout({
-      returnTo: process.env.RETURNTO,
+      returnTo: process.env.REACT_APP_RETURNTO,
     });
     // } else {
     //   this.auth0.logout();
