@@ -24,7 +24,7 @@
     "react-loader-spinner": "^2.3.0",
     "react-markdown": "^4.0.8",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.4.3",
     "react-select": "^3.0.4",
     "serve": "^11.0.1"
   },
